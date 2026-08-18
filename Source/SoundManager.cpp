@@ -6,8 +6,8 @@
 SoundManager::SoundManager()
 	: mnNowPlayingBgm((SOUND_BGM)-1)  // 初期は何も再生されていない状態
 	, mnNowPlayingSe((SOUND_SE)-1)    // 初期は何も再生されていない状態
-	, mnBgmVolume(255)
-	, mnSeVolume(255)
+	, mnBgmVolume(100)
+	, mnSeVolume(100)
 {
 
 
@@ -99,10 +99,8 @@ void SoundManager::Initialize()
 
 	LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/Gravite.mp3");
 
-	LoadVolume();
-
 	LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/Gravite.mp3");
-	//LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/重力魔法1.mp3");
+
 	LoadVolume();
 }
 
@@ -196,8 +194,7 @@ void SoundManager::PlayBGM(SOUND_BGM bgm, bool isTop, int volume)
 		if (it->first == bgm)
 		{
 			// 再生する前に音量を設定する
-			//ChangeVolumeSoundMem(volume, it->second);
-			ChangeVolumeSoundMem(volume * mnBgmVolume / 255, it->second);
+			ChangeVolumeSoundMem(mnBgmVolume * 255 / 100, it->second);
 			// BGMをループ再生
 			PlaySoundMem(it->second, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
 			// 現在の再生種類を更新
@@ -280,8 +277,6 @@ void SoundManager::PlaySE(SOUND_SE se, int volume)
 		if (it->first == se)
 		{
 			// 再生前に音量を設定する
-			//ChangeVolumeSoundMem(volume, it->second);
-			//ChangeVolumeSoundMem(volume*mnSeVolume /255, it->second);
 			ChangeVolumeSoundMem(mnSeVolume * 255 / 100, it->second);
 			// SEをループ再生
 			PlaySoundMem(it->second, DX_PLAYTYPE_BACK); // バックグラウンド再生する
@@ -441,63 +436,85 @@ void SoundManager::SetSEVolume(int volume)
 }
 
 // ボリュームのロード
-void SoundManager::SaveVolume()	 //修正　大谷
+void SoundManager::SaveVolume()
 {
-	// 音量をファイルに保存する
-	std::ofstream ofs("Volume.dat", std::ios::binary);
+	std::ofstream ofs("Volume.txt");
 
 	if (ofs)
 	{
-		// データをそのまま流し込む（バイナリ保存）
-		ofs.write((char*)&mnBgmVolume, sizeof(int));
-		ofs.write((char*)&mnSeVolume, sizeof(int));
-
-		// 関数を抜けるときに勝手に閉じられるはず
+		ofs << "BGM=" << mnBgmVolume << std::endl;
+		ofs << "SE=" << mnSeVolume << std::endl;
 	}
 }
 
 
-//void SoundManager::SaveVolume()
-//{
-//	FILE* fp;
-//
-//	fopen_s(&fp, "Volume.dat", "wb");
-//
-//	if (fp)
-//	{
-//		fwrite(&mnBgmVolume, sizeof(int), 1, fp);
-//		fwrite(&mnSeVolume, sizeof(int), 1, fp);
-//
-//		fclose(fp);
-//	}
-//}
-
-// 読み込み側の処理
 void SoundManager::LoadVolume()
 {
-	std::ifstream ifs("Volume.dat", std::ios::binary);
+	// デフォルト値
+	mnBgmVolume = 100;
+	mnSeVolume = 100;
 
-	if (ifs)
+	std::ifstream ifs("Volume.txt");
+
+	// ファイルが存在しない場合
+	if (!ifs)
 	{
-		// データを読み取る
-		ifs.read((char*)&mnBgmVolume, sizeof(int));
-		ifs.read((char*)&mnSeVolume, sizeof(int));
+		SaveVolume();
+		return;
+	}
+
+	std::string line;
+
+	// BGM
+	if (std::getline(ifs, line))
+	{
+		size_t pos = line.find('=');
+
+		if (pos != std::string::npos)
+		{
+			try
+			{
+				int volume = std::stoi(line.substr(pos + 1));
+
+				// 0から100なら採用
+				if (volume >= 0 && volume <= 100)
+				{
+					mnBgmVolume = volume;
+				}
+			}
+			catch (...)
+			{
+				// 数値として読めなかったらデフォルト100のまま
+			}
+		}
+	}
+
+	// SE
+	if (std::getline(ifs, line))
+	{
+		size_t pos = line.find('=');
+
+		if (pos != std::string::npos)
+		{
+			try
+			{
+				int volume = std::stoi(line.substr(pos + 1));
+
+				// 0～100なら採用
+				if (volume >= 0 && volume <= 100)
+				{
+					mnSeVolume = volume;
+				}
+			}
+			catch (...)
+			{
+				// 数値として読めなかったらデフォルト100のまま
+			}
+		}
 	}
 }
-//void SoundManager::LoadVolume()
-//{
-//	FILE* fp;
-//
-//	fopen_s(&fp, "Volume.dat", "rb");
-//
-//	if (fp)
-//	{
-//		fread(&mnBgmVolume, sizeof(int), 1, fp);
-//		fread(&mnSeVolume, sizeof(int), 1, fp);
-//
-//		fclose(fp);
-//	}
-//}
+
+
 
 // ボリュームのセーブ
 int SoundManager::GetBGMVolume()
@@ -511,84 +528,4 @@ int SoundManager::GetSEVolume()
 	return mnSeVolume;
 }
 
-// 没たち
-//void SoundManager::PlayBGM(SOUND_BGM bgm, bool isTop, int volume)
-//{
-//	// すでに再生中のBGMがあるか確認
-//	int currentHandle = -1;
-//	for (auto it = mnBgmHandleList.begin(); it != mnBgmHandleList.end(); it++)
-//	{
-//		if (it->first == mnNowPlayingBgm)
-//		{
-//			currentHandle = it->second;
-//			break;
-//		}
-//	}
-//	// 同じBGMを再生したい場合
-//	if (mnNowPlayingBgm == bgm)
-//	{
-//		if (isTop) // trueだったら  最初からの再生なら
-//		{
-//			// 最初から再生したいので一旦停止
-//			if (CheckSoundMem(currentHandle))
-//			{
-//				StopSoundMem(currentHandle);
-//			}
-//		}
-//		else
-//		{
-//			// 途中再生でOKなら何もしない
-//			return;
-//		}
-//	}
-//	// ここ追加した
-//	// 選択からタイトルに戻っても自然に消えるから神
-//	else
-//	{
-//		// 違うBGMなら現在再生中のBGMを停止
-//		if (CheckSoundMem(currentHandle))
-//		{
-//			StopSoundMem(currentHandle);
-//		}
-//	}
-//
-//	// 新しいBGMのハンドルを取得して再生
-//	for (auto it = mnBgmHandleList.begin(); it != mnBgmHandleList.end(); it++)
-//	{
-//		if (it->first == bgm)
-//		{
-//			// 再生する前に音量を設定する
-//			ChangeVolumeSoundMem(volume, it->second);
-//			// BGMをループ再生
-//			PlaySoundMem(it->second, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
-//			// 現在の再生種類を更新
-//			mnNowPlayingBgm = bgm;
-//			//break;
-//		}
-//	}
-//}
-
-
-
-//void SoundManager::PlayBGM(SOUND_BGM bgm, bool isTop)
-//{
-//	// 現在再生されているBGMと同じかつ
-//	// 最初からの再生ではないのであれば return する
-//	if (mnNowPlayingBgm == bgm && !isTop)
-//	{
-//		return;
-//	}
-//
-//	for (auto it = mnBgmHandleList.begin(); it != mnBgmHandleList.end(); it++)
-//	{
-//		// 一致した種類のBGMがあれば
-//		if (it->first == bgm)
-//		{
-//			// BGMをループ再生
-//			PlaySoundMem(it->second, DX_PLAYTYPE_LOOP, isTop); // ループしつつバックグラウンド再生する
-//			// 現在の再生種類を更新
-//			mnNowPlayingBgm = bgm;
-//		}
-//	}
-//}
 
