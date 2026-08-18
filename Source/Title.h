@@ -68,15 +68,15 @@ private:
 	bool mbWhite = false; // 白いBOXを出すかのフラグ
 
 	// タイトル演出のカードの座標とか拡大率とか
-	int mnCardX = 0;
-	int mnCardY = 0;
+	float mnCardX = 0.0f;
+	float mnCardY = 0.0f;
 	float mnCardAngle = 3.0f;
 	float mnCardRota = 0.01f;
 	float mfCardSpeed = 0.09f; // 移動する速さ
 
 	// ターゲットの位置
-	int targetX = Utility::SCREEN_WIDTH / 2;
-	int targetY = Utility::SCREEN_HEIGHT / 2 - 30;
+	float targetX = Utility::SCREEN_WIDTH / 2.0f;
+	float targetY = Utility::SCREEN_HEIGHT / 2.0f - 30.0f;
 	float targetAngle = -0.05f;
 	float targetRota = 1.0f;
 

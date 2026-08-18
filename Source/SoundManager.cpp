@@ -194,7 +194,8 @@ void SoundManager::PlayBGM(SOUND_BGM bgm, bool isTop, int volume)
 		if (it->first == bgm)
 		{
 			// 再生する前に音量を設定する
-			ChangeVolumeSoundMem(mnBgmVolume * 255 / 100, it->second);
+			ChangeVolumeSoundMem(volume * mnBgmVolume / 255, it->second);
+			//ChangeVolumeSoundMem(mnBgmVolume * 255 / 100, it->second);
 			// BGMをループ再生
 			PlaySoundMem(it->second, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
 			// 現在の再生種類を更新

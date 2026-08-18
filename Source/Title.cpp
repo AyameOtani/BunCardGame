@@ -11,8 +11,8 @@ Title::Title()
 	mpMusicClose = nullptr;
 
 	// 演出用変数の初期値を設定
-	mnCardX = -200;
-	mnCardY = -200;
+	mnCardX = -200.0f;
+	mnCardY = -200.0f;
 
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2;
@@ -274,10 +274,10 @@ void Title::Update()
 		float diffRota = (float)targetRota - mnCardRota;
 
 		// 移動処理
-		mnCardX += (int)diffX * (int)mfCardSpeed;
-		mnCardY += (int)diffY * (int)mfCardSpeed;
-		mnCardAngle += (int)diffAngle * (int)mfCardSpeed;
-		mnCardRota += (int)diffRota * (int)mfCardSpeed;
+		mnCardX += diffX * mfCardSpeed;
+		mnCardY += diffY * mfCardSpeed;
+		mnCardAngle += diffAngle * mfCardSpeed;
+		mnCardRota += diffRota * mfCardSpeed;
 
 		if (mnCardAngle <= 0.0f) mnCardAngle = 0.0f;
 
@@ -414,7 +414,15 @@ void Title::Draw()
 	// ゲーム画面に行く時の演出の画像
 	if (mbMouseButton)
 	{
-		DrawRotaGraph(mnCardX, mnCardY, mnCardRota, mnCardAngle, mnCardHandle, TRUE); // カード描画
+		// 黒板イラストの描画
+		DrawRotaGraph(
+			(int)mnCardX,
+			(int)mnCardY,
+			mnCardRota,
+			mnCardAngle,
+			mnCardHandle,
+			TRUE
+		);
 
 		// 白いBOXがONなら描画
 		if (mbWhite)
