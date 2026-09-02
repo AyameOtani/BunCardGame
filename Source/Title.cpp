@@ -105,7 +105,7 @@ void Title::Initialize()
 	mpMusicClose = new MouseGraph(1570.0f, 370.0f, 0.0f, "Resource/Title/MusicClose.png", 0.30f, 0.35f); // 音量調節の×ボタン
 
 	mnOnpuHandle = LoadGraph("Resource/Title/MusicNote.png"); // 音符の画像
-	Master::mpSoundManager->PlayBGM(SoundManager::BGM_TITLE);
+	Master::mpSoundManager->PlayBGM(SoundManager::BgmTitle);
 
 	mBgmVolume = Master::mpSoundManager->GetBGMVolume();
 	mSeVolume = Master::mpSoundManager->GetSEVolume();

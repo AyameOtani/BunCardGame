@@ -10,78 +10,44 @@ public:   // enum, struct などの定義
 	// enumで番号をふっている
 	enum SOUND_BGM  // BGMの種類
 	{
-		BGM_NONE = -1,		// BGMを消す
-		BGM_TITLE = 0,		// タイトル用のBGM
-		BGM_SELECT = 1,		// 選択シーン
-		BGM_GAME1 = 2,		// ゲーム用のBGM
-		BGM_GAME2 = 3,		// ゲーム用のBGM
-		BGM_GAME3 = 4,		// ゲーム用のBGM
-		BGM_RESULT = 5,     // リザルト用のBGM
-
-
-		// 増やしても良い
+		BgmNone = -1,		// BGMを消す
+		BgmTitle = 0,		// タイトル用のBGM
+		BgmEasyGame = 1,		// ゲーム用のBGM
+		BgmNormalGame = 2,		// ゲーム用のBGM
+		BgmHardGame = 3,		// ゲーム用のBGM
 	};
 
 	enum SOUND_SE  // SEの種類
 	{
 		SE_DECIDE = 0,		   // 決定音
-
 		SE_SELECT = 1,		   // 選択音
-
 		SE_KURAE = 2,          // くらえ！
-
 		SE_DAMEIGI = 3,        // 攻撃
-
 		SE_DAMEIGIEN = 4,      // 攻撃
-
 		SE_BOUGYO = 5,         // 防御
-
 		SE_DAMEZERO = 6,       // 効かないぞ
-
 		SE_DAMEARI = 7,        // ぐっ！
-
 		SE_KUUU = 8,           // くぅぅ
-
 		SE_UP = 9,             // バフ
-
 		SE_DOWN = 10,          // デバフ
-
 		SE_MP_UP = 11,         // MPアップ
-
 		SE_DOKU = 12,          // 毒
-
 		SE_BOUGYO_UP = 13,     // 防御アップ
-
 		SE_DOROU = 14,         // ドロー
-
 		SE_SELECT2 = 15,       // 選択してください
-
 		SE_HITOTU = 16,        // ひとつ
-
 		SE_LOSS = 17,          // 敗北
-
 		SE_WIN = 18,           // 勝利
-
 		SE_MOSUTAADAME = 19,   // ヒュッ 
-
 		SE_GUAAAAA = 20,	   // グワァァァ
-
         SE_SEIREI = 21,        // 精霊
-
 		SE_OUGI = 22,          // 奥義
-
 		SE_SAAIKUZO = 23,      // さあ、いくぞ！
-
 		SE_PETA = 24,          // ペタ 
-
 		SE_KIRU = 25,          // キル
-
 		SE_HEAL = 26,          // 回復
-
 		SE_BIRIBIRI = 27,      // ビリビリ
-
 		SE_HENNDOU = 28,       // 変動
-
 		SE_NOROI = 29,         // 呪い
 
 		// 増やしても良い

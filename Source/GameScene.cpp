@@ -269,15 +269,15 @@ void GameScene::Initialize() // 初期化
 	Master::mpSoundManager->StopBGM();
 	if (mGScene == SceneManager::GScene::easy)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BGM_GAME1);
+		Master::mpSoundManager->PlayBGM(SoundManager::BgmEasyGame);
 	}
 	else if (mGScene == SceneManager::GScene::normal)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BGM_GAME2);
+		Master::mpSoundManager->PlayBGM(SoundManager::BgmNormalGame);
 	}
 	else if (mGScene == SceneManager::GScene::hard)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BGM_GAME3);
+		Master::mpSoundManager->PlayBGM(SoundManager::BgmHardGame);
 	}
 
 	// 敵カードの裏の画像の読み込み 追加　小池　5/15
