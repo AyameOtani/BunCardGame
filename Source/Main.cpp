@@ -76,8 +76,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	// Texture クラスを使って描画
 	VECTOR position;
-	position.x = 640 / 2;
-	position.y = 480 / 2;
+	position.x = static_cast<float>(640) / 2;
+	position.y = static_cast<float>(480) / 2;
 	
 	// Zバッファに書き込む準備
 	// ここで奥行がちゃんとなる
