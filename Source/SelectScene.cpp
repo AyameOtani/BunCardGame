@@ -40,7 +40,7 @@ SelectScene::~SelectScene()
 
 void SelectScene::Initialize()
 {
-	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/2D/GameBag.png");
+	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/2D/easy_bag.png");
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2 + 200;
 	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
@@ -54,10 +54,11 @@ void SelectScene::Initialize()
 	if (mnEasy_NoSelectHandle == -1) mnEasy_NoSelectHandle = LoadGraph("Resource/Enemy/Enemyeasy_NoSelect.png");
 	if (mnNormal_NoSelectHandle == -1) mnNormal_NoSelectHandle = LoadGraph("Resource/Enemy/Enemynormal_NoSelect.png");
 	if (mnHard_NoSelectHandle == -1) mnHard_NoSelectHandle = LoadGraph("Resource/Enemy/Enemyhard_NoSelect.png");
+	
 	//難易度ごとの背景   片野
-	if (mnEasyBagHandle == -1) mnEasyBagHandle = LoadGraph("Resource/2D/GameBag.png");
-	if (mnNormalBagHandle == -1) mnNormalBagHandle = LoadGraph("Resource/2D/GameBag1.png");
-	if (mnHardBagHandle == -1) mnHardBagHandle = LoadGraph("Resource/2D/GameBag2.png");
+	if (mnEasyBagHandle == -1) mnEasyBagHandle = LoadGraph("Resource/2D/easy_bag.png");
+	if (mnNormalBagHandle == -1) mnNormalBagHandle = LoadGraph("Resource/2D/Normal_bag.png");
+	if (mnHardBagHandle == -1) mnHardBagHandle = LoadGraph("Resource/2D/hard_bag.png");
 
 	int SiseXbuf, SiseYBuf;
 	GetGraphSize(mnEasyBagHandle, &SiseXbuf, &SiseYBuf);

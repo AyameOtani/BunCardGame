@@ -744,7 +744,7 @@ Card::EnemyCardData Card::EnemyCardDataById(int id)
     d.mbEnemyFlag = true; // 敵のカードをON
 
     // 共通の裏面（共通画像）
-    d.backImageName = "Resource/Enemy/Card/enemy_card_warning.png";
+    d.backImageName = "Resource/Card/enemy_card_warning.png";
 
     switch (id)
     {

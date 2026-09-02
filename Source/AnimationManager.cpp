@@ -35,33 +35,20 @@ static void AddComplexDegreeFrames(AnimationData& anim, AnimationData::AnimOwner
 std::unordered_map<AnimationData::AnimType, AnimationData> AnimationManager::animCatalog;
 
 
-//     大谷の引数ガイド
-//     AddComplexDegreeFrames(
-//        anim,                // [第1引数] 登録先のアニメーションデータ (anim)
-//        Player::PartID::BODY,// [第2引数] 動かしたいパーツのID (BODY, WEAPON, EYE など)
-//        {                    // [第3引数] ポーズ(AnimStep)のリスト。{} で囲って並べる
-//            // { X移動, Y移動, 回転角度(度) }
-// 
-//            {  0.0f,   0.0f,   0.0f }, // 1つめのポーズ（開始）
-//            {  0.0f, -10.0f,  15.0f }, // 2つめのポーズ（途中経過）
-//            {  0.0f,   0.0f,   0.0f }  // 3つめのポーズ（終了）
-//        }
-//     );
-
-
-
- // アニメーションの初期化
+// アニメーションの初期化
+// 一つ一つのパーツに対してアニメーションを設定している関数
 void AnimationManager::Initialize()
 {
     for (int i = 0; i < (int)AnimationData::AnimType::ANIMATION_MAX; i++)
     {                    
         auto type = static_cast<AnimationData::AnimType>(i); // 数字を名前に変更
-        auto& anim = animCatalog[type];   //forで回したやつを引っ張ってる
+        auto& anim = animCatalog[type];
         anim.SetType(type);
 
         // デフォルトでこの時間とループなしを設定
         anim.SetDuration(60);
-        anim.SetLoop(false); // ループnasi
+        anim.SetLoop(false); // ループなし
+
 
         //タイプごとに分けている
         switch (type)

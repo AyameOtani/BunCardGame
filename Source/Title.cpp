@@ -45,7 +45,29 @@ Title::Title()
 
 Title::~Title()
 {
+	if (mpGameStart)
+	{
+		delete mpGameStart;
+		mpGameStart = nullptr;
+	}
 
+	if (mpExplainGraph)
+	{
+		delete mpExplainGraph;
+		mpExplainGraph = nullptr;
+	}
+
+	if (mpGearButtom)
+	{
+		delete mpGearButtom;
+		mpGearButtom = nullptr;
+	}
+
+	if (mpMusicClose)
+	{
+		delete mpMusicClose;
+		mpMusicClose = nullptr;
+	}
 }
 
 
@@ -95,10 +117,6 @@ void Title::Initialize()
 
 	mbInitialize = true; // 初期化終わりON
 
-
-	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
-	mpGameStart = new MouseGraph(x - 320, y + 200, 0.0f, "Resource/Title/Start.png", 0.4f, 0.45f); // スタートボタン
-	mpExplainGraph = new MouseGraph(x + 320, y + 200, 0.0f, "Resource/Title/Explain.png", 0.4f, 0.45f); // スタートボタン
 
 	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
 	mpGearButtom = new MouseGraph(100.0f, 100.0f, 0.0f, "Resource/Title/option.png", 0.35f, 0.39f); // 音量調整のやつ
@@ -564,30 +582,7 @@ void Title::Draw()
 
 void Title::Finalize()
 {
-	if (mpGameStart)
-	{
-		delete mpGameStart;
-		mpGameStart = nullptr;
-	}
-
-	if (mpExplainGraph)
-	{
-		delete mpExplainGraph;
-		mpExplainGraph = nullptr;
-	}
-
-	if (mpGearButtom)
-	{
-		delete mpGearButtom;
-		mpGearButtom = nullptr;
-	}
-
-	if (mpMusicClose)
-	{
-		delete mpMusicClose;
-		mpMusicClose = nullptr;
-	}
-
+	
 	// 画像ハンドルの削除
 	if (mnRogoHandle != -1) { DeleteGraph(mnRogoHandle); mnRogoHandle = -1; }
 	if (mnBagHandle != -1) { DeleteGraph(mnBagHandle);  mnBagHandle = -1; }
