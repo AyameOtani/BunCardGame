@@ -75,7 +75,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
 	// Texture クラスを使って描画
-	VECTOR position;
+	VECTOR position {};
 	position.x = static_cast<float>(640) / 2;
 	position.y = static_cast<float>(480) / 2;
 	

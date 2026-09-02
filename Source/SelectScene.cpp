@@ -21,7 +21,7 @@ SelectScene::SelectScene()
 	, mnHardBagHandle(-1)
 {
 
-	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/2D/GameBag.png");
+	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/2D/easy_bag.png");
 	mnEasyHandle = -1;
 	mnNormalHandle = -1;
 	mnHardHandle = -1;
@@ -30,10 +30,6 @@ SelectScene::SelectScene()
 	mnHardBagHandle = -1;
 
 	mNextScene = SceneManager::GScene::easy;// デフォルトはeasyにしておく
-
-	mNextScene = SceneManager::GScene::easy;// デフォルトはeasyにしておく
-
-
 }
 
 
@@ -67,8 +63,6 @@ void SelectScene::Initialize()
 	GetGraphSize(mnEasyBagHandle, &SiseXbuf, &SiseYBuf);
 	GetGraphSize(mnNormalBagHandle, &SiseXbuf, &SiseYBuf);
 	GetGraphSize(mnHardBagHandle, &SiseXbuf, &SiseYBuf);
-
-	//Master::mpSoundManager->PlayBGM(SoundManager::BGM_TITLE, true, 255);
 
 }
 
