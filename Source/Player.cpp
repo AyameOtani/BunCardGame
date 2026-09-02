@@ -54,7 +54,7 @@ Player::Player(VECTOR initPos, std::string filename, SceneManager::GScene gscene
 	mnShieldHandle = LoadGraph("Resource/Icon/Shield.png"); // シールドのエフェクト画像のロード
 
 
-    mnCardOperateHandle = LoadGraph("Resource/2D/CardOperate.png"); // カードの選択説明の画像
+    mnCardOperateHandle = LoadGraph("Resource/2D/cardOperate.png"); // カードの選択説明の画像
 }
 
 Player::~Player()

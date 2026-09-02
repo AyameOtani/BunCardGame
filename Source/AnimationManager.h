@@ -2,7 +2,10 @@
 #include "AnimationData.h"
 #include <unordered_map>
 
-// アニメーションの「データ」を管理するクラス
+/// <summary>
+/// アニメーションのデータを管理するクラス
+/// cppでパーツ一つ一つにどのように動いてほしいかを命令するためのクラス
+/// </summary>
 class AnimationManager
 {
 public:
@@ -15,6 +18,8 @@ private:
 	// アニメーションの種類と実体を紐づけて保存する
 	static std::unordered_map<AnimationData::AnimType, AnimationData> animCatalog;
 };
+
+
 
 //     大谷の引数ガイド
 //     AddComplexDegreeFrames(
@@ -29,7 +34,7 @@ private:
 //        }
 //     );
 
-//1      // 名前で読み込んでる 重ねていく番で読み込む
+//1    // 名前で読み込んでる 重ねていく番で読み込む
 //1    parts[PartID::LEG_L].graphHandle = LoadGraph("Resource/Player/Leg_L.png");
 //1    parts[PartID::LEG_R].graphHandle = LoadGraph("Resource/Player/Leg_R.png");
 //1    parts[PartID::WEAPON].graphHandle = LoadGraph("Resource/Player/Weapon.png");

@@ -21,8 +21,8 @@ Card::Card(const CardData& cardData)
     // 表画像
     omoteHandle = LoadGraph(data.cardFilename.c_str());
 
-    // 裏画像
-    uraHandle = LoadGraph("Resource/Card/Enemy01.png");
+    // 裏画像 (効果の方)
+    uraHandle = LoadGraph("Resource/Card/enemy_card_warning.png");
 
     // 最初は表を表示
     showFront = true;
@@ -35,16 +35,16 @@ Card::Card(const CardData& cardData)
     if (data.isSpecial)
     {
         // 必殺技専用の枠
-        framePath = "Resource/Card/sp.png";
+        framePath = "Resource/Card/player_card_special.png";
     }
     else
     {
         switch (GetCostType())
         {
-        case CostType::COST_0: framePath = "Resource/Card/new0.png"; break;
-        case CostType::COST_1: framePath = "Resource/Card/new1.png"; break;
-        case CostType::COST_2: framePath = "Resource/Card/new2.png"; break;
-        default:               framePath = "Resource/Card/new3.png"; break;
+        case CostType::COST_0: framePath = "Resource/Card/player_card_cost0.png"; break;
+        case CostType::COST_1: framePath = "Resource/Card/player_card_cost1.png"; break;
+        case CostType::COST_2: framePath = "Resource/Card/player_card_cost2.png"; break;
+        default:               framePath = "Resource/Card/player_card_cost3.png"; break;
         }
     }
 
@@ -68,7 +68,7 @@ Card::Card(const EnemyCardData& enemyData)
     // dataの中身も空にしておくと、Draw関数で変な文字が出ない
     data.desciption = "";
 
-    frameHandle = LoadGraph("Resource/Card/enemycard.png");
+    frameHandle = LoadGraph("Resource/Card/enemy_card_front.png");
 
     // 表裏画像読み込み
     // 表 = 行動カード画像
@@ -744,38 +744,38 @@ Card::EnemyCardData Card::EnemyCardDataById(int id)
     d.mbEnemyFlag = true; // 敵のカードをON
 
     // 共通の裏面（共通画像）
-    d.backImageName = "Resource/Enemy/Card/Enemy01.png";
+    d.backImageName = "Resource/Card/enemy_card_warning.png";
 
     switch (id)
     {
     case 1:
         d.enemyName = "攻撃カード";
-        d.frontImageName = "Resource/Card/Enemy022.png";
+        d.frontImageName = "Resource/Card/enemy_card_attack.png";
         d.desciption = "攻撃";
         break;
     case 2:
         d.enemyName = "防御カード";
-        d.frontImageName = "Resource/Card/Enemy033.png";
+        d.frontImageName = "Resource/Card/enemy_card_guard.png";
         d.desciption = "防御";
         break;
     case 3:
         d.enemyName = "バフカード";
-        d.frontImageName = "Resource/Card/Enemy066.png";
+        d.frontImageName = "Resource/Card/enemy_card_buff.png";
         d.desciption = "バフ";
         break;
     case 4:
         d.enemyName = "毒カード";
-        d.frontImageName = "Resource/Card/Enemy044.png";
+        d.frontImageName = "Resource/Card/enemy_card_poison.png";
         d.desciption = "毒";
         break;
     case 5:
         d.enemyName = "弱体カード";
-        d.frontImageName = "Resource/Card/Enemy055.png";
+        d.frontImageName = "Resource/Card/enemy_card_debuff.png";
         d.desciption = "弱体";
         break;
     default:
         d.enemyName = "敵のカード";
-        d.frontImageName = "Resource/Card/Enemy01.png";
+        d.frontImageName = "Resource/Card/enemy_card_warning.png";
         d.desciption = "";
         break;
     }
@@ -810,10 +810,10 @@ void Card::ResetFrameByCost()
     std::string framePath = "";
     switch (GetCostType()) // GetCostTypeは今のdata.costを判定してくれる
     {
-    case CostType::COST_0: framePath = "Resource/Card/new0.png"; break;
-    case CostType::COST_1: framePath = "Resource/Card/new1.png"; break;
-    case CostType::COST_2: framePath = "Resource/Card/new2.png"; break;
-    default:               framePath = "Resource/Card/new3.png"; break;
+    case CostType::COST_0: framePath = "Resource/Card/player_card_cost0.png"; break;
+    case CostType::COST_1: framePath = "Resource/Card/player_card_cost1.png"; break;
+    case CostType::COST_2: framePath = "Resource/Card/player_card_cost2.png"; break;
+    default:               framePath = "Resource/Card/player_card_cost3.png"; break;
     }
 
     // 新しい画像をロード

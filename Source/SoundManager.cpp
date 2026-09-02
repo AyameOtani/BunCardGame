@@ -20,85 +20,45 @@ SoundManager::~SoundManager()
 
 void SoundManager::Initialize()
 {
-	// 音楽の音量を設定できるものs
-	//int SHandle;
-	//SHandle = LoadSoundMem("Resource/BGM/3D/maou_bgm_cyber01.mp3");
-	//PlaySoundMem(SHandle, DX_PLAYTYPE_BACK);
-	//// 音量の設定
-	//ChangeVolumeSoundMem(255 * 80 / 100, SHandle);
-
 	// BGM の読み込み  	  菊池
-	//LoadBGM(SOUND_BGM::BGM_TITLE, "Resource/BGM/Happy_Street.mp3");		// タイトル用のBGM
-	LoadBGM(SOUND_BGM::BGM_TITLE, "Resource/BGM/TitleBGM.mp3");		   // タイトル用のBGM  碧いなんたらの夜明け
-	LoadBGM(SOUND_BGM::BGM_SELECT, "Resource/BGM/Select.mp3");		   // 選択中
-	LoadBGM(SOUND_BGM::BGM_GAME1, "Resource/BGM/Rumbling.mp3");		   // ゲーム用のBGM
-	LoadBGM(SOUND_BGM::BGM_GAME2, "Resource/BGM/Planetarium.mp3");	   // ゲーム用のBGM
-	LoadBGM(SOUND_BGM::BGM_GAME3, "Resource/BGM/Awaking_City.mp3");	   // ゲーム用のBGM
-	LoadBGM(SOUND_BGM::BGM_RESULT, "Resource/BGM/Select.mp3");		   // リザルト用のBGM
+	LoadBGM(SOUND_BGM::BgmTitle, "Resource/BGM/bgm_title.mp3");	  // タイトル用のBGM
+	LoadBGM(SOUND_BGM::BgmEasyGame, "Resource/BGM/bgm_easyGame.mp3");		  // ゲーム用のBGM
+	LoadBGM(SOUND_BGM::BgmNormalGame, "Resource/BGM/bgm_normalGame.mp3"); // ゲーム用のBGM
+	LoadBGM(SOUND_BGM::BgmHardGame, "Resource/BGM/bgm_hardgame.mp3");	  // ゲーム用のBGM
 
 
 
 	// SE の読み込み	  菊池
 	LoadSE(SOUND_SE::SE_DECIDE, "Resource/SE/Enter.mp3");			// 決定音   ピコっ
-
 	LoadSE(SOUND_SE::SE_SELECT, "Resource/SE/Card.mp3");			    // 選択音   シュ
-
 	LoadSE(SOUND_SE::SE_KURAE, "Resource/SE/Attack1.mp3");				    // 攻撃するとき  
-
 	LoadSE(SOUND_SE::SE_DAMEIGI, "Resource/SE/BOM.mp3");				    // 攻撃
-
 	LoadSE(SOUND_SE::SE_DAMEIGIEN, "Resource/SE/SE1.mp3");				    // 攻撃
-
 	LoadSE(SOUND_SE::SE_BOUGYO, "Resource/SE/Shild.mp3");				    // 防御
-
 	LoadSE(SOUND_SE::SE_DAMEZERO, "Resource/SE/Nodamage.mp3");		    // 防御
-
 	LoadSE(SOUND_SE::SE_DAMEARI, "Resource/SE/DAMAGE2.mp3");					// 選択音
-
 	LoadSE(SOUND_SE::SE_KUUU, "Resource/SE/se_buwawa.mp3");						// 	くぅぅ
-
 	LoadSE(SOUND_SE::SE_UP, "Resource/SE/StatusUP.mp3");				// バフ
-
 	LoadSE(SOUND_SE::SE_DOWN, "Resource/SE/se_down.mp3");						// デバフ
-
 	LoadSE(SOUND_SE::SE_MP_UP, "Resource/SE/heal_02_long.wav");				    // MPアップ
-
 	LoadSE(SOUND_SE::SE_DOKU, "Resource/SE/DL.mp3");				    // 毒
-
 	LoadSE(SOUND_SE::SE_BOUGYO_UP, "Resource/SE/Bougyo_UP.mp3");			    // 防御アップ
-
 	LoadSE(SOUND_SE::SE_DOROU, "Resource/SE/spo_ge_toranpu_hiku03.mp3");        // ドロー
-
 	LoadSE(SOUND_SE::SE_SELECT2, "Resource/SE/Select1.mp3");       // 選択してください
-
 	LoadSE(SOUND_SE::SE_HITOTU, "Resource/SE/OWN.mp3");                  // ひとつ
-
 	LoadSE(SOUND_SE::SE_LOSS, "Resource/SE/DAMAGE3.mp3");	// 敗北
-
 	LoadSE(SOUND_SE::SE_WIN, "Resource/SE/WIN1.mp3");				    // 勝利
-
 	LoadSE(SOUND_SE::SE_MOSUTAADAME, "Resource/SE/YU1.mp3");
-
 	LoadSE(SOUND_SE::SE_GUAAAAA, "Resource/SE/DAMAGE1.mp3");
-
 	LoadSE(SOUND_SE::SE_SEIREI, "Resource/SE/fairy.mp3");
-
 	LoadSE(SOUND_SE::SE_OUGI, "Resource/SE/Special.mp3");
-
 	LoadSE(SOUND_SE::SE_SAAIKUZO, "Resource/SE/GO.mp3");
-
 	LoadSE(SOUND_SE::SE_PETA, "Resource/SE/PE.mp3");
-
 	LoadSE(SOUND_SE::SE_KIRU, "Resource/SE/SE3.mp3");
-
 	LoadSE(SOUND_SE::SE_HEAL, "Resource/SE/HEAL.mp3");
-
 	LoadSE(SOUND_SE::SE_BIRIBIRI, "Resource/SE/BIRI.mp3");
-
 	LoadSE(SOUND_SE::SE_HENNDOU, "Resource/SE/NEWS.mp3");
-
 	LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/Gravite.mp3");
-
 	LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/Gravite.mp3");
 
 	LoadVolume();
@@ -209,7 +169,7 @@ void SoundManager::PlayBGM(SOUND_BGM bgm, bool isTop, int volume)
 void SoundManager::ChangeVolume(int volume)
 {
 	// 何も再生していないなら何もしない
-	if (mnNowPlayingBgm == BGM_NONE) return;
+	if (mnNowPlayingBgm == BgmNone) return;
 
 	// すでに再生中のBGMがあるか確認
 	int currentHandle = -1;
@@ -374,7 +334,7 @@ void SoundManager::StopBGM()
 	}
 
 	// チュートリアルから戻ったときにBGMが再生されないから
-	 mnNowPlayingBgm = BGM_NONE;
+	 mnNowPlayingBgm = BgmNone;
 }
 
 void SoundManager::PlaySE_Loop(SOUND_SE se, int volume)

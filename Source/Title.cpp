@@ -45,7 +45,29 @@ Title::Title()
 
 Title::~Title()
 {
+	if (mpGameStart)
+	{
+		delete mpGameStart;
+		mpGameStart = nullptr;
+	}
 
+	if (mpExplainGraph)
+	{
+		delete mpExplainGraph;
+		mpExplainGraph = nullptr;
+	}
+
+	if (mpGearButtom)
+	{
+		delete mpGearButtom;
+		mpGearButtom = nullptr;
+	}
+
+	if (mpMusicClose)
+	{
+		delete mpMusicClose;
+		mpMusicClose = nullptr;
+	}
 }
 
 
@@ -97,15 +119,11 @@ void Title::Initialize()
 
 
 	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
-	mpGameStart = new MouseGraph(x - 320, y + 200, 0.0f, "Resource/Title/Start.png", 0.4f, 0.45f); // スタートボタン
-	mpExplainGraph = new MouseGraph(x + 320, y + 200, 0.0f, "Resource/Title/Explain.png", 0.4f, 0.45f); // スタートボタン
-
-	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
 	mpGearButtom = new MouseGraph(100.0f, 100.0f, 0.0f, "Resource/Title/option.png", 0.35f, 0.39f); // 音量調整のやつ
 	mpMusicClose = new MouseGraph(1570.0f, 370.0f, 0.0f, "Resource/Title/MusicClose.png", 0.30f, 0.35f); // 音量調節の×ボタン
 
 	mnOnpuHandle = LoadGraph("Resource/Title/MusicNote.png"); // 音符の画像
-	Master::mpSoundManager->PlayBGM(SoundManager::BGM_TITLE);
+	Master::mpSoundManager->PlayBGM(SoundManager::BgmTitle);
 
 	mBgmVolume = Master::mpSoundManager->GetBGMVolume();
 	mSeVolume = Master::mpSoundManager->GetSEVolume();
@@ -564,30 +582,7 @@ void Title::Draw()
 
 void Title::Finalize()
 {
-	if (mpGameStart)
-	{
-		delete mpGameStart;
-		mpGameStart = nullptr;
-	}
-
-	if (mpExplainGraph)
-	{
-		delete mpExplainGraph;
-		mpExplainGraph = nullptr;
-	}
-
-	if (mpGearButtom)
-	{
-		delete mpGearButtom;
-		mpGearButtom = nullptr;
-	}
-
-	if (mpMusicClose)
-	{
-		delete mpMusicClose;
-		mpMusicClose = nullptr;
-	}
-
+	
 	// 画像ハンドルの削除
 	if (mnRogoHandle != -1) { DeleteGraph(mnRogoHandle); mnRogoHandle = -1; }
 	if (mnBagHandle != -1) { DeleteGraph(mnBagHandle);  mnBagHandle = -1; }

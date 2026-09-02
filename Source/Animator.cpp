@@ -2,25 +2,27 @@
 #include "DxLib.h"
 
 // アニメの再生開始
+//再生時間と再生すっるアニメをリセット
 void Animator::Play(const AnimationData* anim)
 {
-	timer = 0;	 // 再生時間リセット
-	currentAnim = anim;	 // 再生するアニメをリセット
+	timer = 0;
+	currentAnim = anim;
 }
 
-//　アニメーションのタイプを探す
+//　アニメーションのタイプを探す処理
 AnimationData::AnimType Animator::GetCurrentAnimType()  const
 {
     if (currentAnim == nullptr)
     {
-        // 何も再生されていなければIDLEにしている
         return AnimationData::AnimType::IDLE;
     }
-    return currentAnim->GetType();  //今再生中のやつのタイプを返す
+
+    //再生中なら、今再生中のやつのタイプを返す
+    return currentAnim->GetType();
 }
 
 
-// アニメーションが終わったか
+// アニメーションが終わったかの確認をする処理
 bool Animator::IsFinished() const
 {
     // timer が再生時間以上になったら終了
@@ -31,6 +33,7 @@ bool Animator::IsFinished() const
     return false;
 }
 
+// パーツごとに動かす処理
 void Animator::Update(std::vector<Part>& parts)
 {
     if (!currentAnim) return;
@@ -43,14 +46,14 @@ void Animator::Update(std::vector<Part>& parts)
     // 全パーツをチェック
     for (int i = 0; i < (int)parts.size(); i++)
     {
-        // このパーツ用のデータがあるか探す
+        // このパーツ用のアニメーションデータがあるか探す
         std::vector<AnimationData::AnimFrame> targetFrames;
         for (const auto& f : allFrames)
         {
             if (f.owner == ownerType && f.partIndex == i) targetFrames.push_back(f);
         }
 
-        // データが見つからないパーツは、座標を上書きせずにスルー
+        // データが見つからないパーツは座標を上書きせずにスルー
         if (targetFrames.empty()) continue;
 
 
@@ -68,7 +71,7 @@ void Animator::Update(std::vector<Part>& parts)
         const auto& f = targetFrames[frameIndex];
 
         // パーツごとの移動
-        parts[i].targetAngle = f.targetAngle; // 次の目標角度
+        parts[i].targetAngle = f.targetAngle;   // 次の目標角度
         parts[i].targetXOffset = f.targetX;     // 次の目標X座標
         parts[i].targetYOffset = f.targetY;     // 次の目標Y座標
     }

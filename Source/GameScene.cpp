@@ -40,28 +40,28 @@ GameScene::GameScene(SceneManager::GScene gscene)
 
 
 	// MPの画像の読み込み
-	mnHandleMP = LoadGraph("Resource/2D/MP.png");
+	mnHandleMP = LoadGraph("Resource/2D/mp_bag.png");
 	if (mnHandleMP == -1)
 	{
 		printfDx("MP画像ない");
 	}
 
 	// MP足りない時の画像
-	mnHandleIsMpError = LoadGraph("Resource/2D/IsMP.png");
+	mnHandleIsMpError = LoadGraph("Resource/2D/is_Mp.png");
 	if (mnHandleIsMpError == -1)
 	{
 		printfDx("エラー画像の読み込み");
 	}
 
 	// 山札の画像
-	mnHandleDeck = LoadGraph("Resource/2D/Deck.png");
+	mnHandleDeck = LoadGraph("Resource/2D/deck.png");
 	if (mnHandleDeck == -1)
 	{
 		printfDx("山札画像の読み込み");
 	}
 
 	// ゴミ箱の画像
-	mnHandleTrash = LoadGraph("Resource/2D/Trash.png");
+	mnHandleTrash = LoadGraph("Resource/2D/trash.png");
 	if (mnHandleTrash == -1)
 	{
 		printfDx("山札画像の読み込み");
@@ -76,7 +76,7 @@ GameScene::GameScene(SceneManager::GScene gscene)
 	// ターンの背景の画像
 	if (mnHandleTurnBag == -1)
 	{
-		mnHandleTurnBag = LoadGraph("Resource/2D/TurnBag.png");
+		mnHandleTurnBag = LoadGraph("Resource/2D/turn_Bag.png");
 	}
 
 	// ノートの画像
@@ -86,16 +86,11 @@ GameScene::GameScene(SceneManager::GScene gscene)
 	}
 
 	// ノートの画像みに
-	/*if (mnNoteMini == -1)
-	{
-		mnNoteMini = LoadGraph("Resource/Title/Note2.png");
-	}*/
-
-	mnNoteMini = LoadGraph("Resource/Title/Note3.png");
+	mnNoteMini = LoadGraph("Resource/Title/manual_note.png");
 
 	if (mnNoteMini == -1)
 	{
-		printfDx("Note2.png 読み込み失敗\n");
+		printfDx("Note3.png 読み込み失敗\n");
 	}
 
 }
@@ -132,7 +127,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeA);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/GameBag.png");
+		mnBagHandle = LoadGraph("Resource/2D/easy_bag.png");
 		mpEnemy->Initialize("Resource/Enemy/Enemy1.png"); // 初期化
 		break;
 
@@ -141,7 +136,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeB);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/GameBag1.png");
+		mnBagHandle = LoadGraph("Resource/2D/Normal_bag.png");
 		mpEnemy->Initialize("Resource/Enemy/Enemy2.png"); // 初期化
 		break;
 
@@ -150,7 +145,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeC);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/GameBag2.png");
+		mnBagHandle = LoadGraph("Resource/2D/hard_bag.png");
 		mpEnemy->Initialize("Resource/Enemy/Enemy3.png"); // 初期化
 		break;
 
@@ -159,7 +154,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Enemy/Enemy.png", Enemy::EnemyType::TypeB);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/GameBag1.png");
+		mnBagHandle = LoadGraph("Resource/2D/Normal_bag.png");
 		mpEnemy->Initialize("Resource/Enemy/Enemy2.png"); // 初期化
 		break;
 	}
@@ -221,8 +216,8 @@ void GameScene::Initialize() // 初期化
 
 
 	// ボタン画像の生成
-	mpTurnEnd = new MouseGraph(1580.0f, 900.0f, 0.0f,"Resource/2D/TuenEnd.png", 0.25f, 0.28f);
-	mpStop = new MouseGraph(100.0f, 100.0f, 0.0f,"Resource/2D/Stop.png", 0.1f, 0.13f);
+	mpTurnEnd = new MouseGraph(1580.0f, 900.0f, 0.0f,"Resource/2D/tuenEnd.png", 0.25f, 0.28f);
+	mpStop = new MouseGraph(100.0f, 100.0f, 0.0f,"Resource/2D/stop_button.png", 0.1f, 0.13f);
 
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2;
@@ -274,20 +269,19 @@ void GameScene::Initialize() // 初期化
 	Master::mpSoundManager->StopBGM();
 	if (mGScene == SceneManager::GScene::easy)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BGM_GAME1);
+		Master::mpSoundManager->PlayBGM(SoundManager::BgmEasyGame);
 	}
 	else if (mGScene == SceneManager::GScene::normal)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BGM_GAME2);
+		Master::mpSoundManager->PlayBGM(SoundManager::BgmNormalGame);
 	}
 	else if (mGScene == SceneManager::GScene::hard)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BGM_GAME3);
+		Master::mpSoundManager->PlayBGM(SoundManager::BgmHardGame);
 	}
 
 	// 敵カードの裏の画像の読み込み 追加　小池　5/15
-	mnEnemyCardBack = LoadGraph("Resource/Enemy/Card/Enemy01.png");
-
+	//mnEnemyCardBack = LoadGraph("Resource/Enemy/Card/enemycard_danger.png");
 
 	mbInitialize = true; // 初期化終了フラグ
 }
@@ -391,24 +385,6 @@ void GameScene::Update() // 更新
 		{
 			//IsMessage = false;
 		}
-
-
-		//// デバック用
-		//if (InputManager::CheckDownKey(KEY_INPUT_1))
-		//{
-		//	Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
-		//}
-		//if (InputManager::CheckDownKey(KEY_INPUT_2))
-		//{
-		//	Master::mpSaveHp = mpPlayer->hp; // プレイヤーのHPを保存しておく
-		//	Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::LOSERESULT);
-
-		//}
-		//if (InputManager::CheckDownKey(KEY_INPUT_3))
-		//{
-		//	Master::mpSaveHp = mpPlayer->hp; // プレイヤーのHPを保存しておく
-		//	Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::WINRESULT);
-		//}
 
 
 		if (mpTurnEnd)
@@ -539,7 +515,7 @@ void GameScene::Update() // 更新
 
 				mTurn = Turn::ENEMY_THINK;
 
-				mWaitTimer = 180;
+				mWaitTimer = 140;
 				mpTurnEnd->SetActive(false); // ボタン無効に
 				mpEnemy->block = 0;  // 敵のブロックも0にする
 
@@ -1289,13 +1265,6 @@ void GameScene::Draw() // 描画
 
 	}
 
-	
-	// デバック用
-	if (mpPlayer->IsCardMove())
-	{
-		//DrawFormatString(100, 980, color, "カード移動中");
-	}
-
 	if (mpTurnEnd != nullptr)
 	{
 		mpTurnEnd->Draw();
@@ -1306,6 +1275,13 @@ void GameScene::Draw() // 描画
 		mpStop->Draw();
 	}
 
+
+	
+	/*// デバック用
+	if (mpPlayer->IsCardMove())
+	{
+		//DrawFormatString(100, 980, color, "カード移動中");
+	}
 	if (ChargeCount == 4)
 	{
 		//DrawFormatString(0, 600, GetColor(255, 0, 0), "次は３０ダメージがくる！！！", TRUE);
@@ -1314,50 +1290,8 @@ void GameScene::Draw() // 描画
 	if (mpEnemy && mpEnemy->stunTurns > 0)
 	{
 		//DrawFormatString(Utility::SCREEN_WIDTH - 400, 450, GetColor(255, 255, 0), "【スタン中：残り %d ターン】", mpEnemy->stunTurns);
-	}
+	}*/
 
-	// アイテム関係のデバッグ
-	//if (mpPlayer)
-	//{
-	//	// どちらか発動中ならノート表示
-	//	bool isItemEffect =
-	//		mpPlayer->doubleNextCard ||
-	//		mpPlayer->keepNextCardCount > 0 ||
-	//	    !mpPlayer->itemEffectText.empty(); // ←追加
-
-
-	//	if (isItemEffect)
-	//	{
-	//		DrawGraph(0, 0, mnNoteMini, TRUE);
-	//	}
-
-	//	// はさみ
-	//	if (mpPlayer->doubleNextCard)
-	//	{
-	//		DrawFormatString(1580, 560, GetColor(212, 31, 31),
-	//			"はさみ効果発動中\n"
-	//			"カードの効果が 2倍");
-	//	}
-
-	//	// のり
-	//	if (mpPlayer->keepNextCardCount > 0)
-	//	{
-	//		DrawFormatString(1580, 620, GetColor(248, 106, 42),
-	//			"のりの効果発動中\n"
-	//			"クリックで 1枚KEEP");
-	//	}
-
-	//	// ペン
-	//	if (!mpPlayer->itemEffectText.empty())
-	//	{
-	//		DrawFormatString(1580,700,GetColor(0, 0, 0),
-	//			"ペンの効果発動中\n%s",
-	//			mpPlayer->itemEffectText.c_str()
-	//		);
-	//	}
-	//}
-
-	
 
     // アイテム通知
 	if (!mItemMessage.empty())
@@ -1365,7 +1299,7 @@ void GameScene::Draw() // 描画
 		// ノート
 		DrawGraph(
 			(int)mfItemNoteX,
-			0,
+			520,
 			mnNoteMini,
 			TRUE
 		);
@@ -1556,7 +1490,7 @@ void GameScene::Draw() // 描画
 		}
 
 	}
-	// PS.ここから下に描画したらポーズ中でも暗くならないから注意ね   大谷
+	// PS.ここから下に描画したらポーズ中でも暗くならないから注意   大谷
 
 }
 
