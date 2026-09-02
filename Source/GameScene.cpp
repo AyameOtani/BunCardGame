@@ -281,9 +281,7 @@ void GameScene::Initialize() // 初期化
 	}
 
 	// 敵カードの裏の画像の読み込み 追加　小池　5/15
-	mnEnemyCardBack = LoadGraph("Resource/Enemy/Card/Enemy01.png");
-
-
+	//mnEnemyCardBack = LoadGraph("Resource/Enemy/Card/enemycard_danger.png");
 
 	mbInitialize = true; // 初期化終了フラグ
 }
@@ -387,24 +385,6 @@ void GameScene::Update() // 更新
 		{
 			//IsMessage = false;
 		}
-
-
-		//// デバック用
-		//if (InputManager::CheckDownKey(KEY_INPUT_1))
-		//{
-		//	Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
-		//}
-		//if (InputManager::CheckDownKey(KEY_INPUT_2))
-		//{
-		//	Master::mpSaveHp = mpPlayer->hp; // プレイヤーのHPを保存しておく
-		//	Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::LOSERESULT);
-
-		//}
-		//if (InputManager::CheckDownKey(KEY_INPUT_3))
-		//{
-		//	Master::mpSaveHp = mpPlayer->hp; // プレイヤーのHPを保存しておく
-		//	Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::WINRESULT);
-		//}
 
 
 		if (mpTurnEnd)
@@ -535,7 +515,7 @@ void GameScene::Update() // 更新
 
 				mTurn = Turn::ENEMY_THINK;
 
-				mWaitTimer = 180;
+				mWaitTimer = 140;
 				mpTurnEnd->SetActive(false); // ボタン無効に
 				mpEnemy->block = 0;  // 敵のブロックも0にする
 
@@ -1510,7 +1490,7 @@ void GameScene::Draw() // 描画
 		}
 
 	}
-	// PS.ここから下に描画したらポーズ中でも暗くならないから注意ね   大谷
+	// PS.ここから下に描画したらポーズ中でも暗くならないから注意   大谷
 
 }
 

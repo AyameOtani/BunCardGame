@@ -153,7 +153,6 @@ private:  // メンバ変数
 
 	bool mbFadeOut = false;// フェードアウト中かどうかのフラグ
 	int mnFadeVolume = 255;
-
 	int mnBgmVolume = 255;
 	int mnSeVolume = 255;
 };
