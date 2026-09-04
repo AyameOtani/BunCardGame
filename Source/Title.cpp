@@ -103,8 +103,8 @@ void Title::Initialize()
 	if (mnRogoHandle == -1) { printfDx("画像ない1"); }
 	mnBagHandle = LoadGraph("Resource/Title/Title.png");
 	if (mnBagHandle == -1) { printfDx("画像ない2"); }
-	mnCardHandle = LoadGraph("Resource/Title/1.png");
-	if (mnCardHandle == -1) { printfDx("画像ない3"); }
+	mnCardHandle = LoadGraph("Resource/Title/move_bag_ground.png");
+	if (mnCardHandle == -1) { printfDx("動く黒板の画像がない"); }
 
 	mnMusicBag = LoadGraph("Resource/Title/Titleboard.png");
 	if (mnMusicBag == -1) { printfDx("画像ない黒板"); }

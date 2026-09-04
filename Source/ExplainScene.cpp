@@ -23,7 +23,7 @@ void ExplainScene::Initialize()
     if (mnItemEHandle == -1)
     {
         // 背景
-        mnItemEHandle = LoadGraph("Resource/Mouse/Ce.png");
+        mnItemEHandle = LoadGraph("Resource/Operation/manual.png");
     }
 
     if (mnBagHandle == -1)

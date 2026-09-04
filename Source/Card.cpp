@@ -444,7 +444,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 1:
         d.name = "カード1";
         d.cost = 1;
-        d.cardFilename = "Resource/Picture/attack.png";
+        d.cardFilename = "Resource/CardEffect/attack.png";
         d.desciption = "5ダメージを与える";
         d.effects = { {EffectType::DAMAGE, 5, 0} };
         break;
@@ -452,7 +452,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 2:
         d.name = "カード2";
         d.cost = 1;
-        d.cardFilename = "Resource/Picture/block.png";
+        d.cardFilename = "Resource/CardEffect/block.png";
         d.desciption = "ブロックを5獲得";
         d.effects = { {EffectType::BLOCK, 5, 0} };
         break;
@@ -460,7 +460,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 3:
         d.name = "カード3";
         d.cost = 1;
-        d.cardFilename = "Resource/Picture/attack&poison.png";
+        d.cardFilename = "Resource/CardEffect/attack_and_poison.png";
         d.desciption = "5ダメージを与える\n毒を3与える";
         d.effects = { {EffectType::DAMAGE, 5, 0}, {EffectType::APPLY_POISON, 3, 0} };
 
@@ -485,7 +485,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 4:
         d.name = "カード4";
         d.cost = 0;
-        d.cardFilename = "Resource/Picture/draw.png";
+        d.cardFilename = "Resource/CardEffect/draw_card.png";
         d.desciption = "カードを2枚引く";
         d.effects = { {EffectType::DRAW, 2, 0} };
         break;
@@ -493,7 +493,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 5:
         d.name = "カード5";
         d.cost = 0;
-        d.cardFilename = "Resource/Picture/mp.png";
+        d.cardFilename = "Resource/CardEffect/mp.png";
         d.desciption = "MPを1回復";
         d.effects = { {EffectType::ENERGY_MP, 1, 0} };
         break;
@@ -501,7 +501,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 6:
         d.name = "カード6";
         d.cost = 2;
-        d.cardFilename = "Resource/Picture/block.png";
+        d.cardFilename = "Resource/CardEffect/block.png";
         d.desciption = "ブロックを12獲得";
         d.effects = { {EffectType::BLOCK, 12, 0} };
         break;
@@ -509,7 +509,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 7:
         d.name = "カード7";
         d.cost = 2;
-        d.cardFilename = "Resource/Picture/poison.png";
+        d.cardFilename = "Resource/CardEffect/poison.png";
         d.desciption = "毒を5与える\n3ターン継続";
         d.effects = { {EffectType::APPLY_POISON, 5, 3} };
         break;
@@ -517,7 +517,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 8:
         d.name = "カード8";
         d.cost = 1;
-        d.cardFilename = "Resource/Picture/attack&draw.png";
+        d.cardFilename = "Resource/CardEffect/attack_and_draw.png";
         d.desciption = "6ダメージを与える\nカードを1枚引く";
         d.effects = { {EffectType::DAMAGE, 6, 0}, {EffectType::DRAW, 1, 0} };
 
@@ -543,7 +543,7 @@ Card::CardData Card::GetCardDataById(int id)
         d.name = "カード9";
         d.cost = 3;
         d.isExhaust = true;
-        d.cardFilename = "Resource/Picture/attack.png";
+        d.cardFilename = "Resource/CardEffect/attack.png";
         d.desciption = "20ダメージを与える\n使い切り";
         d.effects = { {EffectType::DAMAGE, 20, 0} };
         break;
@@ -552,7 +552,7 @@ Card::CardData Card::GetCardDataById(int id)
         d.name = "カード10";
         d.cost = 0;
         d.isExhaust = true;
-        d.cardFilename = "Resource/Picture/mp&draw.png";
+        d.cardFilename = "Resource/CardEffect/mp_and_draw.png";
         d.desciption = "MPを1獲得\nカードを2枚引く\n使い切り";
         d.effects = { {EffectType::ENERGY_MP, 1, 0}, {EffectType::DRAW, 2, 0} };
 
@@ -578,7 +578,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 11:
         d.name = "カード11";
 		d.cost = 1;
-		d.cardFilename = "Resource/Picture/attack.png";
+		d.cardFilename = "Resource/CardEffect/attack.png";
 		d.desciption = "4ダメージを\n2回与える";
 		d.effects = { {EffectType::DAMAGE, 4, 2} };
 
@@ -604,7 +604,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 12:
         d.name = "カード12";
         d.cost = 0;
-        d.cardFilename = "Resource/Picture/attack.png";
+        d.cardFilename = "Resource/CardEffect/attack.png";
         d.desciption = "4ダメージを与える";
         d.effects = { {EffectType::DAMAGE, 4, 0} };
         break;
@@ -613,7 +613,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 13:
         d.name = "カード13";
         d.cost = 1;
-        d.cardFilename = "Resource/Picture/buff.png";
+        d.cardFilename = "Resource/CardEffect/buff.png";
         d.desciption = "このターン\n与えるダメージが\n6増える";
         d.effects = { {EffectType::APPLY_BUFF, 6, 1} };
         break;
@@ -622,7 +622,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 14:
         d.name = "カード14";
         d.cost = 0;
-        d.cardFilename = "Resource/Picture/block.png";
+        d.cardFilename = "Resource/CardEffect/block.png";
         d.desciption = "ブロックを4獲得";
         d.effects = { {EffectType::BLOCK, 4, 0} };
         break;
@@ -631,7 +631,7 @@ Card::CardData Card::GetCardDataById(int id)
     case 15:
         d.name = "カード15";
         d.cost = 1;
-        d.cardFilename = "Resource/Picture/attack&block.png";
+        d.cardFilename = "Resource/CardEffect/attack_and_block.png";
         d.desciption = "5ダメージを与える\n4ブロックを獲得";
         d.effects = { {EffectType::DAMAGE, 5, 0}, {EffectType::BLOCK, 4, 0} };
 
@@ -657,33 +657,16 @@ Card::CardData Card::GetCardDataById(int id)
     case 16:
         d.name = "カード16";
         d.cost = 1;
-        d.cardFilename = "Resource/Picture/debuf1.png";
+        d.cardFilename = "Resource/CardEffect/debuf_easy.png";
         d.desciption = "敵が与える\nダメージが\n2減少する";
         d.effects = { {EffectType::APPLY_WEAKEN, 2, 2} };
         break;
-       /* switch (gscene)
-        {
-        case SceneManager::GScene::easy:
-            d.cardFilename = "Resource/Picture/debuf1.png";
-            break;
 
-        case SceneManager::GScene::normal:
-            d.cardFilename = "Resource/Picture/debuf2.png";
-            break;
-
-        case SceneManager::GScene::hard:
-            d.cardFilename = "Resource/Picture/debuf3.png";
-            break;
-
-        default:
-            d.cardFilename = "Resource/Picture/debuf1.png";
-            break;
-        }*/
 
     case 17:
         d.name = "カード17";
         d.cost = 3;
-        d.cardFilename = "Resource/Picture/curse.png";
+        d.cardFilename = "Resource/CardEffect/curse.png";
         d.desciption = "呪いを1付与する\n5回で即死";
         d.effects = { {EffectType::APPLY_CURSE, 1,0} };
         break;
@@ -692,7 +675,7 @@ Card::CardData Card::GetCardDataById(int id)
     default:
         d.name = "カード17";
         d.cost = 3;
-        d.cardFilename = "Resource/Picture/curse.png";
+        d.cardFilename = "Resource/CardEffect/curse.png";
         d.desciption = "呪いを1付与する\n5回で即死";
         d.effects = { {EffectType::APPLY_CURSE, 1,0} };
         break;
@@ -712,7 +695,7 @@ Card::CardData Card::SpecialCardDataById(int id)
     {
     case 1:
         d.name = "必殺技1";
-        d.cardFilename = "Resource/Picture/sp1.png";
+        d.cardFilename = "Resource/CardEffect/special_1.png";
         d.desciption = "30ダメージを与える\n2枚カードを引く";
         d.effects = { {EffectType::DAMAGE, 30, 0, true},{EffectType::DRAW,2,0,true} };
         break;
@@ -720,14 +703,14 @@ Card::CardData Card::SpecialCardDataById(int id)
     case 2:
 
         d.name = "必殺技2";
-        d.cardFilename = "Resource/Picture/sp2.png";
+        d.cardFilename = "Resource/CardEffect/special_2.png";
         d.desciption = "MPを2回復する\n2枚カードを引く";
         d.effects = { {EffectType::ENERGY_MP, 2,0,true},{EffectType::DRAW,2,0,true } };
         break;
 
     case 3:
         d.name = "必殺技3";
-        d.cardFilename = "Resource/Picture/sp3.png";
+        d.cardFilename = "Resource/CardEffect/special_3.png";
         d.desciption = "与えるダメージが\n10増える\n敵の攻撃力を10減少\n2ターン継続";
         d.effects = { {EffectType::APPLY_WEAKEN, 10,0, true},{EffectType::APPLY_ATTACK_DOWN,10,2,true} };
         break;

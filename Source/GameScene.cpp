@@ -70,7 +70,7 @@ GameScene::GameScene(SceneManager::GScene gscene)
 	// 説明画面の画像
 	if (mnItemEHandle == -1)
 	{
-		mnItemEHandle = LoadGraph("Resource/Mouse/Ce.png");
+		mnItemEHandle = LoadGraph("Resource/Operation/manual.png");
 	}
 
 	// ターンの背景の画像
@@ -114,7 +114,7 @@ void GameScene::Initialize() // 初期化
 	float posY = 590.0f; // 高さ
 
 	// プレイヤーの初期化 ダミーにした
-	mpPlayer = new Player(VGet(dist, posY, 0.0f), "Resource/Player/Dummy.png", mGScene);
+	mpPlayer = new Player(VGet(dist, posY, 0.0f), "Resource/PlayerAnimation/Dummy.png", mGScene);
 	
 	mpPlayer->Initialize(); // 初期化呼び出さ
 	mpPlayer->StartBattle(); // 手札を配る
@@ -125,7 +125,7 @@ void GameScene::Initialize() // 初期化
 	case SceneManager::GScene::easy://簡単なら
 		//画像だけ変える
 		// 敵の初期化
-		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeA);
+		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/PlayerAnimation/Dummy.png", Enemy::EnemyType::TypeA);
 		// 画像読み込み用 背景
 		mnBagHandle = LoadGraph("Resource/Background/easy_bag.png");
 		mpEnemy->Initialize("Resource/Enemy/easy_enemy.png"); // 初期化
@@ -134,7 +134,7 @@ void GameScene::Initialize() // 初期化
 
 	case SceneManager::GScene::normal://普通なら
 		// 敵の初期化
-		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeB);
+		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/PlayerAnimation/Dummy.png", Enemy::EnemyType::TypeB);
 		// 画像読み込み用 背景
 		mnBagHandle = LoadGraph("Resource/Background/Normal_bag.png");
 		mpEnemy->Initialize("Resource/Enemy/normal_enemy.png"); // 初期化
@@ -143,7 +143,7 @@ void GameScene::Initialize() // 初期化
 
 	case SceneManager::GScene::hard://難しいなら
 		// 敵の初期化
-		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeC);
+		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/PlayerAnimation/Dummy.png", Enemy::EnemyType::TypeC);
 		// 画像読み込み用 背景
 		mnBagHandle = LoadGraph("Resource/Background/hard_bag.png");
 		mpEnemy->Initialize("Resource/Enemy/hard_enemy.png"); // 初期化

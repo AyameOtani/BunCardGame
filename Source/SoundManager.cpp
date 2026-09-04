@@ -29,37 +29,40 @@ void SoundManager::Initialize()
 
 
 	// SE の読み込み	  菊池
-	LoadSE(SOUND_SE::SE_DECIDE, "Resource/SE/Enter.mp3");			// 決定音   ピコっ
-	LoadSE(SOUND_SE::SE_SELECT, "Resource/SE/Card.mp3");			    // 選択音   シュ
-	LoadSE(SOUND_SE::SE_KURAE, "Resource/SE/Attack1.mp3");				    // 攻撃するとき  
-	LoadSE(SOUND_SE::SE_DAMEIGI, "Resource/SE/BOM.mp3");				    // 攻撃
-	LoadSE(SOUND_SE::SE_DAMEIGIEN, "Resource/SE/SE1.mp3");				    // 攻撃
-	LoadSE(SOUND_SE::SE_BOUGYO, "Resource/SE/Shild.mp3");				    // 防御
-	LoadSE(SOUND_SE::SE_DAMEZERO, "Resource/SE/Nodamage.mp3");		    // 防御
-	LoadSE(SOUND_SE::SE_DAMEARI, "Resource/SE/DAMAGE2.mp3");					// 選択音
-	LoadSE(SOUND_SE::SE_KUUU, "Resource/SE/se_buwawa.mp3");						// 	くぅぅ
-	LoadSE(SOUND_SE::SE_UP, "Resource/SE/StatusUP.mp3");				// バフ
-	LoadSE(SOUND_SE::SE_DOWN, "Resource/SE/se_down.mp3");						// デバフ
-	LoadSE(SOUND_SE::SE_MP_UP, "Resource/SE/heal_02_long.wav");				    // MPアップ
-	LoadSE(SOUND_SE::SE_DOKU, "Resource/SE/DL.mp3");				    // 毒
-	LoadSE(SOUND_SE::SE_BOUGYO_UP, "Resource/SE/Bougyo_UP.mp3");			    // 防御アップ
-	LoadSE(SOUND_SE::SE_DOROU, "Resource/SE/spo_ge_toranpu_hiku03.mp3");        // ドロー
-	LoadSE(SOUND_SE::SE_SELECT2, "Resource/SE/Select1.mp3");       // 選択してください
-	LoadSE(SOUND_SE::SE_HITOTU, "Resource/SE/OWN.mp3");                  // ひとつ
-	LoadSE(SOUND_SE::SE_LOSS, "Resource/SE/DAMAGE3.mp3");	// 敗北
-	LoadSE(SOUND_SE::SE_WIN, "Resource/SE/WIN1.mp3");				    // 勝利
-	LoadSE(SOUND_SE::SE_MOSUTAADAME, "Resource/SE/YU1.mp3");
-	LoadSE(SOUND_SE::SE_GUAAAAA, "Resource/SE/DAMAGE1.mp3");
-	LoadSE(SOUND_SE::SE_SEIREI, "Resource/SE/fairy.mp3");
-	LoadSE(SOUND_SE::SE_OUGI, "Resource/SE/Special.mp3");
-	LoadSE(SOUND_SE::SE_SAAIKUZO, "Resource/SE/GO.mp3");
-	LoadSE(SOUND_SE::SE_PETA, "Resource/SE/PE.mp3");
-	LoadSE(SOUND_SE::SE_KIRU, "Resource/SE/SE3.mp3");
-	LoadSE(SOUND_SE::SE_HEAL, "Resource/SE/HEAL.mp3");
-	LoadSE(SOUND_SE::SE_BIRIBIRI, "Resource/SE/BIRI.mp3");
-	LoadSE(SOUND_SE::SE_HENNDOU, "Resource/SE/NEWS.mp3");
-	LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/Gravite.mp3");
-	LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/Gravite.mp3");
+	LoadSE(SOUND_SE::SE_DECIDE, "Resource/SE/se_decide.mp3"); // 決定音
+	LoadSE(SOUND_SE::SE_SELECT, "Resource/SE/se_flip_card.mp3"); // カードをめくった時の音
+	LoadSE(SOUND_SE::SE_KURAE, "Resource/SE/se_voice_attack.mp3"); // 攻撃するときのボイス 
+	LoadSE(SOUND_SE::SE_DAMEIGI, "Resource/SE/se_attack.mp3"); // プレイヤーの攻撃
+	LoadSE(SOUND_SE::SE_DAMEIGIEN, "Resource/SE/se_enemy_attack.mp3"); // 敵の攻撃
+	LoadSE(SOUND_SE::SE_BOUGYO, "Resource/SE/se_shild.mp3"); // シールドを貼った時
+	LoadSE(SOUND_SE::SE_DAMEZERO, "Resource/SE/se_voice_no_damage.mp3"); // 防御の時の声
+	LoadSE(SOUND_SE::SE_DAMEARI, "Resource/SE/se_voice_damage.mp3"); // ダメージを受けた時のボイス
+	LoadSE(SOUND_SE::SE_KUUU, "Resource/SE/se_damage.mp3");	// ダメージ音
+	LoadSE(SOUND_SE::SE_UP, "Resource/SE/se_buff.mp3"); // バフ
+	LoadSE(SOUND_SE::SE_DOWN, "Resource/SE/se_debuff.mp3"); // デバフ
+	LoadSE(SOUND_SE::SE_MP_UP, "Resource/SE/se_mp_heal.mp3"); // MP回復
+	LoadSE(SOUND_SE::SE_DOKU, "Resource/SE/se_poison.mp3"); // 毒
+	LoadSE(SOUND_SE::SE_BOUGYO_UP, "Resource/SE/se_defense_up.mp3"); // 防御アップ
+	LoadSE(SOUND_SE::SE_DOROU, "Resource/SE/se_draw_card.mp3"); // カードを引く
+	LoadSE(SOUND_SE::SE_SELECT2, "Resource/SE/se_voice_card_select.mp3"); // カード選択を促すボイス
+	LoadSE(SOUND_SE::SE_HITOTU, "Resource/SE/se_voice_one.mp3"); // ひとつという掛け声
+
+	LoadSE(SOUND_SE::SE_LOSS, "Resource/SE/se_voice_lose.mp3");	// 敗北ボイス
+	LoadSE(SOUND_SE::SE_WIN, "Resource/SE/se_voice_win.mp3"); // 勝利ボイス
+	LoadSE(SOUND_SE::SE_GUAAAAA, "Resource/SE/se_voice_death.mp3"); // 死亡ボイス
+
+	LoadSE(SOUND_SE::SE_SEIREI, "Resource/SE/se_voice_special_2.mp3"); // 必殺発動時のボイス2
+	LoadSE(SOUND_SE::SE_OUGI, "Resource/SE/se_voice_special_1.mp3"); // 必殺発動時のボイス1
+	LoadSE(SOUND_SE::SE_SAAIKUZO, "Resource/SE/se_voice_special_3.mp3"); // 必殺発動時のボイス3
+
+
+	LoadSE(SOUND_SE::SE_PETA, "Resource/SE/se_item_glue.mp3"); // のりアイテムの使用時
+	LoadSE(SOUND_SE::SE_KIRU, "Resource/SE/se_item_scissors.mp3"); // はさみアイテムの使用時
+	LoadSE(SOUND_SE::SE_HEAL, "Resource/SE/se_heal.mp3"); // ペンで回復したとき
+
+	LoadSE(SOUND_SE::SE_BIRIBIRI, "Resource/SE/se_stun.mp3"); // スタン時
+	LoadSE(SOUND_SE::SE_HENNDOU, "Resource/SE/se_cost_change.mp3"); // 手札のコストが変わったとき
+	LoadSE(SOUND_SE::SE_NOROI, "Resource/SE/se_curse.mp3"); // 呪い付与時
 
 	LoadVolume();
 }

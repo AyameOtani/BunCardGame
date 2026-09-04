@@ -104,12 +104,12 @@ void Player::Initialize()
     parts.resize(PartID::PART_MAX); //  サイズをMAXにしている
 
     // 名前で読み込んでる
-    parts[PartID::LEG_L].graphHandle = LoadGraph("Resource/Player/Leg_L.png");
-    parts[PartID::LEG_R].graphHandle = LoadGraph("Resource/Player/Leg_R.png");
-    parts[PartID::WEAPON].graphHandle = LoadGraph("Resource/Player/Weapon.png");
-    parts[PartID::HEAD].graphHandle = LoadGraph("Resource/Player/Head.png");
-    parts[PartID::BODY].graphHandle = LoadGraph("Resource/Player/Body.png");
-    parts[PartID::ARM_R].graphHandle = LoadGraph("Resource/Player/Arm.png");
+    parts[PartID::LEG_L].graphHandle = LoadGraph("Resource/PlayerAnimation/anim_leg_l.png");
+    parts[PartID::LEG_R].graphHandle = LoadGraph("Resource/PlayerAnimation/anim_leg_r.png");
+    parts[PartID::WEAPON].graphHandle = LoadGraph("Resource/PlayerAnimation/anim_weapon.png");
+    parts[PartID::HEAD].graphHandle = LoadGraph("Resource/PlayerAnimation/anim_head.png");
+    parts[PartID::BODY].graphHandle = LoadGraph("Resource/PlayerAnimation/anim_body.png");
+    parts[PartID::ARM_R].graphHandle = LoadGraph("Resource/PlayerAnimation/anim_arm.png");
 
     // アニメーターの初期設定　待機にしている
     animator.Play(Master::mpAnimationManager->GetAnim(AnimationData::AnimType::IDLE));

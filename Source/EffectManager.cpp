@@ -24,7 +24,7 @@ void EffectManager::ApplyDebuffEffect(const Debuff& debuff, Unit& self, Unit& ta
 
 void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 {
-    // プレイヤーとしての昨日を使うとき用  selfをPlayerに変換
+    // プレイヤーとしての機能を使うとき用  selfをPlayerに変換
     Player* pPlayer = dynamic_cast<Player*>(&self);
 
     switch (effect.type)
