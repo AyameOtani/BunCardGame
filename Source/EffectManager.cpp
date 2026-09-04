@@ -155,7 +155,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                  // 必殺技のダメージエフェクトアニメーション表示
                  new Object2D(
                      target.GetPosition(),
-                     "Resource/Effect/Special_Damege_effect.png",
+                     "Resource/Effect/special_Damege_effect.png",
                      12,
                      6,
                      2,
@@ -172,7 +172,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                  // ダメージエフェクトアニメーション表示
                  new Object2D(
                      target.GetPosition(),
-                     "Resource/Effect/Damege_effect.png",
+                     "Resource/Effect/damege_effect.png",
                      5,
                      5,
                      1,
@@ -212,7 +212,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 self.pShieldEffect=
                     new Object2D(
                     VSub(self.GetPosition(), VGet(0.0f, 0.0f, 0.0f)), // 位置は調整してくれ
-                    "Resource/Effect/Shield_effect_01.png",
+                    "Resource/Effect/shield_effect.png",
                     15,
                     5,
                     3,
@@ -290,7 +290,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 target.pPoisonEffect =
                     new Object2D(
                         target.GetPosition(),
-                        "Resource/Effect/Poison_effect.png",
+                        "Resource/Effect/poison_effect.png",
                         8,
                         8,
                         1,
@@ -333,7 +333,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 target.pDebuffEffect =
                     new Object2D(
                         VSub(target.GetPosition(), VGet(60.0f, 0.0f, 0.0f)),
-                        "Resource/Effect/PowerDown_effect.png",
+                        "Resource/Effect/powerDown_effect.png",
                         10,
                         10,
                         1,
@@ -367,7 +367,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 self.pBuffEffect = 
                     new Object2D(
                         VSub(self.GetPosition(), VGet(-60.0f, 0.0f, 0.0f)),
-                        "Resource/Effect/PowerUp_effect.png",
+                        "Resource/Effect/powerUp_effect.png",
                         10,
                         10,
                         1,
@@ -402,7 +402,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 
                 new Object2D(
                     target.GetPosition(),
-                    "Resource/Effect/Curse_effect1.png",
+                    "Resource/Effect/curse_effect.png",
                     16,
                     8,
                     2,
@@ -440,7 +440,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 // はさみエフェクト
                 new Object2D(
                     pPlayer->GetPosition(),
-                    "Resource/Effect/Scissors_effect.png",
+                    "Resource/Effect/scissors_effect.png",
                     10,
                     2,
                     5,
@@ -482,7 +482,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                         (float)Utility::SCREEN_HEIGHT / 2,
                         0.0f
                     ),
-                    "Resource/Effect/Glue_effect.png",
+                    "Resource/Effect/glue_effect.png",
                     6,
                     2,
                     3,
@@ -530,7 +530,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 					// 回復のエフェクトアニメーション表示
                     new Object2D(
                         VSub(pPlayer->GetPosition(), VGet(30.0f, 0.0f, 0.0f)),
-                        "Resource/Effect/Heal_effect.png",
+                        "Resource/Effect/heal_effect.png",
                         8,
                         8,
                         1,
@@ -572,7 +572,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                         target.pStunEffect = 
                             new Object2D(
                                 VSub(target.GetPosition(), VGet(0.0f, 150.0f, 0.0f)),
-                                "Resource/Effect/Stun_effect.png",
+                                "Resource/Effect/stun_effect.png",
                                 5,
                                 5,
                                 1,
@@ -622,7 +622,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 // ペンのエフェクトアニメーション表示
                 new Object2D(
                     VGet((float)Utility::SCREEN_WIDTH / 2 + 60.0f, (float)Utility::SCREEN_HEIGHT / 2 + 130.0f, 0.0f),
-                    "Resource/Effect/Pen_effect.png",
+                    "Resource/Effect/pen_effect.png",
                     6,
                     2,
                     3,

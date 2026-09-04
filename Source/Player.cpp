@@ -35,14 +35,14 @@ Player::Player(VECTOR initPos, std::string filename, SceneManager::GScene gscene
 
 
     // アイテム画像のロード
-    itemImageHandles[0] = LoadGraph("Resource/Item/Scissors.png"); // ハサミ
-    itemImageHandles[1] = LoadGraph("Resource/Item/Glue.png"); // のり
-    itemImageHandles[2] = LoadGraph("Resource/Item/Pen.png"); // ペン
+    itemImageHandles[0] = LoadGraph("Resource/Item/img_scissors.png"); // ハサミ
+    itemImageHandles[1] = LoadGraph("Resource/Item/img_glue.png"); // のり
+    itemImageHandles[2] = LoadGraph("Resource/Item/img_pen.png"); // ペン
 
     // 使用後
-    itemUsedHandles[0] = LoadGraph("Resource/Item/useItemS.png");
-    itemUsedHandles[1] = LoadGraph("Resource/Item/useItemG.png");
-    itemUsedHandles[2] = LoadGraph("Resource/Item/useItemP.png");
+    itemUsedHandles[0] = LoadGraph("Resource/Item/img_use_scissors.png");
+    itemUsedHandles[1] = LoadGraph("Resource/Item/img_use_glue.png.png");
+    itemUsedHandles[2] = LoadGraph("Resource/Item/img_use_pen.png.png");
 
     // アイテムの位置設定
 	float GraphX = 1800.0f; // 画面右端からの距離
@@ -54,7 +54,7 @@ Player::Player(VECTOR initPos, std::string filename, SceneManager::GScene gscene
 	mnShieldHandle = LoadGraph("Resource/Icon/Shield.png"); // シールドのエフェクト画像のロード
 
 
-    mnCardOperateHandle = LoadGraph("Resource/2D/cardOperate.png"); // カードの選択説明の画像
+    mnCardOperateHandle = LoadGraph("Resource/2D/card_operate.png"); // カードの選択説明の画像
 }
 
 Player::~Player()

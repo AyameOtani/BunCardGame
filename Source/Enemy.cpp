@@ -86,9 +86,9 @@ Enemy::Enemy(VECTOR initPos, std::string filename,EnemyType type)
     // タグ設定
     SetTag(Object2D::Enemy2D);
 
-    mnPoisonHandle = LoadGraph("Resource/Icon/Poison.png"); // 毒のエフェクト画像のロード
-    mnShieldHandle = LoadGraph("Resource/Icon/Shield.png"); // シールドのエフェクト画像のロード
-    mnCurseHandle = LoadGraph("Resource/Icon/Curse.png"); // シールドのエフェクト画像のロード
+    mnPoisonHandle = LoadGraph("Resource/Icon/icon_poison.png"); // 毒のエフェクト画像のロード
+    mnShieldHandle = LoadGraph("Resource/Icon/icon_shield.png"); // シールドのエフェクト画像のロード
+    mnCurseHandle = LoadGraph("Resource/Icon/icon_curse.png"); // シールドのエフェクト画像のロード
 }
 
 void Enemy::PlayMotion(AnimationData::AnimType type)

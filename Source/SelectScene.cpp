@@ -21,7 +21,7 @@ SelectScene::SelectScene()
 	, mnHardBagHandle(-1)
 {
 
-	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/2D/easy_bag.png");
+	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/Background/easy_bag.png");
 	mnEasyHandle = -1;
 	mnNormalHandle = -1;
 	mnHardHandle = -1;
@@ -40,25 +40,25 @@ SelectScene::~SelectScene()
 
 void SelectScene::Initialize()
 {
-	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/2D/easy_bag.png");
+	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/Background/easy_bag.png");
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2 + 200;
 	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
-	mpEasy = new MouseGraph((float)x - 500.0f, (float)y, 0.0f, "Resource/Enemy/easy.png", 0.20f, 0.23f); // スタートボタン
-	mpNormal = new MouseGraph((float)x, (float)y, 0.0f, "Resource/Enemy/normal.png", 0.20f, 0.23f); // ノーマル　シルエット
-	mpHard = new MouseGraph((float)x + 500.0f, (float)y, 0.0f, "Resource/Enemy/hard.png", 0.20f, 0.23f); // ハード　シルエット
+	mpEasy = new MouseGraph((float)x - 500.0f, (float)y, 0.0f, "Resource/Button/easy_button.png", 0.20f, 0.23f); // スタートボタン
+	mpNormal = new MouseGraph((float)x, (float)y, 0.0f, "Resource/Button/normal_button.png", 0.20f, 0.23f); // ノーマル　シルエット
+	mpHard = new MouseGraph((float)x + 500.0f, (float)y, 0.0f, "Resource/Button/hard_button.png", 0.20f, 0.23f); // ハード　シルエット
 
-	if (mnEasyHandle == -1) mnEasyHandle = LoadGraph("Resource/Enemy/Enemyeasy.png");
-	if (mnNormalHandle == -1) mnNormalHandle = LoadGraph("Resource/Enemy/Enemynormal.png");
-	if (mnHardHandle == -1) mnHardHandle = LoadGraph("Resource/Enemy/Enemyhard.png");
-	if (mnEasy_NoSelectHandle == -1) mnEasy_NoSelectHandle = LoadGraph("Resource/Enemy/Enemyeasy_NoSelect.png");
-	if (mnNormal_NoSelectHandle == -1) mnNormal_NoSelectHandle = LoadGraph("Resource/Enemy/Enemynormal_NoSelect.png");
-	if (mnHard_NoSelectHandle == -1) mnHard_NoSelectHandle = LoadGraph("Resource/Enemy/Enemyhard_NoSelect.png");
+	if (mnEasyHandle == -1) mnEasyHandle = LoadGraph("Resource/Enemy/select_enemy_easy.png");
+	if (mnNormalHandle == -1) mnNormalHandle = LoadGraph("Resource/Enemy/select_enemy_normal.png.png");
+	if (mnHardHandle == -1) mnHardHandle = LoadGraph("Resource/Enemy/select_enemy_hard.png");
+	if (mnEasy_NoSelectHandle == -1) mnEasy_NoSelectHandle = LoadGraph("Resource/Enemy/enemy_easy_unselected.png");
+	if (mnNormal_NoSelectHandle == -1) mnNormal_NoSelectHandle = LoadGraph("Resource/Enemy/enemy_normal_unselected.png");
+	if (mnHard_NoSelectHandle == -1) mnHard_NoSelectHandle = LoadGraph("Resource/Enemy/enemy_hard_unselected.png.png");
 	
 	//難易度ごとの背景   片野
-	if (mnEasyBagHandle == -1) mnEasyBagHandle = LoadGraph("Resource/2D/easy_bag.png");
-	if (mnNormalBagHandle == -1) mnNormalBagHandle = LoadGraph("Resource/2D/Normal_bag.png");
-	if (mnHardBagHandle == -1) mnHardBagHandle = LoadGraph("Resource/2D/hard_bag.png");
+	if (mnEasyBagHandle == -1) mnEasyBagHandle = LoadGraph("Resource/Background/easy_bag.png");
+	if (mnNormalBagHandle == -1) mnNormalBagHandle = LoadGraph("Resource/Background/Normal_bag.png");
+	if (mnHardBagHandle == -1) mnHardBagHandle = LoadGraph("Resource/Background/hard_bag.png");
 
 	int SiseXbuf, SiseYBuf;
 	GetGraphSize(mnEasyBagHandle, &SiseXbuf, &SiseYBuf);

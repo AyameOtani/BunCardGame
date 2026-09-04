@@ -40,7 +40,7 @@ GameScene::GameScene(SceneManager::GScene gscene)
 
 
 	// MPの画像の読み込み
-	mnHandleMP = LoadGraph("Resource/2D/mp_bag.png");
+	mnHandleMP = LoadGraph("Resource/2D/mana_point_bag.png");
 	if (mnHandleMP == -1)
 	{
 		printfDx("MP画像ない");
@@ -127,8 +127,8 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeA);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/easy_bag.png");
-		mpEnemy->Initialize("Resource/Enemy/Enemy1.png"); // 初期化
+		mnBagHandle = LoadGraph("Resource/Background/easy_bag.png");
+		mpEnemy->Initialize("Resource/Enemy/easy_enemy.png"); // 初期化
 		break;
 
 
@@ -136,8 +136,8 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeB);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/Normal_bag.png");
-		mpEnemy->Initialize("Resource/Enemy/Enemy2.png"); // 初期化
+		mnBagHandle = LoadGraph("Resource/Background/Normal_bag.png");
+		mpEnemy->Initialize("Resource/Enemy/normal_enemy.png"); // 初期化
 		break;
 
 
@@ -145,17 +145,17 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Player/Dummy.png", Enemy::EnemyType::TypeC);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/hard_bag.png");
-		mpEnemy->Initialize("Resource/Enemy/Enemy3.png"); // 初期化
+		mnBagHandle = LoadGraph("Resource/Background/hard_bag.png");
+		mpEnemy->Initialize("Resource/Enemy/hard_enemy.png"); // 初期化
 		break;
 
 
 	default:
 		// 敵の初期化
-		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Enemy/Enemy.png", Enemy::EnemyType::TypeB);
+		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), "Resource/Enemy/Dummy.png", Enemy::EnemyType::TypeB);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/2D/Normal_bag.png");
-		mpEnemy->Initialize("Resource/Enemy/Enemy2.png"); // 初期化
+		mnBagHandle = LoadGraph("Resource/Background/Normal_bag.png");
+		mpEnemy->Initialize("Resource/Enemy/normal_enemy.png"); // 初期化
 		break;
 	}
 
@@ -216,8 +216,8 @@ void GameScene::Initialize() // 初期化
 
 
 	// ボタン画像の生成
-	mpTurnEnd = new MouseGraph(1580.0f, 900.0f, 0.0f,"Resource/2D/tuenEnd.png", 0.25f, 0.28f);
-	mpStop = new MouseGraph(100.0f, 100.0f, 0.0f,"Resource/2D/stop_button.png", 0.1f, 0.13f);
+	mpTurnEnd = new MouseGraph(1580.0f, 900.0f, 0.0f,"Resource/Button/turn_end_button.png", 0.25f, 0.28f);
+	mpStop = new MouseGraph(100.0f, 100.0f, 0.0f,"Resource/Button/stop_button.png", 0.1f, 0.13f);
 
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2;
