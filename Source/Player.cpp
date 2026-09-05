@@ -41,8 +41,8 @@ Player::Player(VECTOR initPos, std::string filename, SceneManager::GScene gscene
 
     // 使用後
     itemUsedHandles[0] = LoadGraph("Resource/Item/img_use_scissors.png");
-    itemUsedHandles[1] = LoadGraph("Resource/Item/img_use_glue.png.png");
-    itemUsedHandles[2] = LoadGraph("Resource/Item/img_use_pen.png.png");
+    itemUsedHandles[1] = LoadGraph("Resource/Item/img_use_glue.png");
+    itemUsedHandles[2] = LoadGraph("Resource/Item/img_use_pen.png");
 
     // アイテムの位置設定
 	float GraphX = 1800.0f; // 画面右端からの距離
@@ -50,8 +50,8 @@ Player::Player(VECTOR initPos, std::string filename, SceneManager::GScene gscene
     itemPositions[1] = VGet(GraphX, 280, 0); // のり
     itemPositions[2] = VGet(GraphX, 460, 0); // ペン
 
-	mnPoisonHandle = LoadGraph("Resource/Icon/Poison.png"); // 毒のエフェクト画像のロード
-	mnShieldHandle = LoadGraph("Resource/Icon/Shield.png"); // シールドのエフェクト画像のロード
+	mnPoisonHandle = LoadGraph("Resource/Icon/icon_poison.png"); // 毒のエフェクト画像のロード
+	mnShieldHandle = LoadGraph("Resource/Icon/icon_shield.png"); // シールドのエフェクト画像のロード
 
 
     mnCardOperateHandle = LoadGraph("Resource/2D/card_operate.png"); // カードの選択説明の画像

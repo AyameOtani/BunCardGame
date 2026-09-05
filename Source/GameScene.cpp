@@ -543,35 +543,6 @@ void GameScene::Update() // 更新
 			break;
 
 
-		//case Turn::ENEMY_THINK:
-
-		//	mWaitTimer--;
-		//	if (mWaitTimer <= 0)
-		//	{
-		//		//mTurn = Turn::ENEMY_ACTION;
-		//		// 攻撃演出のために少し時間を取るならここでまたタイマーをセット
-		//		//mWaitTimer = 60;
-
-		//		//行動する前に抽選する
-		//		Action = GetRand(4);
-
-		//		// 表示するカード決定 追加　小池
-		//		if (!mpEnemy->enemyhand.empty())
-		//		{
-		//			mpEnemyActionCard =
-		//				mpEnemy->enemyhand[Action];
-		//		}
-
-		//		// 演出開始
-		//		mbEnemyCardShow = true;
-		//		mfEnemyCardY = -300.0f;
-
-		//		// カード表示フェーズへ
-		//		mTurn = Turn::ENEMY_CARD_SHOW;
-		//		mWaitTimer = 60;
-		//	}
-		//	break;
-			
 		case Turn::ENEMY_THINK:
 
 			mWaitTimer--;
@@ -642,7 +613,7 @@ void GameScene::Update() // 更新
 						mbEnemyCardFront = true;
 						mbEnemyCardSwitched = true;
 
-						// 追加：Card の表示フラグと同期（表を表示）
+						// 追加Card の表示フラグと同期（表を表示）
 						if (mpEnemyActionCard) mpEnemyActionCard->SetShowFront(true);
 					}
 

@@ -16,12 +16,15 @@ Card::Card(const CardData& cardData)
     , isHover(false)
     , isDragging(false)
     , isKeep(false)
+    , targetX(0.0f)
+    , targetY(0.0f)
+    , targetRot(0.0f)
 {   
     // 画像の読み込み
     // 表画像
     omoteHandle = LoadGraph(data.cardFilename.c_str());
 
-    // 裏画像 (効果の方)
+    // 裏画像 (の方)
     uraHandle = LoadGraph("Resource/Card/enemy_card_warning.png");
 
     // 最初は表を表示
@@ -64,6 +67,9 @@ Card::Card(const EnemyCardData& enemyData)
     , isHover(false)
     , isDragging(false)
     ,isKeep(false)
+    , targetX(0.0f)
+    , targetY(0.0f)
+    , targetRot(0.0f)
 {   
     // dataの中身も空にしておくと、Draw関数で変な文字が出ない
     data.desciption = "";
@@ -727,7 +733,7 @@ Card::EnemyCardData Card::EnemyCardDataById(int id)
     d.mbEnemyFlag = true; // 敵のカードをON
 
     // 共通の裏面（共通画像）
-    d.backImageName = "Resource/Card/enemy_card_warning.png";
+    d.backImageName = "Resource/Card/enemy_card_front.png";
 
     switch (id)
     {

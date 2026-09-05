@@ -1,11 +1,4 @@
-﻿// Enemy.cpp で extern 宣言されているグローバル除外ポインタの実体定義
-#include "Card.h"
-Card* gExcludeEnemyCard = nullptr;
-
-// インクルードガード
-#ifndef ENEMY_CPP
-#define ENEMY_CPP
-
+﻿#include "Card.h"
 #include "Enemy.h"
 #include "Master.h"
 #include "Utility.h"
@@ -330,14 +323,6 @@ void Enemy::CardSet()
     }
 }
 
-//void Enemy::EnemyStartBattle()
-//{
-//    enemyhand.push_back(new Card(Card::EnemyCardDataById(1)));
-//    enemyhand.push_back(new Card(Card::EnemyCardDataById(1)));
-//    enemyhand.push_back(new Card(Card::EnemyCardDataById(1)));
-//    enemyhand.push_back(new Card(Card::EnemyCardDataById(1)));
-//    enemyhand.push_back(new Card(Card::EnemyCardDataById(1)));
-//}
 
 // 変更　小池
 void Enemy::EnemyStartBattle()
@@ -361,5 +346,3 @@ void Enemy::EnemyCardDraw(int workScreen, int fontHandle, Card* topCard)
         c->Draw(workScreen, fontHandle, true);
     }
 }
-
-#endif // ENEMY_CPP

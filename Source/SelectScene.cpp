@@ -49,11 +49,11 @@ void SelectScene::Initialize()
 	mpHard = new MouseGraph((float)x + 500.0f, (float)y, 0.0f, "Resource/Button/hard_button.png", 0.20f, 0.23f); // ハード　シルエット
 
 	if (mnEasyHandle == -1) mnEasyHandle = LoadGraph("Resource/Enemy/select_enemy_easy.png");
-	if (mnNormalHandle == -1) mnNormalHandle = LoadGraph("Resource/Enemy/select_enemy_normal.png.png");
+	if (mnNormalHandle == -1) mnNormalHandle = LoadGraph("Resource/Enemy/select_enemy_normal.png");
 	if (mnHardHandle == -1) mnHardHandle = LoadGraph("Resource/Enemy/select_enemy_hard.png");
 	if (mnEasy_NoSelectHandle == -1) mnEasy_NoSelectHandle = LoadGraph("Resource/Enemy/enemy_easy_unselected.png");
 	if (mnNormal_NoSelectHandle == -1) mnNormal_NoSelectHandle = LoadGraph("Resource/Enemy/enemy_normal_unselected.png");
-	if (mnHard_NoSelectHandle == -1) mnHard_NoSelectHandle = LoadGraph("Resource/Enemy/enemy_hard_unselected.png.png");
+	if (mnHard_NoSelectHandle == -1) mnHard_NoSelectHandle = LoadGraph("Resource/Enemy/enemy_hard_unselected.png");
 	
 	//難易度ごとの背景   片野
 	if (mnEasyBagHandle == -1) mnEasyBagHandle = LoadGraph("Resource/Background/easy_bag.png");
