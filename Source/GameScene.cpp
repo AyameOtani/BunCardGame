@@ -549,15 +549,63 @@ void GameScene::Update() // 更新
 
 			if (mWaitTimer <= 0)
 			{
-				// 手札からランダム1枚選ぶ
-				int index = GetRand(
-					(int)mpEnemy->enemyhand.size() - 1
-				);
+				// 敵がスタン中ならカードを選ばないでターン終了へ
+				if (mpEnemy->stunTurns > 0)
+				{
+					mpEnemy->stunTurns--;
+					// プレイヤーの毒ダメージなど敵行動後に行っている処理
+					UpdateUnitStatus(*mpPlayer);
+					// 今の手札を捨てる
+					mpPlayer->ReshuffleTurnEnd();
+					// プレイヤーのバフリセット
+					mpPlayer->buffs.clear();
+					// 敵カードを選ばないので、カード隠し演出も不要
+					mTurn = Turn::RESULT_CHECK;
+					break;
+				}
 
-				mpEnemyActionCard =
-					mpEnemy->enemyhand[index];
 
-				// カードIDから行動決定
+				mpEnemyActionCard = nullptr;
+
+				// チャージ5ならID 6のカードを探す
+				if (ChargeCount == 5)
+				{
+					// チャージ5なら必殺カード(ID6)を選択
+					mpEnemyActionCard = nullptr;
+					for (Card* card : mpEnemy->enemyhand)
+					{
+						if (card != nullptr && card->GetId() == 6)
+						{
+							mpEnemyActionCard = card;
+							break;
+						}
+					}
+				}
+				else
+				{
+					// 通常時はID1～5だけからランダム選択
+					int index = GetRand(4);
+					mpEnemyActionCard = mpEnemy->enemyhand[index];
+				}
+
+				if (mpEnemyActionCard == nullptr)
+				{
+					printfDx("敵カードの選択に失敗！\n");
+					return;
+				}
+
+				// カードが見つからなかった場合
+				if (mpEnemyActionCard == nullptr)
+				{
+					// 念のためランダムカードを選ぶ
+					int index = GetRand(
+						(int)mpEnemy->enemyhand.size() - 1
+					);
+
+					mpEnemyActionCard = mpEnemy->enemyhand[index];
+				}
+
+				// 選んだカードのIDから行動を決定
 				Action = mpEnemyActionCard->GetId() - 1;
 
 				// 演出開始
@@ -695,56 +743,44 @@ void GameScene::Update() // 更新
 				}
 				else
 				{
-					//チャージを1貯める
+					// 敵のチャージカウントの増加
 					ChargeCount += 1;
 
-					//チャージが5なら
-					if (ChargeCount == 5)
+					// 敵の行動
+					switch (Action)
 					{
-						ChargeAttack = true; // 代入した
+					case 0:
+						// 攻撃 10ダメージ
+						EffectManager::ApplyEffect({ EffectType::DAMAGE, mpEnemy->GetDamage(), 0}, *mpEnemy, *mpPlayer);
+						break;
 
-						//trueだったら
-						if (ChargeAttack == true)
-						{
-							// 攻撃  30ダメージ	  必殺と同じエフェクトを出すあためにフラグONや
-							Effect effect = { EffectType::DAMAGE, 30, 0, true};
-							EffectManager::ApplyEffect(effect, *mpEnemy, *mpPlayer);
+					case 1:
+						//防御　自分に８ブロック
+						EffectManager::ApplyEffect({ EffectType::BLOCK, mpEnemy->GetBlock(), 0}, *mpEnemy, *mpEnemy);
+						break;
+					case 2:
+						// バフ（攻撃力アップ） 5アップ　2ターン継続　自分に
+						EffectManager::ApplyEffect({ EffectType::APPLY_BUFF, mpEnemy->GetBuff(), 2}, *mpEnemy, *mpEnemy);
+						break;
+					case 3:
+						// 毒  ５ダメージ　２ターン継続
+						EffectManager::ApplyEffect({ EffectType::APPLY_POISON, mpEnemy->GetPoison(), 2}, *mpEnemy, *mpPlayer);
+						break;
+					case 4:
+						//弱体化 プレイヤーの被ダメージを５増加 2ターン継続
+						EffectManager::ApplyEffect({ EffectType::APPLY_WEAKEN, mpEnemy->GetWeaken(), 2}, *mpEnemy, *mpPlayer);
+						break;
 
-							ChargeCount = 0; // カウントリセット
-						}
-					}
-					else	// 必殺と行動を同時にしないようにしている
-					{
-						// 敵の行動
-						switch (Action)
-						{
-						case 0:
-							// 攻撃 10ダメージ
-							EffectManager::ApplyEffect({ EffectType::DAMAGE, mpEnemy->GetDamage(), 0}, *mpEnemy, *mpPlayer);
-							break;
+					case 5:
+						// 必殺技
+						EffectManager::ApplyEffect({ EffectType::DAMAGE, 30, 0, true }, *mpEnemy, *mpPlayer);
+						ChargeCount = 0;
+						break;
 
-						case 1:
-							//防御　自分に８ブロック
-							EffectManager::ApplyEffect({ EffectType::BLOCK, mpEnemy->GetBlock(), 0}, *mpEnemy, *mpEnemy);
-							break;
-						case 2:
-							// バフ（攻撃力アップ） 5アップ　2ターン継続　自分に
-							EffectManager::ApplyEffect({ EffectType::APPLY_BUFF, mpEnemy->GetBuff(), 2}, *mpEnemy, *mpEnemy);
-							break;
-						case 3:
-							// 毒  ５ダメージ　２ターン継続
-							EffectManager::ApplyEffect({ EffectType::APPLY_POISON, mpEnemy->GetPoison(), 2}, *mpEnemy, *mpPlayer);
-							break;
-						case 4:
-							//弱体化 プレイヤーの被ダメージを５増加 2ターン継続
-							EffectManager::ApplyEffect({ EffectType::APPLY_WEAKEN, mpEnemy->GetWeaken(), 2}, *mpEnemy, *mpPlayer);
-							break;
-
-						default:
-							// 攻撃 10ダメージ
-							EffectManager::ApplyEffect({ EffectType::DAMAGE, 10, 0 }, *mpEnemy, *mpPlayer);
-							break;
-						}
+					default:
+						// 攻撃 10ダメージ
+						EffectManager::ApplyEffect({ EffectType::DAMAGE, 10, 0 }, *mpEnemy, *mpPlayer);
+						break;
 					}
 				}
 			}
@@ -1286,6 +1322,16 @@ void GameScene::Draw() // 描画
 		);
 	}
 
+
+	//敵のカウント デバッグ用
+	//DrawFormatStringToHandle(
+	//	0,
+	//	0,
+	//	GetColor(255,0,0),
+	//	Master::mpFontManager->GetStatusFontHandle(),
+	//	"%d",
+	//	ChargeCount
+	//);
 
 	// ターン数の表示　バウンドありverにしてる
 	DrawRotaGraph(330, (int)mfTurnBox + 30, 0.20f, 0.0f, mnHandleTurnBag, TRUE); // 背景のミニミニ黒板ちゃん

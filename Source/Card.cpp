@@ -25,7 +25,7 @@ Card::Card(const CardData& cardData)
     omoteHandle = LoadGraph(data.cardFilename.c_str());
 
     // 裏画像 (の方)
-    uraHandle = LoadGraph("Resource/Card/enemy_card_warning.png");
+    uraHandle = LoadGraph("Resource/Card/enemy_card_front.png");
 
     // 最初は表を表示
     showFront = true;
@@ -762,9 +762,14 @@ Card::EnemyCardData Card::EnemyCardDataById(int id)
         d.frontImageName = "Resource/Card/enemy_card_debuff.png";
         d.desciption = "弱体";
         break;
+    case 6:
+        d.enemyName = "敵の必殺カード";
+        d.frontImageName = "Resource/Card/enemy_card_warning.png";
+        d.desciption = "敵の必殺";
+        break;
     default:
         d.enemyName = "敵のカード";
-        d.frontImageName = "Resource/Card/enemy_card_warning.png";
+        d.frontImageName = "Resource/Card/enemy_card_attack.png";
         d.desciption = "";
         break;
     }

@@ -334,6 +334,7 @@ void Enemy::EnemyStartBattle()
     enemyhand.push_back(new Card(Card::EnemyCardDataById(3))); // バフ
     enemyhand.push_back(new Card(Card::EnemyCardDataById(4))); // 毒
     enemyhand.push_back(new Card(Card::EnemyCardDataById(5))); // 弱体
+    enemyhand.push_back(new Card(Card::EnemyCardDataById(6))); // 必殺技
 }
 
 void Enemy::EnemyCardDraw(int workScreen, int fontHandle, Card* topCard)
