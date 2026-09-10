@@ -5,8 +5,10 @@
 
 class Texture
 {
-public: // ファイルの名前、ポジション、フラグをコンストラクタの中身としているs
+public: // ファイルの名前、ポジション、フラグをコンストラクタの中身としている
 	Texture(std::string fileName, VECTOR position, int transFlag);  // コンストラクタ
+
+	Texture(VECTOR position, int transFlag);  // コンストラクタ
 
 	~Texture();  // デストラクタ
 

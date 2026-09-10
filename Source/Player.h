@@ -47,7 +47,7 @@ public:
     static const int FIRST_HAND_CARD = 5; // シャッフルあとに配られるカードの枚数
     static const int DECK_MAX = 20;       // デッキの最大枚数
 
-    Player(VECTOR initPos, std::string filename, SceneManager::GScene gscene);  // コンストラクタ
+    Player(VECTOR initPos, SceneManager::GScene gscene);  // コンストラクタ
     ~Player(); // デストラクタ
 
     void Draw();      // プレイヤーの描画

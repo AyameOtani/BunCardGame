@@ -2,8 +2,8 @@
 #include "Master.h"
 #include "Enemy.h"
 
-Unit::Unit(std::string filename, VECTOR initPos)
-	: Object2D(filename, initPos)
+Unit::Unit(VECTOR initPos)
+	: Object2D(initPos)
 {
 
 }

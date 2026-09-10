@@ -12,7 +12,7 @@
 class Unit : public Object2D
 {
 public:
-	Unit(std::string filename, VECTOR initPos);
+	Unit(VECTOR initPos);
 	~Unit();
 
 	// バフデバフ関係追加

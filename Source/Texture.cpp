@@ -21,6 +21,24 @@ Texture::Texture(std::string fileName, VECTOR centerPosition, int transFlag)
 	mfRadius = (float)mnSizeX / 2.0f;
 
 }
+
+Texture::Texture(VECTOR centerPosition, int transFlag)
+   : mnHandle(-1)
+   , mvPosition(centerPosition)
+   , mnSizeX(0)
+   , mnSizeY(0)
+   , mnTransFlag(transFlag)
+   , mfScale(1.0f)
+
+{
+	// 画像のサイズを取得する
+	// アドレスを教えたいので＆を使う
+	GetGraphSize(mnHandle, &mnSizeX, &mnSizeY);
+	// 半径を設定 (とりあえず共通で幅の半分を半径としておく)
+	mfRadius = (float)mnSizeX / 2.0f;
+}
+
+
 Texture::~Texture()
 {
 	//読み込んだ画像の破棄

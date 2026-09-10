@@ -19,6 +19,20 @@ Object2D::Object2D(std::string filename, VECTOR initPos)
 	mpTexture = new Texture(filename, initPos, true);
 }
 
+// コンストラクタ アニメーションあるキャラ用 テクスチャ使わないかも
+Object2D::Object2D(VECTOR initPos)
+	: mvPosition(initPos)
+	, mbDeleteFlag(false)
+	, mpTextureAnimation(nullptr)
+	, mpTexture(nullptr)
+	, mbIsLoop(false)
+{
+	// 現在シーンのオブジェクトマネージジャーに自身 (this) を追加する
+	Master::mpSceneManager->GetCurrentScene()->GetObjectManager()->AddObject(this);
+	// 画像生成
+	mpTexture = new Texture(initPos, true);
+}
+
 
 
 

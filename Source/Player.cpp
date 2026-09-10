@@ -8,8 +8,8 @@
 #include "InputManager.h"
 #include "Master.h"
 
-Player::Player(VECTOR initPos, std::string filename, SceneManager::GScene gscene)
-    : Unit(filename, initPos)
+Player::Player(VECTOR initPos, SceneManager::GScene gscene)
+    : Unit(initPos)
     , mGScene(gscene)
 {
     // ステータス一旦ここにしてる

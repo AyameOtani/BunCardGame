@@ -13,7 +13,7 @@ public:
         TypeC,
     };
 
-    Enemy(VECTOR initPos, std::string filename, EnemyType type);
+    Enemy(VECTOR initPos, EnemyType type);
     ~Enemy();
 
     void Update();

@@ -32,6 +32,9 @@ public:
 	// コンストラクタ（一枚絵用）
 	Object2D(std::string filename, VECTOR initPos);
 
+	// コンストラクタ アニメーションプレイヤー用
+	Object2D(VECTOR initPos);
+
 	// コンストラクタ（アニメーション用）
 	// 大きさかえられるように設定　大谷
 	Object2D(VECTOR initPos, std::string filename, int allNum, int numX, int numY, int interval, float scale = 1.0f);

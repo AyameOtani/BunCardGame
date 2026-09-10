@@ -3,8 +3,8 @@
 #include "Master.h"
 #include "Utility.h"
 
-Enemy::Enemy(VECTOR initPos, std::string filename,EnemyType type)
-    : Unit(filename, initPos)
+Enemy::Enemy(VECTOR initPos, EnemyType type)
+    : Unit(initPos)
     , mType(type)
 {
     SetFontSize(25);
