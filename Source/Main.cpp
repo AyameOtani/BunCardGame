@@ -25,11 +25,7 @@
 */
 
 // Master クラスの静的メンバ変数定義
-SceneManager* Master::mpSceneManager = new SceneManager();
-SoundManager* Master::mpSoundManager = new SoundManager();
-ResourceManager* Master::mpResourceManager = new ResourceManager();
-AnimationManager* Master::mpAnimationManager = new AnimationManager();
-FontManager* Master::mpFontManager = new FontManager();
+GameManager* Master::mpGameManager = new GameManager();
 Mouse m_Mouse; // マウス追加
 
 
@@ -59,26 +55,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		return -1;
 	}
 
-	// アニメーションの初期化
-	Master::mpAnimationManager->Initialize();
-	// フォントの初期化
-	Master::mpFontManager->Initialize();
-
-	// サウンドマネージャーの初期化 （シーンより先にやらないと流れないので注意）
-	Master::mpSoundManager->Initialize();   // 全てのサウンドが読み込まれる（BGMやS
-	// シーンマネージャーの生成と初期化
-	Master::mpSceneManager->Initialize();
-
+	// Manager関係の初期化
+	Master::mpGameManager->Initialize();
 
 	// 描画先画面を裏画面に設定する
 	SetDrawScreen(DX_SCREEN_BACK);
 
 
-	// Texture クラスを使って描画
-	VECTOR position {};
-	position.x = static_cast<float>(640) / 2;
-	position.y = static_cast<float>(480) / 2;
-	
 	// Zバッファに書き込む準備
 	// ここで奥行がちゃんとなる
 	SetUseZBufferFlag(true);
@@ -93,21 +76,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 		int time = GetNowCount();
 
-		// 菊池
-		// サウンドの更新
-		Master::mpSoundManager->Update();
-
-
-		// 更新
-		Master::mpSceneManager->Update();
-
+		// Managerクラスの更新
+		Master::mpGameManager->Update();
 		// マウスの更新
 		m_Mouse.Update();
 
 
-		// 描画
-		Master::mpSceneManager->Draw();
-
+		// SceneManagerの描画
+		Master::mpGameManager->GetSceneManager()->Draw();
 
 
 		// スクショのやつ
@@ -132,33 +108,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
 		// 削除する必要のあるオブジェクトがあれば削除する
-		Master::mpSceneManager->GetCurrentScene()->GetObjectManager()->DeleteAll2DIfNeeded();
+		Master::mpGameManager->GetSceneManager()
+			->GetCurrentScene()
+			->GetObjectManager()
+			->DeleteAll2DIfNeeded();
 
 		// ループする直前にシーン遷移チェックをいれておく
-		Master::mpSceneManager->ChangeSceneIfNeeded();
+		Master::mpGameManager->GetSceneManager()->ChangeSceneIfNeeded();
 
 
 	}
 
 
-	// 終了処理
-	Master::mpSceneManager->Finalize();
-	//★
-	delete Master::mpSceneManager; // いらなくなるのでdelete する
+	// Manager関係の終了処理
+	Master::mpGameManager->Finalize();
+	delete Master::mpGameManager;
 
-	// サウンドの終了処理
-	Master::mpSoundManager->Finalize();
-	delete Master::mpSoundManager;
-
-	delete Master::mpResourceManager; // リソースマネージャーの削除 
-	delete Master::mpAnimationManager;
-
-	Master::mpFontManager->Finalize(); // フォントマネージャーの終了処理
-	delete Master::mpFontManager; // フォントマネージャーの削除
-
-	//★
-	//delete pAnimation;
-	
 	// DXライブラリ使用の終了
 	DxLib_End();
 

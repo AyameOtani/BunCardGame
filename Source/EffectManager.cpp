@@ -35,25 +35,25 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
             // ダメージのSE  プレイヤーと敵で変える
             if (pPlayer != nullptr)
             {
-                Master::mpSoundManager->PlaySE(SoundManager::SE_KURAE);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_KURAE);
 
                 if (effect.DoubleAttack)
                 {
                     // 2回攻撃
-                    Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DAMEIGI, 0);
-                    Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DAMEIGI, 30);
+                    Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DAMEIGI, 0);
+                    Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DAMEIGI, 30);
                 }
                 else
                 {
                     // 通常攻撃
-                    Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DAMEIGI, 0);
+                    Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DAMEIGI, 0);
                 }
             }
             else
             {
-                Master::mpSoundManager->PlaySE(SoundManager::SE_KUUU);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_KUUU);
                 // 敵の攻撃
-                Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DAMEIGIEN, 10);
+                Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DAMEIGIEN, 10);
 
             }
 
@@ -110,12 +110,12 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 if (pPlayer != nullptr)
                 {
                     // プレイヤー攻撃
-                    //Master::mpSoundManager->PlaySEDelay(SoundManager::SE_MOSUTAADAME,70);
+                    //Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_MOSUTAADAME,70);
                 }
                 else
                 {
                     // 敵攻撃
-                    Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DAMEARI, 50);
+                    Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DAMEARI, 50);
                 }
             }
             else
@@ -124,15 +124,15 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                // ダメージがブロックを完全に防いでいる場合は防御のSEと効かないぞのSE
                 if (pPlayer != nullptr)
                 {
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_BOUGYO);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_BOUGYO);
 
-                    //Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DAMEZERO, 50);
+                    //Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DAMEZERO, 50);
                 }
                 else
                 {
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_BOUGYO);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_BOUGYO);
 
-                    Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DAMEZERO, 50);
+                    Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DAMEZERO, 50);
                 }
 
                 // ブロックがダメージを完全に防ぐ時はブロックの数を削る
@@ -196,11 +196,11 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
             // ブロックアップのSE
             if (effect.BlockBuff)
             {
-                Master::mpSoundManager->PlaySEDelay(SoundManager::SE_BOUGYO_UP, 75);
+                Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_BOUGYO_UP, 75);
             }
             else
             {
-                Master::mpSoundManager->PlaySE(SoundManager::SE_BOUGYO_UP);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_BOUGYO_UP);
             }
 
             self.block += effect.value; // 発動者にブロック付与
@@ -232,15 +232,15 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
             // ドローのSE
             if (effect.MpHeel)
             {
-                Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DOROU, 75);
+                Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DOROU, 75);
             }
             else if (effect.mpHeel_1)
             {
-                Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DOROU, 40);
+                Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DOROU, 40);
             }
             else
             {
-                Master::mpSoundManager->PlaySE(SoundManager::SE_DOROU);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DOROU);
             }
 
             // 存在していたら
@@ -268,7 +268,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
             {
                 // 菊池
                 // MP増加のSE
-                Master::mpSoundManager->PlaySE(SoundManager::SE_MP_UP);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_MP_UP);
                 pPlayer->mp += effect.value;
             }
         }
@@ -305,12 +305,12 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
             if (effect.parentHasDamage)
             {
                 // ダメージ付き毒 → 少し遅らせる（攻撃の後に鳴る）
-                Master::mpSoundManager->PlaySEDelay(SoundManager::SE_DOKU, 75);
+                Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_DOKU, 75);
             }
             else
             {
                 // 毒だけ → 即再生
-                Master::mpSoundManager->PlaySE(SoundManager::SE_DOKU);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DOKU);
             }
 
             //毒を受けた側
@@ -346,7 +346,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 
             // 菊池
             // デバフのSE
-            Master::mpSoundManager->PlaySE(SoundManager::SE_DOWN);
+            Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DOWN);
 
             break;
         }
@@ -381,7 +381,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 
             // 菊池
             // バフのSE
-            Master::mpSoundManager->PlaySE(SoundManager::SE_UP);
+            Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_UP);
 
             break;
         }
@@ -398,7 +398,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                     target.hp = 0;
                 }
 
-                Master::mpSoundManager->PlaySE(SoundManager::SE_NOROI,180);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_NOROI,180);
 
                 new Object2D(
                     target.GetPosition(),
@@ -423,10 +423,10 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 std::printf("ハサミ発動：次のカードを2回使います\n");
 
                 // 通知表示
-                if (Master::mpSceneManager->GetCurrentScene())
+                if (Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene())
                 {
                     GameScene* pGameScene =
-                        dynamic_cast<GameScene*>(Master::mpSceneManager->GetCurrentScene());
+                        dynamic_cast<GameScene*>(Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene());
 
                     if (pGameScene)
                     {
@@ -447,7 +447,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                     6
                 );
 
-                Master::mpSoundManager->PlaySE(
+                Master::mpGameManager->GetSoundManager()->PlaySE(
                     SoundManager::SE_KIRU
                 );
             }
@@ -461,10 +461,10 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                 std::printf("のり発動：カードを1枚持ち越します\n");
 
                 // 通知表示
-                if (Master::mpSceneManager->GetCurrentScene())
+                if (Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene())
                 {
                     GameScene* pGameScene =
-                        dynamic_cast<GameScene*>(Master::mpSceneManager->GetCurrentScene());
+                        dynamic_cast<GameScene*>(Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene());
 
                     if (pGameScene)
                     {
@@ -510,10 +510,10 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 
                     pPlayer->itemEffectText = "ペン：回復 " + std::to_string(heal);
 
-                    if (Master::mpSceneManager->GetCurrentScene())
+                    if (Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene())
                     {
                         GameScene* pGameScene =
-                            dynamic_cast<GameScene*>(Master::mpSceneManager->GetCurrentScene());
+                            dynamic_cast<GameScene*>(Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene());
 
                         if (pGameScene)
                         {
@@ -538,7 +538,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                         2.0f
                     );
 
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_HEAL,180);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_HEAL,180);
 
                 }
                 else if (r == 1)
@@ -552,10 +552,10 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 
                     pPlayer->itemEffectText = "敵は2ターン行動不能！";
 
-                    if (Master::mpSceneManager->GetCurrentScene())
+                    if (Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene())
                     {
                         GameScene* pGameScene =
-                            dynamic_cast<GameScene*>(Master::mpSceneManager->GetCurrentScene());
+                            dynamic_cast<GameScene*>(Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene());
 
                         if (pGameScene)
                         {
@@ -582,7 +582,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                         target.pStunEffect->SetLoop(true); // スタンの間ずっと出す
                     }
 
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_BIRIBIRI);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_BIRIBIRI);
 
                 }
                 else
@@ -600,10 +600,10 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
 
                     pPlayer->itemEffectText = "手札コスト変動！";
 
-                    if (Master::mpSceneManager->GetCurrentScene())
+                    if (Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene())
                     {
                         GameScene* pGameScene =
-                            dynamic_cast<GameScene*>(Master::mpSceneManager->GetCurrentScene());
+                            dynamic_cast<GameScene*>(Master::Master::mpGameManager->GetSceneManager()->GetCurrentScene());
 
                         if (pGameScene)
                         {
@@ -615,7 +615,7 @@ void EffectManager::ApplyEffect(const Effect& effect, Unit& self, Unit& target)
                     }
 
 
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_HENNDOU,180);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_HENNDOU,180);
                 }
 
 

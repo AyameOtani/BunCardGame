@@ -28,6 +28,7 @@
     <ClCompile Include="Source\EffectManager.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\FontManager.cpp" />
+    <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\ExplainScene.cpp" />
     <ClCompile Include="Source\LoseResultScene.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\FontManager.h" />
     <ClInclude Include="Source\GameConstants.h" />
+    <ClInclude Include="Source\GameManager.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\ExplainScene.h" />

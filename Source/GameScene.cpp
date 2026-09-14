@@ -257,8 +257,8 @@ void GameScene::Initialize() // 初期化
 	);
 
 	// 現在の音量取得
-	mBgmVolume = Master::mpSoundManager->GetBGMVolume();
-	mSeVolume = Master::mpSoundManager->GetSEVolume();
+	mBgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
+	mSeVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
 
 
 
@@ -266,18 +266,18 @@ void GameScene::Initialize() // 初期化
 	mpClose = new MouseGraph((float)x + 600.0f, 980.0f, 0.0f, "Resource/Title/Close.png", 0.3f, 0.35f); // タイトル画面
 
 
-	Master::mpSoundManager->StopBGM();
+	Master::mpGameManager->GetSoundManager()->StopBGM();
 	if (mGScene == SceneManager::GScene::easy)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BgmEasyGame);
+		Master::mpGameManager->GetSoundManager()->PlayBGM(SoundManager::BgmEasyGame);
 	}
 	else if (mGScene == SceneManager::GScene::normal)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BgmNormalGame);
+		Master::mpGameManager->GetSoundManager()->PlayBGM(SoundManager::BgmNormalGame);
 	}
 	else if (mGScene == SceneManager::GScene::hard)
 	{
-		Master::mpSoundManager->PlayBGM(SoundManager::BgmHardGame);
+		Master::mpGameManager->GetSoundManager()->PlayBGM(SoundManager::BgmHardGame);
 	}
 
 	// 敵カードの裏の画像の読み込み 追加　小池　5/15
@@ -348,7 +348,7 @@ void GameScene::Update() // 更新
 		if (mpStop->IsClicked() && !mbOption)
 		{
 			mbStop = !mbStop; // ここで反転
-			Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE); // 音追加
+			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE); // 音追加
 
 			mpStop->SetActive(false); // ボタンを無効にする
 		}
@@ -499,7 +499,7 @@ void GameScene::Update() // 更新
 			// カード選択中（初めのやつ）じゃないなら入るように
 			if (mpTurnEnd->IsClicked() && !mpPlayer->GetIsPicking() && !mpPlayer->IsCardMove())
 			{
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 
 				// 必殺技ゲージの更新
 				mpPlayer->SpecialGaugeUpdate();
@@ -873,7 +873,7 @@ void GameScene::Update() // 更新
 					// まだ DAMAGE アニメを再生していなければ開始
 					if (mpPlayer->animator.GetCurrentAnimType() != AnimationData::AnimType::DEATH)
 					{
-						Master::mpSoundManager->PlaySE(SoundManager::SE_GUAAAAA);
+						Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_GUAAAAA);
 
 						mpPlayer->PlayMotion(AnimationData::AnimType::DEATH);
 						Master::mpSaveHp = mpPlayer->hp; // プレイヤーのHPを保存しておく
@@ -882,10 +882,10 @@ void GameScene::Update() // 更新
 					// アニメーションが最後まで終わったらシーン移動
 					if (mpPlayer->animator.IsFinished())
 					{
-						Master::mpSceneManager->SetNextScene(SceneManager::LOSERESULT);
+						Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::LOSERESULT);
 					}
 
-					Master::mpSoundManager->StartFadeOut();
+					Master::mpGameManager->GetSoundManager()->StartFadeOut();
 
 					return; // アニメ中は下に行かせない
 				}
@@ -905,10 +905,10 @@ void GameScene::Update() // 更新
 					// アニメーションが最後まで終わったらシーン移動
 					if (mpEnemy->animator.IsFinished())
 					{
-						Master::mpSceneManager->SetNextScene(SceneManager::WINRESULT);
+						Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::WINRESULT);
 					}
 
-					Master::mpSoundManager->StartFadeOut();
+					Master::mpGameManager->GetSoundManager()->StartFadeOut();
 
 					return; // アニメ中はここで止めてる
 				}
@@ -953,7 +953,7 @@ void GameScene::Update() // 更新
 		// 歯車押したら音量設定
 		if (mpHaguruma->IsClicked() && !mbOption && !mbSelectON)
 		{
-			Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 
 			mbOption = true;
 		}
@@ -965,20 +965,20 @@ void GameScene::Update() // 更新
 			// ゲームに戻る
 			if (mpGame->IsClicked())
 			{
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 				mbStop = false; // 停止中をOFF
 			}
 			// タイトルに戻る
 			if (mpTitle->IsClicked())
 			{
-				Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 			}
 			if (mpExplain->IsClicked())
 			{
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 				mbSelectON = true;//選択が選ばれたのをON
-				//Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::SELECT_SCENE);
+				//Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::SCENE_TYPE::SELECT_SCENE);
 			}
 		}
 		
@@ -990,7 +990,7 @@ void GameScene::Update() // 更新
 			if (mpClose->IsClicked())
 			{
 				mbSelectON = false;
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 			}
 		}
 
@@ -1003,7 +1003,7 @@ void GameScene::Update() // 更新
 
 				if (mpMusicClose->IsClicked())
 				{
-					Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+					Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 
 					mbOption = false;
 				}
@@ -1027,8 +1027,8 @@ void GameScene::Update() // 更新
 					if (mBgmVolume < 0) mBgmVolume = 0;
 					if (mBgmVolume > 100) mBgmVolume = 100;
 
-					Master::mpSoundManager->SetBGMVolume(mBgmVolume);
-					Master::mpSoundManager->SaveVolume();
+					Master::mpGameManager->GetSoundManager()->SetBGMVolume(mBgmVolume);
+					Master::mpGameManager->GetSoundManager()->SaveVolume();
 				}
 
 				// SEバー
@@ -1043,8 +1043,8 @@ void GameScene::Update() // 更新
 					if (mSeVolume < 0) mSeVolume = 0;
 					if (mSeVolume > 100) mSeVolume = 100;
 
-					Master::mpSoundManager->SetSEVolume(mSeVolume);
-					Master::mpSoundManager->SaveVolume();
+					Master::mpGameManager->GetSoundManager()->SetSEVolume(mSeVolume);
+					Master::mpGameManager->GetSoundManager()->SaveVolume();
 				}
 			}
 		}
@@ -1241,7 +1241,7 @@ void GameScene::Draw() // 描画
 		DrawRotaGraph(125, 740, 0.3f, 0.0f, mnHandleMP, TRUE);
 
 		// MPの描画
-		DrawFormatStringToHandle(103, 718, color, Master::mpFontManager->GetMpFontHandle(), "%d", mpPlayer->mp);
+		DrawFormatStringToHandle(103, 718, color, Master::mpGameManager->GetFontManager()->GetMpFontHandle(), "%d", mpPlayer->mp);
 
 		// MPが足りなかったら
 		if (mpPlayer->GetMpError())
@@ -1267,7 +1267,7 @@ void GameScene::Draw() // 描画
 		int centerX = 190;
 		int drawX = centerX - width / 2;
 		// 描画
-		DrawFormatStringToHandle(drawX, 985, color,Master::mpFontManager->GetItemFontHandle(), "%s", str);
+		DrawFormatStringToHandle(drawX, 985, color,Master::mpGameManager->GetFontManager()->GetItemFontHandle(), "%s", str);
 
 
 	}
@@ -1316,7 +1316,7 @@ void GameScene::Draw() // 描画
 			(int)mfItemNoteX + 50,
 			590,
 			mnColor,
-			Master::mpFontManager->GetStatusFontHandle(),
+			Master::mpGameManager->GetFontManager()->GetStatusFontHandle(),
 			"%s",
 			mItemMessage.c_str()
 		);
@@ -1328,14 +1328,14 @@ void GameScene::Draw() // 描画
 	//	0,
 	//	0,
 	//	GetColor(255,0,0),
-	//	Master::mpFontManager->GetStatusFontHandle(),
+	//	Master::mpGameManager->GetFontManager()->GetStatusFontHandle(),
 	//	"%d",
 	//	ChargeCount
 	//);
 
 	// ターン数の表示　バウンドありverにしてる
 	DrawRotaGraph(330, (int)mfTurnBox + 30, 0.20f, 0.0f, mnHandleTurnBag, TRUE); // 背景のミニミニ黒板ちゃん
-	DrawFormatStringToHandle(215, (int)mfTurnY, GetColor(255, 255, 255), Master::mpFontManager->GetScoreFontHandle(),
+	DrawFormatStringToHandle(215, (int)mfTurnY, GetColor(255, 255, 255), Master::mpGameManager->GetFontManager()->GetScoreFontHandle(),
 		"%dターン目", (int)Master::mpTurnCount);
 	
 
@@ -1400,7 +1400,7 @@ void GameScene::Draw() // 描画
 				300,
 				"音量設定",
 				color,
-				Master::mpFontManager->GetSelectFontHandle()
+				Master::mpGameManager->GetFontManager()->GetSelectFontHandle()
 			);
 
 			// =========================
@@ -1412,7 +1412,7 @@ void GameScene::Draw() // 描画
 				450,
 				"BGM",
 				color,
-				Master::mpFontManager->GetTextFontHandle()
+				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
 			);
 
 			DrawBox(
@@ -1437,7 +1437,7 @@ void GameScene::Draw() // 描画
 				mBarX + (mBgmVolume * mBarWidth / 100) - 20,
 				mBgmBarY - mBarString,
 				color,
-				Master::mpFontManager->GetMusicFontHandle(),
+				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 				"%d",
 				mBgmVolume
 			);
@@ -1460,7 +1460,7 @@ void GameScene::Draw() // 描画
 				640,
 				"SE",
 				color,
-				Master::mpFontManager->GetTextFontHandle()
+				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
 			);
 
 			DrawBox(
@@ -1485,7 +1485,7 @@ void GameScene::Draw() // 描画
 				mBarX + (mSeVolume * mBarWidth / 100) - 20,
 				mSeBarY - mBarString,
 				color,
-				Master::mpFontManager->GetMusicFontHandle(),
+				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 				"%d",
 				mSeVolume
 			);

@@ -138,6 +138,9 @@
     <ClCompile Include="Source\VolumeBar.cpp">
       <Filter>ソース ファイル\Anim</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Collision.h">
@@ -249,7 +252,10 @@
       <Filter>ソース ファイル\Anim</Filter>
     </ClInclude>
     <ClInclude Include="Source\VolumeBar.h">
-      <Filter>ソース ファイル\Anim</Filter>
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameManager.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -128,23 +128,57 @@ void Score::Draw()
 	int y2 = (int)mfUseCardMoveY; // 経過ターン数のYの位置 y + 150
 	int y3 = (int)mfUseItemMoveY; // 経過ターン数のYの位置 y + 210
 
-
+	FontManager* fontManager =
+		Master::mpGameManager->GetFontManager();
+	int scoreFontHandle = fontManager->GetScoreFontHandle();
 	// スコアの描画
 	// 残りHP
-	DrawFormatStringToHandle(x, y, color,Master::mpFontManager->GetScoreFontHandle(),"残りHP");
-	DrawFormatStringToHandle(scoreX, y, color,Master::mpFontManager->GetScoreFontHandle(),"%d", hp);
+	DrawFormatStringToHandle(
+		x, y, color,
+		scoreFontHandle,
+		"残りHP"
+	);
+	DrawFormatStringToHandle(
+		scoreX, y, color,
+		scoreFontHandle,
+		"%d", hp
+	);
 
 	// 経過ターン数
-	DrawFormatStringToHandle(x, y1, color,Master::mpFontManager->GetScoreFontHandle(),"経過ターン数");
-	DrawFormatStringToHandle(scoreX, y1, color,Master::mpFontManager->GetScoreFontHandle(),"%d", turn);
+	DrawFormatStringToHandle(
+		x, y1, color,
+		scoreFontHandle,
+		"経過ターン数"
+	);
+	DrawFormatStringToHandle(
+		scoreX, y1, color,
+		scoreFontHandle,
+		"%d", turn
+	);
 
 	// 使用カード枚数
-	DrawFormatStringToHandle(x, y2, color,Master::mpFontManager->GetScoreFontHandle(),"使用カード枚数");
-	DrawFormatStringToHandle(scoreX, y2, color,Master::mpFontManager->GetScoreFontHandle(),"%d", Master::mpSaveCardCount);
+	DrawFormatStringToHandle(
+		x, y2, color,
+		scoreFontHandle,
+		"使用カード枚数"
+	);
+	DrawFormatStringToHandle(
+		scoreX, y2, color,
+		scoreFontHandle,
+		"%d", Master::mpSaveCardCount
+	);
 
 	// 使用アイテム数
-	DrawFormatStringToHandle(x, y3, color,Master::mpFontManager->GetScoreFontHandle(),"使用アイテム数");
-	DrawFormatStringToHandle(scoreX, y3, color,Master::mpFontManager->GetScoreFontHandle(),"%d", Master::mpSaveItemCount);
+	DrawFormatStringToHandle(
+		x, y3, color,
+		scoreFontHandle,
+		"使用アイテム数"
+	);
+	DrawFormatStringToHandle(
+		scoreX, y3, color,
+		scoreFontHandle,
+		"%d", Master::mpSaveItemCount
+	);
 
 
 	// 三段階で評価するための変数

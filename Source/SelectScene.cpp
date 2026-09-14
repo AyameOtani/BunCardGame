@@ -74,12 +74,12 @@ void SelectScene::Update()
 	{
 		mfFadeAlpha += 6.0f; // フェード速度
 
-		Master::mpSoundManager->StartFadeOut();
+		Master::mpGameManager->GetSoundManager()->StartFadeOut();
 		if (mfFadeAlpha >= 254.0f)
 		{
 			mfFadeAlpha = 254.0f;
 			// ここでシーン変える
-			Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::GAME_SCENE,mNextScene);
+			Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::SCENE_TYPE::GAME_SCENE,mNextScene);
 		}
 	}
 
@@ -93,7 +93,7 @@ void SelectScene::Update()
 			if (mpEasy->IsClicked()) // 押されたらゲーム画面にいく
 			{
 				mNextScene = SceneManager::GScene::easy;
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 				mbSceneChange = true;
 			}
 		}
@@ -104,7 +104,7 @@ void SelectScene::Update()
 			if (mpNormal->IsClicked())
 			{
 				mNextScene = SceneManager::GScene::normal;
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 				mbSceneChange = true;
 
 			}
@@ -116,7 +116,7 @@ void SelectScene::Update()
 			if (mpHard->IsClicked())
 			{
 				mNextScene = SceneManager::GScene::hard;
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 				mbSceneChange = true;
 
 			}
@@ -193,7 +193,7 @@ void SelectScene::Draw()
 		Utility::SCREEN_HEIGHT / 2 - 200,
 		"ステージを選択しよう",
 		GetColor(255, 255, 255),
-		Master::mpFontManager->GetSelectFontHandle()
+		Master::mpGameManager->GetFontManager()->GetSelectFontHandle()
 	);
 
 	// シーン移動したら白くフェードのやつ

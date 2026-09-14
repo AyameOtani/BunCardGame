@@ -108,7 +108,7 @@ void Title::Initialize()
 		TitleScale::MusicCloseHover
 	);
 
-	Master::mpSoundManager->PlayBGM(SoundManager::BgmTitle);
+	Master::mpGameManager->GetSoundManager()->PlayBGM(SoundManager::BgmTitle);
 
 
 	// 音量バーの生成
@@ -228,7 +228,7 @@ void Title::Update()
 
 			if (mpOptionButton->IsClicked() && !mbOption)
 			{
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 
 				mbOption = true;
 			}
@@ -236,15 +236,15 @@ void Title::Update()
 
 		if (mpGameStart->IsClicked() && !mbOption) // 押されたらゲーム画面にいく
 		{
-			Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
-			//Master::mpSoundManager->StartFadeOut();
+			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
+			//Master::mpGameManager->GetSoundManager()->StartFadeOut();
 			mbMouseButton = true; // フラグをTRUE
 			mNextScene = SELECT_SCENE; // ゲーム画面に飛ぶのを設定
 		}
 		else if (mpExplainGraph->IsClicked() && !mbOption)
 		{
-			Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
-			//Master::mpSoundManager->StartFadeOut();
+			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
+			//Master::mpGameManager->GetSoundManager()->StartFadeOut();
 			mbMouseButton = true;
 			mNextScene = EXPLAIN_SCENE; // 説明画面に飛ぶのを設定
 		}
@@ -256,7 +256,7 @@ void Title::Update()
 			// 押されたらSEとフラグOFF
 			if (mpMusicClose->IsClicked())
 			{
-				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+				Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 
 				mbOption = false;
 			}
@@ -299,11 +299,11 @@ void Title::Update()
 			// タイプによって分ける
 			if (mNextScene == SELECT_SCENE)
 			{
-				Master::mpSceneManager->SetNextScene(SceneManager::SELECT_SCENE);
+				Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::SELECT_SCENE);
 			}
 			if (mNextScene == EXPLAIN_SCENE) 
 			{
-				Master::mpSceneManager->SetNextScene(SceneManager::EXPAIN_SCENE);
+				Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::EXPAIN_SCENE);
 			}
 			return;
 		}
@@ -341,8 +341,8 @@ void Title::Update()
 					* SoundSetting::VolumeMax
 					/ TitlePosition::VolumeBarWidth;
 
-				Master::mpSoundManager->SetBGMVolume(bgmVolume);
-				Master::mpSoundManager->SaveVolume();
+				Master::mpGameManager->GetSoundManager()->SetBGMVolume(bgmVolume);
+				Master::mpGameManager->GetSoundManager()->SaveVolume();
 			}
 
 			// =========================
@@ -362,8 +362,8 @@ void Title::Update()
 					* SoundSetting::VolumeMax
 					/ TitlePosition::VolumeBarWidth;
 
-				Master::mpSoundManager->SetSEVolume(seVolume);
-				Master::mpSoundManager->SaveVolume();
+				Master::mpGameManager->GetSoundManager()->SetSEVolume(seVolume);
+				Master::mpGameManager->GetSoundManager()->SaveVolume();
 			}
 
 		
@@ -473,7 +473,7 @@ void Title::Draw()
 			TitlePosition::VolumeTitleX,
 			TitlePosition::VolumeTitleY,
 			"音量設定",
-			TitleColor::White,  Master::mpFontManager->GetSelectFontHandle());
+			TitleColor::White,  Master::mpGameManager->GetFontManager()->GetSelectFontHandle());
 
 
 		// BGM関係
@@ -484,10 +484,10 @@ void Title::Draw()
 				TitlePosition::BgmTextY,
 				"BGM",
 				TitleColor::White,
-				Master::mpFontManager->GetTextFontHandle()
+				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
 			);
 
-			int bgmVolume = Master::mpSoundManager->GetBGMVolume();
+			int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
 
 			// BGMバー
 			mpBgmVolumeBar->Draw(bgmVolume);
@@ -504,7 +504,7 @@ void Title::Draw()
 
 				TitleColor::White,
 
-				Master::mpFontManager->GetMusicFontHandle(),
+				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 				"%d",
 				bgmVolume
 			);
@@ -534,10 +534,10 @@ void Title::Draw()
 				TitlePosition::SeTextY,
 				"SE",
 				TitleColor::White,
-				Master::mpFontManager->GetTextFontHandle()
+				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
 			);
 
-			int seVolume = Master::mpSoundManager->GetSEVolume();
+			int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
 
 			// SEバー
 			mpSeVolumeBar->Draw(seVolume);
@@ -554,7 +554,7 @@ void Title::Draw()
 
 				TitleColor::White,
 
-				Master::mpFontManager->GetMusicFontHandle(),
+				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 				"%d",
 				seVolume
 			);

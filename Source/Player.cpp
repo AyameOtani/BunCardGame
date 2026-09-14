@@ -93,8 +93,8 @@ Player::~Player()
 
 void Player::PlayMotion(AnimationData::AnimType type)
 {
-    const AnimationData* anim = Master::mpAnimationManager->GetAnim(type);
-    animator.Play(anim);
+    const AnimationData& anim = Master::mpGameManager->GetAnimationManager()->GetAnim(type);
+    animator.Play(&anim);
 }
 
 // 初期化
@@ -112,7 +112,7 @@ void Player::Initialize()
     parts[PartID::ARM_R].graphHandle = LoadGraph("Resource/PlayerAnimation/anim_arm.png");
 
     // アニメーターの初期設定　待機にしている
-    animator.Play(Master::mpAnimationManager->GetAnim(AnimationData::AnimType::IDLE));
+    animator.Play(&Master::mpGameManager->GetAnimationManager()->GetAnim(AnimationData::AnimType::IDLE));
 }
 
 
@@ -200,7 +200,7 @@ void Player::Update(Enemy& enemy)
             //        mfItemSizes[i] = 0.3f;
             //        if (Mouse::IsTrigger())
             //        {
-            //            Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+            //            Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
             //            // クリックされたアイテムの効果を発動
             //            Effect e;
             //            if (i == 0) // ハサミ
@@ -243,7 +243,7 @@ void Player::Update(Enemy& enemy)
                     // 未使用ならクリック可能
                     if (!usedItems[i] && Mouse::IsTrigger())
                     {
-                        Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+                        Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 
                         Effect e;
 
@@ -314,15 +314,15 @@ void Player::CardUpdate(Enemy& enemy)
 
                 if (cardId == 1)
                 {
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_OUGI);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_OUGI);
                 }
                 else if (cardId == 2)
                 {
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_SEIREI);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_SEIREI);
                 }
                 else if (cardId == 3)
                 {
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_SAAIKUZO);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_SAAIKUZO);
                 }
 
                 // 効果発動
@@ -354,7 +354,7 @@ void Player::CardUpdate(Enemy& enemy)
 
             if (isRelease && hoverIndex != -1)
             {
-                Master::mpSoundManager->PlaySE(SoundManager::SE_PETA);
+                Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_PETA);
                 int i = hoverIndex;
                 // 既に自分がキープ中だった場合は解除するだけ
                 if (hand[i]->isKeep)
@@ -388,7 +388,7 @@ void Player::CardUpdate(Enemy& enemy)
                 // クリック判定 
                 if (pickOption[i]->CheckHover(Mouse::x, Mouse::y) && Mouse::IsTrigger())
                 {
-                    Master::mpSoundManager->PlaySE(SoundManager::SE_SELECT);
+                    Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_SELECT);
 
                     // 選んだカードをデッキへ   (4枚の固定カード + 3枚)
                     deck.push_back(new Card(pickOption[i]->GetData()));
@@ -769,7 +769,7 @@ void Player::HpGaugeDraw()
     // ------------ //
 
     DrawFormatStringToHandle(hpX + 70, drawY, GetColor(255, 255, 255),
-        Master::mpFontManager->GetHpFontHandle(), "HP  %d / %d", hp, maxHp);
+        Master::mpGameManager->GetFontManager()->GetHpFontHandle(), "HP  %d / %d", hp, maxHp);
 
 }
 
@@ -806,7 +806,7 @@ void Player::SpecialGaugeDraw()
         y + specialHeight + 30,
         "SP",
         GetColor(255, 255, 255),
-        Master::mpFontManager->GetItemFontHandle()
+        Master::mpGameManager->GetFontManager()->GetItemFontHandle()
     );
 
 
@@ -817,7 +817,7 @@ void Player::SpecialGaugeDraw()
     char str[32];
     sprintf_s(str, "%d", specialCharge);
 
-    int numWidth = GetDrawStringWidthToHandle(str, (int)strlen(str), Master::mpFontManager->GetItemFontHandle());
+    int numWidth = GetDrawStringWidthToHandle(str, (int)strlen(str), Master::mpGameManager->GetFontManager()->GetItemFontHandle());
     int numDrawX = centerX - numWidth / 2;
 
     DrawStringToHandle(
@@ -825,7 +825,7 @@ void Player::SpecialGaugeDraw()
         y + specialHeight + 80,
         str,
         GetColor(255, 255, 255),
-        Master::mpFontManager->GetItemFontHandle()
+        Master::mpGameManager->GetFontManager()->GetItemFontHandle()
     );
 }
 
@@ -851,7 +851,7 @@ void Player::IconDraw()
     int textX = (iconX - 3) - textWidth / 2;
     // 描画
     DrawFormatStringToHandle(textX, drawY + 38, GetColor(230, 230, 230),
-        Master::mpFontManager->GetStatusFontHandle(), "%d", block);
+        Master::mpGameManager->GetFontManager()->GetStatusFontHandle(), "%d", block);
 
 
     // バフ・デバフ（ここから下に伸びる）
@@ -974,7 +974,7 @@ void Player::Draw()
         //DrawString(drawX, drawY, itemMemo[mnHoverItem], GetColor(225, 225, 225));
 
         DrawFormatStringToHandle(drawX, drawY, GetColor(255, 255, 255),
-            Master::mpFontManager->GetItemFontHandle(), itemMemo[mnHoverItem]);
+            Master::mpGameManager->GetFontManager()->GetItemFontHandle(), itemMemo[mnHoverItem]);
 
         if (mnHoverItem == 2) // はさみだったら
         {
@@ -985,7 +985,7 @@ void Player::Draw()
                 drawX,
                 textY,
                 GetColor(255, 255, 255),
-                Master::mpFontManager->GetItemFontHandle(),
+                Master::mpGameManager->GetFontManager()->GetItemFontHandle(),
                 "1. 1ターン コストをランダムにする"
             );
 
@@ -993,7 +993,7 @@ void Player::Draw()
                 drawX,
                 textY + 32,
                 GetColor(255, 255, 255),
-                Master::mpFontManager->GetItemFontHandle(),
+                Master::mpGameManager->GetFontManager()->GetItemFontHandle(),
                 "2. MPを全消費してHPを回復する"
             );
 
@@ -1001,7 +1001,7 @@ void Player::Draw()
                 drawX,
                 textY + 64,
                 GetColor(255, 255, 255),
-                Master::mpFontManager->GetItemFontHandle(),
+                Master::mpGameManager->GetFontManager()->GetItemFontHandle(),
                 "3. 2ターン敵をスタンさせる"
             );
 
@@ -1178,8 +1178,8 @@ void Player::GeneratePickOntions()
     // これも一回だけ鳴らす
     if (!isPickVoicePlayed)
     {
-        Master::mpSoundManager->PlaySE(SoundManager::SE_HITOTU);
-        Master::mpSoundManager->PlaySEDelay(SoundManager::SE_SELECT2,50);
+        Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_HITOTU);
+        Master::mpGameManager->GetSoundManager()->PlaySEDelay(SoundManager::SE_SELECT2,50);
 
         isPickVoicePlayed = true;
     }

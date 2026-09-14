@@ -6,7 +6,8 @@
 LoseResultScene::LoseResultScene()
 {
 	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/Title/Title.png");
-	Master::mpSoundManager->PlaySE(SoundManager::SE_LOSS);
+	Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_LOSS);
+
 }
 
 LoseResultScene::~LoseResultScene()
@@ -34,8 +35,11 @@ void LoseResultScene::Update()
 
 		if (mpMouseGraph->IsClicked()) // 押されたらゲーム画面にいく
 		{
-			Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
-			Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+			Master::mpGameManager->GetSceneManager()
+				->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
+			Master::mpGameManager->GetSoundManager()
+				->PlaySE(SoundManager::SE_DECIDE);
+
 		}
 	}
 
@@ -63,7 +67,7 @@ void LoseResultScene::Draw()
 		(int)m_Score.GetMoveY() - 300,
 		"敗北",
 		color,
-		Master::mpFontManager->GetResultFontHandle()
+		Master::mpGameManager->GetFontManager()->GetResultFontHandle()
 	);
 	Scene::Draw();
 }

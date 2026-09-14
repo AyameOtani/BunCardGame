@@ -87,8 +87,8 @@ Enemy::Enemy(VECTOR initPos, EnemyType type)
 void Enemy::PlayMotion(AnimationData::AnimType type)
 {
     // 敵用のアニメーションを取得して再生
-    const AnimationData* anim = Master::mpAnimationManager->GetAnim(type);
-    animator.Play(anim);
+    const AnimationData& anim = Master::mpGameManager->GetAnimationManager()->GetAnim(type);
+    animator.Play(&anim);
 }
 
 // まだ追加してないからコメントアウト
@@ -99,7 +99,7 @@ void Enemy::Initialize(std::string filename)
 
     parts[PartID::BODY].graphHandle = LoadGraph(filename.c_str());
 
-    animator.Play(Master::mpAnimationManager->GetAnim(AnimationData::AnimType::IDLE));
+    animator.Play(&Master::mpGameManager->GetAnimationManager()->GetAnim(AnimationData::AnimType::IDLE));
 }
 
 
@@ -161,7 +161,7 @@ void Enemy::HpGaugeDraw()
     DrawRoundRect(hpX, y, hpX + width, y + height, 10, 10, GetColor(255, 255, 255), false);
 
     DrawFormatStringToHandle(hpX + 70, drawY, GetColor(255, 255, 255),
-        Master::mpFontManager->GetHpFontHandle(), "HP  %d / %d", hp, maxHp);
+        Master::mpGameManager->GetFontManager()->GetHpFontHandle(), "HP  %d / %d", hp, maxHp);
 }
 
 void Enemy::EnemyIcon()
@@ -183,7 +183,7 @@ void Enemy::EnemyIcon()
     int ShildText = (x - 43) - textWidth_S / 2;
     // 描画
     DrawFormatStringToHandle(ShildText, y + yDist, GetColor(230, 230, 230),
-        Master::mpFontManager->GetStatusFontHandle(), "%d", block);
+        Master::mpGameManager->GetFontManager()->GetStatusFontHandle(), "%d", block);
 
 
     //呪いのアイコン描画
@@ -194,7 +194,7 @@ void Enemy::EnemyIcon()
     int CurseText = (x+2) - (textWidth_C / 2);
     // 描画
     DrawFormatStringToHandle(CurseText, y + yDist, GetColor(230, 230, 230),
-        Master::mpFontManager->GetStatusFontHandle(), "%d", curse);
+        Master::mpGameManager->GetFontManager()->GetStatusFontHandle(), "%d", curse);
 
 }
 

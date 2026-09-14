@@ -6,7 +6,7 @@
 WinResultScene::WinResultScene()
 {
 	if (mnBagHandle == -1) mnBagHandle = LoadGraph("Resource/Title/Title.png");
-	Master::mpSoundManager->PlaySE(SoundManager::SE_WIN);
+	Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_WIN);
 }
 
 WinResultScene::~WinResultScene()
@@ -33,8 +33,8 @@ void WinResultScene::Update()
 
 		if (mpMouseGraph->IsClicked()) // 押されたらゲーム画面にいく
 		{
-			Master::mpSceneManager->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
-			Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
+			Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
+			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
 		}
 	}
 
@@ -63,7 +63,7 @@ void WinResultScene::Draw()
 		(int)m_Score.GetMoveY() - 300,
 		"勝利",
 		color,
-		Master::mpFontManager->GetResultFontHandle()
+		Master::mpGameManager->GetFontManager()->GetResultFontHandle()
 	);
 	Scene::Draw();
 

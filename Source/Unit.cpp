@@ -30,7 +30,7 @@ void Unit::UnitUpdate()
         // 今のアニメが IDLE じゃない時だけ Play を呼ぶ（念のため）
         if (animator.GetCurrentAnimType() != AnimationData::AnimType::IDLE)
         {
-            const AnimationData* idleData = Master::mpAnimationManager->GetAnim(AnimationData::AnimType::IDLE);
+            const AnimationData* idleData = &Master::mpGameManager->GetAnimationManager()->GetAnim(AnimationData::AnimType::IDLE);
             animator.Play(idleData);
         }
     }

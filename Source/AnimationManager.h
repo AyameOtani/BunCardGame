@@ -12,7 +12,7 @@ public:
 	static void Initialize(); // メインでよんでる
 
 	// 登録されたアニメーションデータを取得する
-	static const AnimationData* GetAnim(AnimationData::AnimType type);
+	const AnimationData& GetAnim(AnimationData::AnimType type) const;
 
 private:
 	// アニメーションの種類と実体を紐づけて保存する

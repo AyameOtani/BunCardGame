@@ -416,11 +416,7 @@ void AnimationManager::Initialize()
 }
 
 //アニメーションデータの作成
-const AnimationData* AnimationManager::GetAnim(AnimationData::AnimType type)
+const AnimationData& AnimationManager::GetAnim(AnimationData::AnimType type) const
 {
-    if (animCatalog.count(type) > 0)
-    {
-        return &animCatalog[type];
-    }
-    return nullptr;
+    return animCatalog.at(type);
 }
