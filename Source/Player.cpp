@@ -357,19 +357,19 @@ void Player::CardUpdate(Enemy& enemy)
                 Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_PETA);
                 int i = hoverIndex;
                 // 既に自分がキープ中だった場合は解除するだけ
-                if (hand[i]->isKeep)
+                if (hand[i]->GetKeep())
                 {
-                    hand[i]->isKeep = false;
+                    hand[i]->SetKeep(false);
                 }
                 else
                 {
                     // 他のカードのキープをすべて一旦解除
                     for (auto* p : hand)
                     {
-                        p->isKeep = false;
+                        p->SetKeep(false);
                     }
                     // このカードだけをキープ
-                    hand[i]->isKeep = true;
+                    hand[i]->SetKeep(true);
                 }
             }
         }
@@ -499,7 +499,7 @@ void Player::CardUpdate(Enemy& enemy)
 
                         // 一回きりかで振り分ける
                         // 使用後は KEEP フラグをリセットしてから移動する
-                        usedCard->isKeep = false;
+                        usedCard->SetKeep(false);
 
                         // コストを元に戻す
                         int originalCost = Card::GetCardDataById(usedCard->GetData().id).cost;
@@ -1056,7 +1056,7 @@ void Player::ReshuffleTurnEnd()
     for (auto* pCard : hand)
     {
         // KEEP対象
-        if (pCard->isKeep &&
+        if (pCard->GetKeep() &&
             keepUsed < keepNextCardCount)
         {
             nextHand.push_back(pCard);
@@ -1065,13 +1065,13 @@ void Player::ReshuffleTurnEnd()
             keepUsed++;
 
             // 次ターンにはKEEP表示を消す
-            pCard->isKeep = false;
+            pCard->SetKeep(false);
 
             continue;
         }
 
         // --- 通常処理 ---
-        pCard->isKeep = false;
+        pCard->SetKeep(false);
 
         int originalCost = Card::GetCardDataById(pCard->GetData().id).cost;
         pCard->SetCost(originalCost);
