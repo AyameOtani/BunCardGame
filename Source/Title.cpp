@@ -7,6 +7,8 @@
 
 
 Title::Title()
+    : targetX(ScreenSize::CenterX + TitlePosition::CardTargetOffsetX)
+    , targetY(ScreenSize::CenterY + TitlePosition::CardTargetOffsetY)
 {
 	mpGameStart = nullptr;
 	mpExplainGraph = nullptr;
@@ -56,9 +58,6 @@ Title::~Title()
 
 void Title::Initialize()
 {
-	float x = (float)Utility::SCREEN_WIDTH / 2;
-	float y = (float)Utility::SCREEN_HEIGHT / 2;
-
 	// ボタン生成（初期位置）
 	mpGameStart = std::make_unique<MouseGraph>(
 		mfStartX,
@@ -423,7 +422,7 @@ void Title::Draw()
 	{
 		// 黒板イラストの描画
 		DrawRotaGraph(
-			(int)mnCardX,
+			ScreenSize::CenterX,
 			(int)mnCardY,
 			mnCardRota,
 			mnCardAngle,
