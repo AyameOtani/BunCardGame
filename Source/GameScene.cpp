@@ -527,7 +527,7 @@ void GameScene::Update() // 更新
 					if (mpPlayer->hand[i] != nullptr)
 					{
 						// キープされているカードはなにもしない
-						if (mpPlayer->hand[i]->isKeep)
+						if (mpPlayer->hand[i]->GetKeep())
 						{
 							continue; // 次のカードの処理へ
 						}
