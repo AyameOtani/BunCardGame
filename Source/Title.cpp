@@ -2,38 +2,42 @@
 #include "Master.h"
 #include "Title.h"
 #include "Utility.h"
+#include "GameConstants.h"
+#include "VolumeBar.h"
+
 
 Title::Title()
 {
 	mpGameStart = nullptr;
 	mpExplainGraph = nullptr;
-	mpGearButtom = nullptr;
+	mpOptionButton = nullptr;
 	mpMusicClose = nullptr;
+	mpBgmVolumeBar = nullptr;
+	mpSeVolumeBar = nullptr;
 
 	// 演出用変数の初期値を設定
-	mnCardX = -200.0f;
-	mnCardY = -200.0f;
+	mnCardX = TitleAnimation::CardInitialX;
+	mnCardY = TitleAnimation::CardInitialY;
 
-	int x = Utility::SCREEN_WIDTH / 2;
-	int y = Utility::SCREEN_HEIGHT / 2;
+	int x = ScreenSize::CenterX;
+	int y = ScreenSize::CenterY;
 
 	// Start 左下から
-	mfStartX = -300.0f;
-	mfStartY = (float)Utility::SCREEN_HEIGHT + 150.0f;
+	mfStartX = TitlePosition::StartInitialX;
+	mfStartY = (float)ScreenSize::Height + TitlePosition::ButtonInitialYOffset;
 
 	// Explain 右下から
-	mfExplainX = (float)Utility::SCREEN_WIDTH + 300.0f;
-	mfExplainY = (float)Utility::SCREEN_HEIGHT + 150.0f;
+	mfExplainX = (float)ScreenSize::Width + TitlePosition::ExplainInitialX;
+	mfExplainY = (float)ScreenSize::Height + TitlePosition::ButtonInitialYOffset;
 
 	// 最終位置
-	mfTargetStartX = (float)x - 320.0f;
-	mfTargetStartY = (float)y + 200.0f;
-
-	mfTargetExplainX = (float)x + 320.0f;
-	mfTargetExplainY = (float)y + 200.0f;
+	mfTargetStartX = (float)x + TitlePosition::StartTargetOffsetX;
+	mfTargetStartY = (float)y + TitlePosition::StartTargetOffsetY;
+	mfTargetExplainX = (float)x + TitlePosition::ExplainTargetOffsetX;
+	mfTargetExplainY = (float)y + TitlePosition::ExplainTargetOffsetY;
 
 	// フラグや変数の初期化
-	mfTurnY = -800.0f;
+	mfTurnY = TitleAnimation::LogoInitialY;
 	mbInitialize = false;
 	mbOption = false;
 	mbMouseButton = false;
@@ -45,29 +49,7 @@ Title::Title()
 
 Title::~Title()
 {
-	if (mpGameStart)
-	{
-		delete mpGameStart;
-		mpGameStart = nullptr;
-	}
 
-	if (mpExplainGraph)
-	{
-		delete mpExplainGraph;
-		mpExplainGraph = nullptr;
-	}
-
-	if (mpGearButtom)
-	{
-		delete mpGearButtom;
-		mpGearButtom = nullptr;
-	}
-
-	if (mpMusicClose)
-	{
-		delete mpMusicClose;
-		mpMusicClose = nullptr;
-	}
 }
 
 
@@ -77,79 +59,85 @@ void Title::Initialize()
 	float x = (float)Utility::SCREEN_WIDTH / 2;
 	float y = (float)Utility::SCREEN_HEIGHT / 2;
 
-	//mfStartAngle = -2.5f;
-	//mfExplainAngle = 2.5f;
-
 	// ボタン生成（初期位置）
-	mpGameStart = new MouseGraph(
+	mpGameStart = std::make_unique<MouseGraph>(
 		mfStartX,
 		mfStartY,
 		0.0f,
-		"Resource/Title/Start.png",
-		0.4f,
-		0.45f
+		TitleResourcePath::GameStartButton,
+		TitleScale::StartNormal,
+		TitleScale::StartHover
 	);
 
-	mpExplainGraph = new MouseGraph(
+	mpExplainGraph = std::make_unique<MouseGraph>(
 		mfExplainX,
 		mfExplainY,
 		0.0f,
-		"Resource/Title/Explain.png",
-		0.4f,
-		0.45f
+		TitleResourcePath::ExplainButton,
+		TitleScale::ExplainNormal,
+		TitleScale::ExplainHover
 	);
 
-	mnRogoHandle = LoadGraph("Resource/Title/Rogo.png");
-	if (mnRogoHandle == -1) { printfDx("画像ない1"); }
-	mnBagHandle = LoadGraph("Resource/Title/Title.png");
-	if (mnBagHandle == -1) { printfDx("画像ない2"); }
-	mnCardHandle = LoadGraph("Resource/Title/move_bag_ground.png");
+	mnRogoHandle = LoadGraph(TitleResourcePath::Rogo.c_str());
+	if (mnRogoHandle == -1) { printfDx("ロゴ画像ない"); }
+	mnBagHandle = LoadGraph(TitleResourcePath::Bagground.c_str());
+	if (mnBagHandle == -1) { printfDx("背景画像ない"); }
+	mnCardHandle = LoadGraph(TitleResourcePath::MoveBagGround.c_str());
 	if (mnCardHandle == -1) { printfDx("動く黒板の画像がない"); }
-
-	mnMusicBag = LoadGraph("Resource/Title/Titleboard.png");
-	if (mnMusicBag == -1) { printfDx("画像ない黒板"); }
-
-	/*Master::mpSoundManager->PlayBGM(
-		SoundManager::BGM_TITLE,
-		true,
-		92
-	);*/
-
-	mbInitialize = true; // 初期化終わりON
+	mnVolumeSettingsBg = LoadGraph(TitleResourcePath::VolumeSettingsBg.c_str());
+	if (mnVolumeSettingsBg == -1) { printfDx("音量設定の背景画像がない"); }
+	mnOnpuHandle = LoadGraph(TitleResourcePath::MusicNote.c_str()); // 音符の画像
+	if (mnOnpuHandle == -1) { printfDx("音符の画像がない"); }
 
 
 	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
-	mpGearButtom = new MouseGraph(100.0f, 100.0f, 0.0f, "Resource/Title/option.png", 0.35f, 0.39f); // 音量調整のやつ
-	mpMusicClose = new MouseGraph(1570.0f, 370.0f, 0.0f, "Resource/Title/MusicClose.png", 0.30f, 0.35f); // 音量調節の×ボタン
+	mpOptionButton = std::make_unique<MouseGraph>(
+		TitlePosition::OptionButtonX,
+		TitlePosition::OptionButtonY,
+		0.0f,
+		TitleResourcePath::OptionButton.c_str(),
+		TitleScale::OptionNormal,
+		TitleScale::OptionHover
+	);
+	mpMusicClose = std::make_unique<MouseGraph>(
+		TitlePosition::MusicCloseX,
+		TitlePosition::MusicCloseY,
+		0.0f,
+		TitleResourcePath::MusicClose.c_str(),
+		TitleScale::MusicCloseNormal,
+		TitleScale::MusicCloseHover
+	);
 
-	mnOnpuHandle = LoadGraph("Resource/Title/MusicNote.png"); // 音符の画像
 	Master::mpSoundManager->PlayBGM(SoundManager::BgmTitle);
 
-	mBgmVolume = Master::mpSoundManager->GetBGMVolume();
-	mSeVolume = Master::mpSoundManager->GetSEVolume();
+
+	// 音量バーの生成
+	mpBgmVolumeBar = std::make_unique<VolumeBar>(
+		TitlePosition::VolumeBarX,
+		TitlePosition::BgmBarY,
+		TitlePosition::VolumeBarWidth,
+		TitlePosition::VolumeBarHeight,
+		TitleColor::BgmBar
+	);
+	mpSeVolumeBar = std::make_unique<VolumeBar>(
+		TitlePosition::VolumeBarX,
+		TitlePosition::SeBarY,
+		TitlePosition::VolumeBarWidth,
+		TitlePosition::VolumeBarHeight,
+		TitleColor::SeBar
+	);
 
 	mbInitialize = true; // 初期化終わりON
-
 }
 
 
 void Title::Update()
 {
-	// タイトル演出（飛んでくる）
-	// Start
-	mfStartX += (mfTargetStartX - mfStartX) * 0.08f;
-	mfStartY += (mfTargetStartY - mfStartY) * 0.08f;
-
-	// Explain
-	mfExplainX += (mfTargetExplainX - mfExplainX) * 0.08f;
-	mfExplainY += (mfTargetExplainY - mfExplainY) * 0.08f;
-
-	// ---------------------------
-	// 回転演出
-	// ---------------------------
-
-	// ロゴ
-	//mfLogoY += (mfTargetLogoY - mfLogoY) * 0.08f;
+	// タイトル演出（飛んでくる演出のもの）
+	mfStartX += (mfTargetStartX - mfStartX) * TitleAnimation::ButtonMoveSpeed;
+	mfStartY += (mfTargetStartY - mfStartY) * TitleAnimation::ButtonMoveSpeed;
+	mfExplainX += (mfTargetExplainX - mfExplainX) * TitleAnimation::ButtonMoveSpeed;
+	mfExplainY += (mfTargetExplainY - mfExplainY) * TitleAnimation::ButtonMoveSpeed;
 
 	// ボタン座標更新
 	if (mpGameStart)
@@ -157,18 +145,19 @@ void Title::Update()
 		mpGameStart->SetPosition(mfStartX, mfStartY);
 
 
-		if (fabs(mfStartX - mfTargetStartX) < 1.0f && fabs(mfStartY - mfTargetStartY) < 1.0f)
+		if (fabs(mfStartX - mfTargetStartX) < TitleAnimation::ButtonStopDistance &&
+			fabs(mfStartY - mfTargetStartY) < TitleAnimation::ButtonStopDistance)
 		{
 			mfStartX = mfTargetStartX;
 			mfStartY = mfTargetStartY;
 		}
-
 	}
 
 	if (mpExplainGraph)
 	{
 
-		if (fabs(mfExplainX - mfTargetExplainX) < 1.0f && fabs(mfExplainY - mfTargetExplainY) < 1.0f)
+		if (fabs(mfExplainX - mfTargetExplainX) < TitleAnimation::ButtonStopDistance &&
+			fabs(mfExplainY - mfTargetExplainY) < TitleAnimation::ButtonStopDistance)
 		{
 			mfExplainX = mfTargetExplainX;
 			mfExplainY = mfTargetExplainY;
@@ -183,16 +172,14 @@ void Title::Update()
 		static float velocity = 0.0f; // 今の速度
 
 
-		mfLogoTime += 0.05f;	// 揺れる速さ
-		float baseY = (Utility::SCREEN_HEIGHT / 2) - 150; // 中心の位置
-		float targetY = baseY + sinf(mfLogoTime) * 17.0f; // 揺れる大きさ   17から-17をふらふらゆらゆら
-
-		//float targetY = (Utility::SCREEN_HEIGHT / 2) - 150; // 目的地Y
-
-		// 調整パラメータ
-		float gravity = 0.02f;     // 落ちる速さ 重力
-		float power = 0.04f; // バネの強さ
-		float damping = 0.87f;     // 減衰
+		mfLogoTime += TitleAnimation::LogoMoveSpeed;
+		float baseY =
+			(Utility::SCREEN_HEIGHT / 2) + TitlePosition::LogoBaseYOffset;
+		float targetY =
+			baseY + sinf(mfLogoTime) * TitleAnimation::LogoSwingSize;
+		float gravity = TitleAnimation::Gravity;
+		float power = TitleAnimation::SpringPower;
+		float damping = TitleAnimation::Damping;
 
 		// 重力で下に引っ張る
 		velocity += gravity;
@@ -208,7 +195,8 @@ void Title::Update()
 		mfTurnY += velocity;
 
 		// ほぼ目的地についたら止める
-		if (fabs(velocity) < 0.3f && fabs(targetY - mfTurnY) < 0.3f)
+		if (fabs(velocity) < TitleAnimation::VelocityStop &&
+			fabs(targetY - mfTurnY) < TitleAnimation::TargetStopDistance)
 		{
 			mfTurnY = targetY;
 			velocity = 0.0f;
@@ -224,21 +212,21 @@ void Title::Update()
 		mpExplainGraph->Update();
 
 		// 設定歯車ボタンが押されたらフラグをON
-		if (mpGearButtom)
+		if (mpOptionButton)
 		{
-			mpGearButtom->Update();
+			mpOptionButton->Update();
 
 			// もし音量画面が開かれていたら押せないように
 			if (mbOption)
 			{
-				mpGearButtom->SetActive(false);
+				mpOptionButton->SetActive(false);
 			}
 			else
 			{
-				mpGearButtom->SetActive(true); // 開かれていなかったら押せる
+				mpOptionButton->SetActive(true); // 開かれていなかったら押せる
 			}
 
-			if (mpGearButtom->IsClicked() && !mbOption)
+			if (mpOptionButton->IsClicked() && !mbOption)
 			{
 				Master::mpSoundManager->PlaySE(SoundManager::SE_DECIDE);
 
@@ -276,13 +264,6 @@ void Title::Update()
 	}
 
 
-	//if (fabs(mfStartX - mfTargetStartX) < 1.0f)
-	//{
-	//	mfStartX = mfTargetStartX;
-	//}
-	
-
-
 	// マウスが押されたら
 	if (mbMouseButton)
 	{
@@ -292,25 +273,28 @@ void Title::Update()
 		float diffRota = (float)targetRota - mnCardRota;
 
 		// 移動処理
-		mnCardX += diffX * mfCardSpeed;
-		mnCardY += diffY * mfCardSpeed;
-		mnCardAngle += diffAngle * mfCardSpeed;
-		mnCardRota += diffRota * mfCardSpeed;
+		mnCardX += diffX * TitleAnimation::CardMoveSpeed;
+		mnCardY += diffY * TitleAnimation::CardMoveSpeed;
+		mnCardAngle += diffAngle * TitleAnimation::CardMoveSpeed;
+		mnCardRota += diffRota * TitleAnimation::CardMoveSpeed;
 
 		if (mnCardAngle <= 0.0f) mnCardAngle = 0.0f;
 
-		if (fabsf(diffX) < 14.0f && fabsf(diffY) < 14.0f && fabsf(diffRota) < 6.0f)
+		if (fabsf(diffX) < TitleAnimation::CardStopDistanceX &&
+			fabsf(diffY) < TitleAnimation::CardStopDistanceY &&
+			fabsf(diffRota) < TitleAnimation::CardStopDistanceRota)
 		{
-			// 少しずつ増やしていく
-			targetRota += 0.1f;
-			if (targetRota >= 2.0f)
+			targetRota += TitleAnimation::CardRotaIncrease;
+
+			if (targetRota >= TitleAnimation::CardRotaMax)
 			{
-				targetRota = 2.0f;
+				targetRota = TitleAnimation::CardRotaMax;
 				mbWhite = true;// 白いBOXの描画をON
 			}
 		}
 
-		if (mbWhite && mfWhiteBoxAlpha > 254)
+		if (mbWhite &&
+			mfWhiteBoxAlpha > TitleAnimation::WhiteBoxSceneChangeAlpha)
 		{
 			// タイプによって分ける
 			if (mNextScene == SELECT_SCENE)
@@ -328,10 +312,10 @@ void Title::Update()
 	// 透過度を増やすやつ
 	if (mbWhite)
 	{
-		mfWhiteBoxAlpha += 4.0f;
-		if (mfWhiteBoxAlpha > 255.0f)
+		mfWhiteBoxAlpha += TitleAnimation::WhiteBoxAlphaIncrease;
+		if (mfWhiteBoxAlpha > TitleAnimation::WhiteBoxMaxAlpha)
 		{
-			mfWhiteBoxAlpha = 255.0f;
+			mfWhiteBoxAlpha = TitleAnimation::WhiteBoxMaxAlpha;
 		}
 	}
 
@@ -343,53 +327,42 @@ void Title::Update()
 
 		if (GetMouseInput() & MOUSE_INPUT_LEFT)
 		{
-			// =========================
-			// BGMバー
-			// =========================
-			if (mouseX >= mBarX &&
-				mouseX <= mBarX + mBarWidth + mnBarDist &&
-				mouseY >= mBgmBarY - mnBarUp &&
-				mouseY <= mBgmBarY + mnBarDown)
+			if (mouseX >= TitlePosition::VolumeBarX &&
+				mouseX <= TitlePosition::VolumeBarX
+				+ TitlePosition::VolumeBarWidth
+				+ TitlePosition::VolumeBarDist &&
+				mouseY >= TitlePosition::BgmBarY
+				- TitlePosition::VolumeBarUp &&
+				mouseY <= TitlePosition::BgmBarY
+				+ TitlePosition::VolumeBarDown)
 			{
-				mBgmVolume =
-					(mouseX - mBarX) * 100 / mBarWidth;
+				int bgmVolume =
+					(mouseX - TitlePosition::VolumeBarX)
+					* SoundSetting::VolumeMax
+					/ TitlePosition::VolumeBarWidth;
 
-				if (mBgmVolume < 0)
-				{
-					mBgmVolume = 0;
-				}
-
-				if (mBgmVolume > 100)
-				{
-					mBgmVolume = 100;
-				}
-
-				Master::mpSoundManager->SetBGMVolume(mBgmVolume);
+				Master::mpSoundManager->SetBGMVolume(bgmVolume);
 				Master::mpSoundManager->SaveVolume();
 			}
 
 			// =========================
 			// SEバー
 			// =========================
-			if (mouseX >= mBarX &&
-				mouseX <= mBarX + mBarWidth + mnBarDist &&
-				mouseY >= mSeBarY - mnBarUp &&
-				mouseY <= mSeBarY + mnBarDown)
+			if (mouseX >= TitlePosition::VolumeBarX &&
+				mouseX <= TitlePosition::VolumeBarX
+				+ TitlePosition::VolumeBarWidth
+				+ TitlePosition::VolumeBarDist &&
+				mouseY >= TitlePosition::SeBarY
+				- TitlePosition::VolumeBarUp &&
+				mouseY <= TitlePosition::SeBarY
+				+ TitlePosition::VolumeBarDown)
 			{
-				mSeVolume =
-					(mouseX - mBarX) * 100 / mBarWidth;
+				int seVolume =
+					(mouseX - TitlePosition::VolumeBarX)
+					* SoundSetting::VolumeMax
+					/ TitlePosition::VolumeBarWidth;
 
-				if (mSeVolume < 0)
-				{
-					mSeVolume = 0;
-				}
-
-				if (mSeVolume > 100)
-				{
-					mSeVolume = 100;
-				}
-
-				Master::mpSoundManager->SetSEVolume(mSeVolume);
+				Master::mpSoundManager->SetSEVolume(seVolume);
 				Master::mpSoundManager->SaveVolume();
 			}
 
@@ -407,16 +380,32 @@ void Title::Draw()
 	// ロゴの位置
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2;
-	int dist = 4;
-	int color = GetColor(255, 255, 255);
+	int color = TitleColor::White;
 
 
 	// 2D用に設定
 	SetUseZBufferFlag(FALSE);
 	SetWriteZBufferFlag(FALSE);
 	
-	DrawRotaGraph(x - 50, y, 1.12f, 0.0f, mnBagHandle, TRUE);	   // 背景描画
-	DrawRotaGraph(x, (int)mfTurnY, 0.45f, 0.0f, mnRogoHandle, TRUE); // ロゴ描画
+	// 背景描画
+	DrawRotaGraph(
+		x + TitleSetting::BackgroundOffsetX,
+		y,
+		TitleScale::Background,
+		0.0f,
+		mnBagHandle,
+		TRUE
+	);
+
+	// ロゴ描画
+	DrawRotaGraph(
+		x + TitleSetting::LogoOffsetX,
+		(int)mfTurnY,
+		TitleScale::Logo,
+		0.0f,
+		mnRogoHandle,
+		TRUE
+	);
 
 	if (mpGameStart && mpExplainGraph)
 	{
@@ -424,9 +413,9 @@ void Title::Draw()
 		mpExplainGraph->Draw();
 	}
 
-	if (mpGearButtom)
+	if (mpOptionButton)
 	{
-		mpGearButtom->Draw();
+		mpOptionButton->Draw();
 	}
 
 	// ゲーム画面に行く時の演出の画像
@@ -446,7 +435,7 @@ void Title::Draw()
 		if (mbWhite)
 		{
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)mfWhiteBoxAlpha); // 半透明にするため
-			DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(255, 255, 255), TRUE);
+			DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TitleColor::White, TRUE);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		}
 	}
@@ -454,116 +443,132 @@ void Title::Draw()
 	// 音量調整のやつがONなら描画
 	if (mbOption)
 	{
-		int color = GetColor(255, 255, 255); // 白
-
 		// 背景暗くする
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
+		SetDrawBlendMode(
+			DX_BLENDMODE_ALPHA,
+			TitleSetting::VolumeBackgroundAlpha
+		);
 		//黒いBOX
 		DrawBox(
 			0,
 			0,
 			Utility::SCREEN_WIDTH,
 			Utility::SCREEN_HEIGHT,
-			GetColor(0, 0, 0),
+			TitleColor::Black,
 			TRUE
 		);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); // 戻す
 
 
 		// 音量設定の背景の黒板
-		DrawRotaGraph(Utility::SCREEN_WIDTH / 2, Utility::SCREEN_HEIGHT / 2, 1.0f, 0.0f, mnMusicBag, TRUE);
+		DrawRotaGraph(
+			Utility::SCREEN_WIDTH / 2,
+			Utility::SCREEN_HEIGHT / 2,
+			TitleScale::VolumeSettingsBackground,
+			0.0f,
+			mnVolumeSettingsBg,
+			TRUE
+		);
+		DrawStringToHandle(
+			TitlePosition::VolumeTitleX,
+			TitlePosition::VolumeTitleY,
+			"音量設定",
+			TitleColor::White,  Master::mpFontManager->GetSelectFontHandle());
 
-		// 文字
-		DrawStringToHandle(800, 300, "音量設定", color, Master::mpFontManager->GetSelectFontHandle());
 
 		// BGM関係
 		{
 			// BGM文字
-			DrawStringToHandle(370, 450, "BGM", color, Master::mpFontManager->GetTextFontHandle());
-
-			// BGMバー本体
-			DrawBox(
-				mBarX,
-				mBgmBarY,
-				mBarX + (mBgmVolume * mBarWidth / 100),
-				mBgmBarY + mBarHeight,
-				GetColor(238,136,214),
-				TRUE
+			DrawStringToHandle(
+				TitlePosition::BgmTextX,
+				TitlePosition::BgmTextY,
+				"BGM",
+				TitleColor::White,
+				Master::mpFontManager->GetTextFontHandle()
 			);
 
-			// BGMバー枠
-			DrawBox(
-				mBarX,
-				mBgmBarY,
-				mBarX + mBarWidth,
-				mBgmBarY + mBarHeight,
-				color,
-				FALSE
-			);
+			int bgmVolume = Master::mpSoundManager->GetBGMVolume();
+
+			// BGMバー
+			mpBgmVolumeBar->Draw(bgmVolume);
 
 			// BGM音量の数字
 			DrawFormatStringToHandle(
-				mBarX + (mBgmVolume * mBarWidth / 100) - 20,
-				mBgmBarY - mBarString,
-				color,
+				TitlePosition::VolumeBarX
+				+ (bgmVolume * TitlePosition::VolumeBarWidth
+					/ TitleSetting::VolumeMax)
+				+ TitlePosition::VolumeNumberXOffset,
+
+				TitlePosition::BgmBarY
+				- TitlePosition::VolumeNumberYOffset,
+
+				TitleColor::White,
+
 				Master::mpFontManager->GetMusicFontHandle(),
 				"%d",
-				mBgmVolume
+				bgmVolume
 			);
 
 			// BGMつまみ
 			DrawRotaGraph(
-				mBarX + (mBgmVolume * mBarWidth / 100),
-				mBgmBarY + mMusicNote,
-				0.3f,
+				TitlePosition::VolumeBarX
+				+ (bgmVolume * TitlePosition::VolumeBarWidth
+					/ TitleSetting::VolumeMax),
+
+				TitlePosition::BgmBarY
+				+ TitlePosition::MusicNoteOffset,
+
+				TitleScale::MusicNote,
 				0.0f,
 				mnOnpuHandle,
 				TRUE
 			);
 		}
-		
+
 
 		// SE関係
 		{
 			// SE文字
-			DrawStringToHandle(370, 640, "SE", color, Master::mpFontManager->GetTextFontHandle());
-
-			// SEバー本体
-			DrawBox(
-				mBarX,
-				mSeBarY,
-				mBarX + (mSeVolume * mBarWidth / 100),
-				mSeBarY + mBarHeight,
-				GetColor(252, 235, 98),
-				TRUE
+			DrawStringToHandle(
+				TitlePosition::SeTextX,
+				TitlePosition::SeTextY,
+				"SE",
+				TitleColor::White,
+				Master::mpFontManager->GetTextFontHandle()
 			);
 
-			// SEバー枠
-			DrawBox(
-				mBarX,
-				mSeBarY,
-				mBarX + mBarWidth,
-				mSeBarY + mBarHeight,
-				color,
-				FALSE
-			);
+			int seVolume = Master::mpSoundManager->GetSEVolume();
+
+			// SEバー
+			mpSeVolumeBar->Draw(seVolume);
 
 			// SE音量の数字
 			DrawFormatStringToHandle(
-				mBarX + (mSeVolume * mBarWidth / 100) - 20,
-				mSeBarY - mBarString,
-				color,
+				TitlePosition::VolumeBarX
+				+ (seVolume * TitlePosition::VolumeBarWidth
+					/ TitleSetting::VolumeMax)
+				+ TitlePosition::VolumeNumberXOffset,
+
+				TitlePosition::SeBarY
+				- TitlePosition::VolumeNumberYOffset,
+
+				TitleColor::White,
+
 				Master::mpFontManager->GetMusicFontHandle(),
 				"%d",
-				mSeVolume
+				seVolume
 			);
-
 
 			// SEつまみ
 			DrawRotaGraph(
-				mBarX + (mSeVolume * mBarWidth / 100),
-				mSeBarY + mMusicNote,
-				0.3f,
+				TitlePosition::VolumeBarX
+				+ (seVolume * TitlePosition::VolumeBarWidth
+					/ TitleSetting::VolumeMax),
+
+				TitlePosition::SeBarY
+				+ TitlePosition::MusicNoteOffset,
+
+				TitleScale::MusicNote,
 				0.0f,
 				mnOnpuHandle,
 				TRUE
@@ -588,7 +593,4 @@ void Title::Finalize()
 	if (mnBagHandle != -1) { DeleteGraph(mnBagHandle);  mnBagHandle = -1; }
 	if (mnCardHandle != -1) { DeleteGraph(mnCardHandle); mnCardHandle = -1; }
 	if (mnOnpuHandle != -1) { DeleteGraph(mnOnpuHandle); mnOnpuHandle = -1; }
-
-
-	//Master::mpSoundManager->StopBGM();
 }

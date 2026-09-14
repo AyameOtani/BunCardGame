@@ -19,7 +19,6 @@ void Scene::Update()
 	{
 		mpObjectManager->Update();
 	}
-
 }
 
 // 描画
@@ -30,5 +29,4 @@ void Scene::Draw()
 	{
 		mpObjectManager->Draw();
 	}
-
 }

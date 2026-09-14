@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 //クラスの前方宣言
 class ObjectManager;
 

@@ -2,16 +2,16 @@
 #include "DxLib.h"
 #include "Master.h"
 #include <fstream>
+#include "GameConstants.h"
 
 SoundManager::SoundManager()
-	: mnNowPlayingBgm((SOUND_BGM)-1)  // 初期は何も再生されていない状態
-	, mnNowPlayingSe((SOUND_SE)-1)    // 初期は何も再生されていない状態
-	, mnBgmVolume(100)
-	, mnSeVolume(100)
+	: mnNowPlayingBgm((SOUND_BGM)-1)
+	, mnNowPlayingSe((SOUND_SE)-1)
+	, mnBgmVolume(SoundSetting::VolumeMax)
+	, mnSeVolume(SoundSetting::VolumeMax)
 {
-
-
 }
+
 
 SoundManager::~SoundManager()
 {
@@ -379,6 +379,15 @@ void SoundManager::StartFadeOut()
 // BGMの音量変えるやつ
 void SoundManager::SetBGMVolume(int volume)
 {
+	if (volume < SoundSetting::VolumeMin)
+	{
+		volume = SoundSetting::VolumeMin;
+	}
+	if (volume > SoundSetting::VolumeMax)
+	{
+		volume = SoundSetting::VolumeMax;
+	}
+
 	mnBgmVolume = volume;
 
 	for (auto& bgm : mnBgmHandleList)
@@ -396,9 +405,18 @@ void SoundManager::SetBGMVolume(int volume)
 // SEの音量を変えるやつ
 void SoundManager::SetSEVolume(int volume)
 {
+	if (volume < SoundSetting::VolumeMin)
+	{
+		volume = SoundSetting::VolumeMin;
+	}
+
+	if (volume > SoundSetting::VolumeMax)
+	{
+		volume = SoundSetting::VolumeMax;
+	}
+
 	mnSeVolume = volume;
 }
-
 // ボリュームのロード
 void SoundManager::SaveVolume()
 {
@@ -415,8 +433,8 @@ void SoundManager::SaveVolume()
 void SoundManager::LoadVolume()
 {
 	// デフォルト値
-	mnBgmVolume = 100;
-	mnSeVolume = 100;
+	mnBgmVolume = SoundSetting::VolumeMax;
+	mnSeVolume = SoundSetting::VolumeMax;
 
 	std::ifstream ifs("Volume.txt");
 
@@ -440,8 +458,8 @@ void SoundManager::LoadVolume()
 			{
 				int volume = std::stoi(line.substr(pos + 1));
 
-				// 0から100なら採用
-				if (volume >= 0 && volume <= 100)
+				if (volume >= SoundSetting::VolumeMin &&
+					volume <= SoundSetting::VolumeMax)
 				{
 					mnBgmVolume = volume;
 				}
@@ -465,7 +483,7 @@ void SoundManager::LoadVolume()
 				int volume = std::stoi(line.substr(pos + 1));
 
 				// 0～100なら採用
-				if (volume >= 0 && volume <= 100)
+				if (volume >= SoundSetting::VolumeMin && volume <= SoundSetting::VolumeMax)
 				{
 					mnSeVolume = volume;
 				}

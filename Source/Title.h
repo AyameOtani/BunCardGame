@@ -5,10 +5,10 @@
 #include "Button.h"
 #include "MouseGraph.h"
 #include "Utility.h"
+#include "VolumeBar.h"
 
 class Title : public Scene
 {
-
 public:
 	Title();
 	~Title() override;
@@ -18,95 +18,73 @@ public:
 	void Draw() override;
 	void Finalize() override;
 
-	// 次にどっちの画面にいくかのしゅるい
+	// 次にどの画面にいくかの種類
 	enum NextScene
 	{
 		NONE_SCENE,
-
 		SELECT_SCENE,
 		EXPLAIN_SCENE,
 	};
 
-	NextScene mNextScene = NONE_SCENE; // 次のシーンの種類を保存する変数
+	NextScene mNextScene = NONE_SCENE;
 
 private:
-	MouseGraph* mpGameStart = nullptr; // マウスと重なって大きくなるやつ
-	MouseGraph* mpExplainGraph = nullptr; // 操作説明のやつ
-	MouseGraph* mpGearButtom = nullptr; // 音量調整のやつ
-	MouseGraph* mpMusicClose = nullptr; // 音量設定の×ボタン
+	// ボタン
+	std::unique_ptr<MouseGraph> mpGameStart;
+	std::unique_ptr<MouseGraph> mpExplainGraph;
+	std::unique_ptr<MouseGraph> mpOptionButton;
+	std::unique_ptr<MouseGraph> mpMusicClose;
 
-	int mnRogoHandle = -1; // ロゴのはんどる
-	int mnBagHandle = -1;  // タイトルの背景
-	int mnCardHandle = -1; // カードの画像
-	int mnMusicBag = -1; // 音量設定の背景
+	// 音量バー
+	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
+	std::unique_ptr<VolumeBar> mpSeVolumeBar;
+
+	// 画像ハンドル
+	int mnRogoHandle = -1;
+	int mnBagHandle = -1;
+	int mnCardHandle = -1;
+	int mnVolumeSettingsBg = -1;
 
 	// 菊池
-	int mnKorukuitaHandle = -1; // コルク板の画像
-	int mnBatuHandle = -1; // ×ボタンの画像
-	int mnOnpuHandle = -1; // 音符の画像
+	int mnKorukuitaHandle = -1;
+	int mnBatuHandle = -1;
+	int mnOnpuHandle = -1;
 
-
-	// 音量調整のやつ
+	// 音量設定を開いているか
 	bool mbOption = false;
-	int mBgmVolume = 100;
-	int mSeVolume = 150;
-
-	// 音量調整のバーの位置とか
-	int mBarX = 570;
-	int mBarWidth = 840;
-	int mBarHeight = 40; // バーの高さ
-	int mBarString = 70; // バーの上に表示する数字
-	int mMusicNote = 15; // 音符の位置
-	int mnBarDist = 20; // バーの端も押しやすいように
-
-	// 音量調整のバーのY座標
-	int mBgmBarY = 460;
-	int mSeBarY = 650;
 
 	// タイトル演出
-	bool mbMouseButton = false; // マウスが押されたかのフラグ
-	bool mbWhite = false; // 白いBOXを出すかのフラグ
+	bool mbMouseButton = false;
+	bool mbWhite = false;
 
-	// タイトル演出のカードの座標とか拡大率とか
+	// カード演出
 	float mnCardX = 0.0f;
 	float mnCardY = 0.0f;
 	float mnCardAngle = 3.0f;
 	float mnCardRota = 0.01f;
-	float mfCardSpeed = 0.09f; // 移動する速さ
 
-	// ターゲットの位置
-	float targetX = Utility::SCREEN_WIDTH / 2.0f;
-	float targetY = Utility::SCREEN_HEIGHT / 2.0f - 30.0f;
+	// カードのターゲット位置
+	float targetX;
+	float targetY;
 	float targetAngle = -0.05f;
 	float targetRota = 1.0f;
 
 	// 白いBOXの透明度
 	float mfWhiteBoxAlpha = 0.0f;
 
-	// ボタン演出用
+	// ボタン演出
 	float mfStartX;
 	float mfStartY;
 	float mfExplainX;
 	float mfExplainY;
 
-	// いけちゃ
 	float mfTargetStartX;
 	float mfTargetStartY;
 	float mfTargetExplainX;
 	float mfTargetExplainY;
 
 	// ロゴ演出
-	//float mfLogoY;
-	//float mfTargetLogoY;
-	
-
-	// タイトルのロゴ演出   大谷
-	float mfTurnY = -800.0f;  // ロゴの初期位置
-	bool mbInitialize = false; // 初期化が終わったかどうかのフラグ
-	float mfLogoTime = 0.0f; // ロゴのふわふわ時間
-
-
-	// 音量調節の当たり判定
-	int mnBarUp = 40;	//バーの上の判定
-	int mnBarDown = 65;	// バーの下の判定
+	float mfTurnY;
+	bool mbInitialize = false;
+	float mfLogoTime = 0.0f;
 };
