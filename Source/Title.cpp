@@ -61,9 +61,6 @@ Title::~Title()
 
 void Title::Initialize()
 {
-	float x = (float)Utility::SCREEN_WIDTH / 2;
-	float y = (float)Utility::SCREEN_HEIGHT / 2;
-
 	// ボタン生成（初期位置）
 	mpGameStart = std::make_unique<MouseGraph>(
 		mfStartX,
