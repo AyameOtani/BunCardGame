@@ -9,6 +9,11 @@
 #include "Card.h" // 追加　小池
 
 
+#include "GameConstants.h"
+#include "VolumeBar.h"
+#include <memory>
+
+
 class Player;
 class Enemy;
 class Card; // 追加　小池
@@ -84,24 +89,8 @@ private:  // メンバ変数として定義
 	int mnMusicBag = -1;
 	int mnOnpuHandle = -1;
 
-	// 音量バー設定
-	int mBarX = 570;
-	int mBarWidth = 840;
-	int mBarHeight = 40;
-
-	int mBgmBarY = 460;
-	int mSeBarY = 650;
-
-	int mnBarDist = 20;
-	int mnBarUp = 40;
-	int mnBarDown = 65;
-
-	int mBarString = 70;
-	int mMusicNote = 15;
-
-	// 音量
-	int mBgmVolume = 255;
-	int mSeVolume = 255;
+	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
+	std::unique_ptr<VolumeBar> mpSeVolumeBar;
 
 	// スクリーン関係
 	int mnCardWorkScreen = -1;

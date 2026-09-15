@@ -8,6 +8,11 @@
 
 Title::Title()
 {
+
+	targetX = TitlePosition::CardTargetOffsetX;
+	targetY = TitlePosition::CardTargetOffsetY;
+
+
 	mpGameStart = nullptr;
 	mpExplainGraph = nullptr;
 	mpOptionButton = nullptr;
@@ -327,6 +332,7 @@ void Title::Update()
 
 		if (GetMouseInput() & MOUSE_INPUT_LEFT)
 		{
+			// BGMバー
 			if (mouseX >= TitlePosition::VolumeBarX &&
 				mouseX <= TitlePosition::VolumeBarX
 				+ TitlePosition::VolumeBarWidth
@@ -345,9 +351,7 @@ void Title::Update()
 				Master::mpGameManager->GetSoundManager()->SaveVolume();
 			}
 
-			// =========================
 			// SEバー
-			// =========================
 			if (mouseX >= TitlePosition::VolumeBarX &&
 				mouseX <= TitlePosition::VolumeBarX
 				+ TitlePosition::VolumeBarWidth

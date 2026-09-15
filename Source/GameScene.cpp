@@ -4,7 +4,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "ObjectManager.h"
-#include <memory>
 #include "Utility.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -18,6 +17,8 @@ GameScene::GameScene(SceneManager::GScene gscene)
 	, ChargeAttack(false)  // 最初はfalse
 	, Action(0)            // 最初は0
 {
+	mpBgmVolumeBar = nullptr;
+	mpSeVolumeBar = nullptr;
 
 	// 文字の大きさ関係
 	mnFontBig = CreateFontToHandle(
@@ -256,10 +257,21 @@ void GameScene::Initialize() // 初期化
 		0.35f
 	);
 
-	// 現在の音量取得
-	mBgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
-	mSeVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
-
+	// 音量バーの生成
+	mpBgmVolumeBar = std::make_unique<VolumeBar>(
+		TitlePosition::VolumeBarX,
+		TitlePosition::BgmBarY,
+		TitlePosition::VolumeBarWidth,
+		TitlePosition::VolumeBarHeight,
+		TitleColor::BgmBar
+	);
+	mpSeVolumeBar = std::make_unique<VolumeBar>(
+		TitlePosition::VolumeBarX,
+		TitlePosition::SeBarY,
+		TitlePosition::VolumeBarWidth,
+		TitlePosition::VolumeBarHeight,
+		TitleColor::SeBar
+	);
 
 
 	//閉じるボタン
@@ -1016,34 +1028,40 @@ void GameScene::Update() // 更新
 			if (GetMouseInput() & MOUSE_INPUT_LEFT)
 			{
 				// BGMバー
-				if (mouseX >= mBarX &&
-					mouseX <= mBarX + mBarWidth + mnBarDist &&
-					mouseY >= mBgmBarY - mnBarUp &&
-					mouseY <= mBgmBarY + mnBarDown)
+				if (mouseX >= TitlePosition::VolumeBarX &&
+					mouseX <= TitlePosition::VolumeBarX
+					+ TitlePosition::VolumeBarWidth
+					+ TitlePosition::VolumeBarDist &&
+					mouseY >= TitlePosition::BgmBarY
+					- TitlePosition::VolumeBarUp &&
+					mouseY <= TitlePosition::BgmBarY
+					+ TitlePosition::VolumeBarDown)
 				{
-					mBgmVolume =
-						(mouseX - mBarX) * 100 / mBarWidth;
+					int bgmVolume =
+						(mouseX - TitlePosition::VolumeBarX)
+						* SoundSetting::VolumeMax
+						/ TitlePosition::VolumeBarWidth;
 
-					if (mBgmVolume < 0) mBgmVolume = 0;
-					if (mBgmVolume > 100) mBgmVolume = 100;
-
-					Master::mpGameManager->GetSoundManager()->SetBGMVolume(mBgmVolume);
+					Master::mpGameManager->GetSoundManager()->SetBGMVolume(bgmVolume);
 					Master::mpGameManager->GetSoundManager()->SaveVolume();
 				}
 
 				// SEバー
-				if (mouseX >= mBarX &&
-					mouseX <= mBarX + mBarWidth + mnBarDist &&
-					mouseY >= mSeBarY - mnBarUp &&
-					mouseY <= mSeBarY + mnBarDown)
+				if (mouseX >= TitlePosition::VolumeBarX &&
+					mouseX <= TitlePosition::VolumeBarX
+					+ TitlePosition::VolumeBarWidth
+					+ TitlePosition::VolumeBarDist &&
+					mouseY >= TitlePosition::SeBarY
+					- TitlePosition::VolumeBarUp &&
+					mouseY <= TitlePosition::SeBarY
+					+ TitlePosition::VolumeBarDown)
 				{
-					mSeVolume =
-						(mouseX - mBarX) * 100 / mBarWidth;
+					int seVolume =
+						(mouseX - TitlePosition::VolumeBarX)
+						* SoundSetting::VolumeMax
+						/ TitlePosition::VolumeBarWidth;
 
-					if (mSeVolume < 0) mSeVolume = 0;
-					if (mSeVolume > 100) mSeVolume = 100;
-
-					Master::mpGameManager->GetSoundManager()->SetSEVolume(mSeVolume);
+					Master::mpGameManager->GetSoundManager()->SetSEVolume(seVolume);
 					Master::mpGameManager->GetSoundManager()->SaveVolume();
 				}
 			}
@@ -1403,101 +1421,104 @@ void GameScene::Draw() // 描画
 				Master::mpGameManager->GetFontManager()->GetSelectFontHandle()
 			);
 
-			// =========================
-			// BGM
-			// =========================
+			// BGM関係
+			{
+				// BGM文字
+				DrawStringToHandle(
+					TitlePosition::BgmTextX,
+					TitlePosition::BgmTextY,
+					"BGM",
+					TitleColor::White,
+					Master::mpGameManager->GetFontManager()->GetTextFontHandle()
+				);
 
-			DrawStringToHandle(
-				370,
-				450,
-				"BGM",
-				color,
-				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
-			);
+				int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
 
-			DrawBox(
-				mBarX,
-				mBgmBarY,
-				mBarX + (mBgmVolume * mBarWidth / 100),
-				mBgmBarY + mBarHeight,
-				GetColor(238, 136, 214),
-				TRUE
-			);
+				// BGMバー
+				mpBgmVolumeBar->Draw(bgmVolume);
 
-			DrawBox(
-				mBarX,
-				mBgmBarY,
-				mBarX + mBarWidth,
-				mBgmBarY + mBarHeight,
-				color,
-				FALSE
-			);
+				// BGM音量の数字
+				DrawFormatStringToHandle(
+					TitlePosition::VolumeBarX
+					+ (bgmVolume * TitlePosition::VolumeBarWidth
+						/ TitleSetting::VolumeMax)
+					+ TitlePosition::VolumeNumberXOffset,
 
-			DrawFormatStringToHandle(
-				mBarX + (mBgmVolume * mBarWidth / 100) - 20,
-				mBgmBarY - mBarString,
-				color,
-				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
-				"%d",
-				mBgmVolume
-			);
+					TitlePosition::BgmBarY
+					- TitlePosition::VolumeNumberYOffset,
 
-			DrawRotaGraph(
-				mBarX + (mBgmVolume * mBarWidth / 100),
-				mBgmBarY + mMusicNote,
-				0.3f,
-				0.0f,
-				mnOnpuHandle,
-				TRUE
-			);
+					TitleColor::White,
 
-			// =========================
-			// SE
-			// =========================
+					Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
+					"%d",
+					bgmVolume
+				);
 
-			DrawStringToHandle(
-				370,
-				640,
-				"SE",
-				color,
-				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
-			);
+				// BGMつまみ
+				DrawRotaGraph(
+					TitlePosition::VolumeBarX
+					+ (bgmVolume * TitlePosition::VolumeBarWidth
+						/ TitleSetting::VolumeMax),
 
-			DrawBox(
-				mBarX,
-				mSeBarY,
-				mBarX + (mSeVolume * mBarWidth / 100),
-				mSeBarY + mBarHeight,
-				GetColor(252, 235, 98),
-				TRUE
-			);
+					TitlePosition::BgmBarY
+					+ TitlePosition::MusicNoteOffset,
 
-			DrawBox(
-				mBarX,
-				mSeBarY,
-				mBarX + mBarWidth,
-				mSeBarY + mBarHeight,
-				color,
-				FALSE
-			);
+					TitleScale::MusicNote,
+					0.0f,
+					mnOnpuHandle,
+					TRUE
+				);
+			}
 
-			DrawFormatStringToHandle(
-				mBarX + (mSeVolume * mBarWidth / 100) - 20,
-				mSeBarY - mBarString,
-				color,
-				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
-				"%d",
-				mSeVolume
-			);
 
-			DrawRotaGraph(
-				mBarX + (mSeVolume * mBarWidth / 100),
-				mSeBarY + mMusicNote,
-				0.3f,
-				0.0f,
-				mnOnpuHandle,
-				TRUE
-			);
+			// SE関係
+			{
+				// SE文字
+				DrawStringToHandle(
+					TitlePosition::SeTextX,
+					TitlePosition::SeTextY,
+					"SE",
+					TitleColor::White,
+					Master::mpGameManager->GetFontManager()->GetTextFontHandle()
+				);
+
+				int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
+
+				// SEバー
+				mpSeVolumeBar->Draw(seVolume);
+
+				// SE音量の数字
+				DrawFormatStringToHandle(
+					TitlePosition::VolumeBarX
+					+ (seVolume * TitlePosition::VolumeBarWidth
+						/ TitleSetting::VolumeMax)
+					+ TitlePosition::VolumeNumberXOffset,
+
+					TitlePosition::SeBarY
+					- TitlePosition::VolumeNumberYOffset,
+
+					TitleColor::White,
+
+					Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
+					"%d",
+					seVolume
+				);
+
+				// SEつまみ
+				DrawRotaGraph(
+					TitlePosition::VolumeBarX
+					+ (seVolume * TitlePosition::VolumeBarWidth
+						/ TitleSetting::VolumeMax),
+
+					TitlePosition::SeBarY
+					+ TitlePosition::MusicNoteOffset,
+
+					TitleScale::MusicNote,
+					0.0f,
+					mnOnpuHandle,
+					TRUE
+				);
+			}
 
 			// ×ボタン
 			if (mpMusicClose)

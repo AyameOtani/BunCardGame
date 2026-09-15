@@ -50,8 +50,8 @@ namespace  TitleResourcePath
 namespace TitlePosition
 {
 	// 画面中央からの位置
-	static constexpr int CardTargetOffsetX = 0;
-	static constexpr int CardTargetOffsetY = -30;
+	static constexpr int CardTargetOffsetX = ScreenSize::CenterX;
+	static constexpr int CardTargetOffsetY = ScreenSize::CenterY -30;
 
 	static constexpr int StartTargetOffsetX = -320;
 	static constexpr int StartTargetOffsetY = 200;

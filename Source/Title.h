@@ -29,15 +29,15 @@ public:
 	NextScene mNextScene = NONE_SCENE;
 
 private:
-	// ボタン
+	// ボタン 大谷
 	std::unique_ptr<MouseGraph> mpGameStart;
 	std::unique_ptr<MouseGraph> mpExplainGraph;
 	std::unique_ptr<MouseGraph> mpOptionButton;
 	std::unique_ptr<MouseGraph> mpMusicClose;
-
 	// 音量バー
 	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
 	std::unique_ptr<VolumeBar> mpSeVolumeBar;
+
 
 	// 画像ハンドル
 	int mnRogoHandle = -1;
@@ -63,21 +63,22 @@ private:
 	float mnCardAngle = 3.0f;
 	float mnCardRota = 0.01f;
 
-	// カードのターゲット位置
+	// カードのターゲット位置 小池
 	float targetX;
 	float targetY;
+
+
 	float targetAngle = -0.05f;
 	float targetRota = 1.0f;
 
 	// 白いBOXの透明度
 	float mfWhiteBoxAlpha = 0.0f;
 
-	// ボタン演出
+	// ボタン演出 大谷
 	float mfStartX;
 	float mfStartY;
 	float mfExplainX;
 	float mfExplainY;
-
 	float mfTargetStartX;
 	float mfTargetStartY;
 	float mfTargetExplainX;
