@@ -203,3 +203,13 @@ namespace TitleSetting
 	static constexpr int BackgroundOffsetX = -50;
 	static constexpr int LogoOffsetX = 0;
 }
+
+
+//==================================================
+// 勝利リザルト画面で使用するもの一覧
+//==================================================
+
+namespace WinResultPath
+{
+
+}

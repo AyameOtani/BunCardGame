@@ -17,7 +17,7 @@ public:
 
 private:
 	MouseGraph* mpMouseGraph = nullptr;
-	Score m_Score; // スコアのやつ
+	Score m_Score; // スコア
 
 	int mnBagHandle = -1; /// 背景画像
 };
