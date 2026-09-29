@@ -1,24 +1,23 @@
 ﻿#include "MouseGraph.h"
 #include "Mouse.h"
 
-
-// コンストラク
+// コンストラクタ
 MouseGraph::MouseGraph(float x, float y, float angle, std::string filename, float rate, float changerate)
 {
-	// 代入
+	// 各種パラメータを保持して初期状態を構築するため
 	this->mx = x;
 	this->my = y;
 	this->mAngle = angle;
 	this->mRate = rate;
 	this->mChangeRate = changerate;
 
-	this->isActive = true; // 最初は有効
+	this->isActive = true;
 	this->isHover = false;
 
-	// 画像の読み込み
+	// 指定されたファイルパスから画像データを読み込むため
 	this->mnHandle = LoadGraph(filename.c_str());
 
-	if (mnHandle == -1)
+	if (mnHandle == InvalidGraphHandle)
 	{
 		printfDx("画像読み込み失敗");
 	}
@@ -26,32 +25,32 @@ MouseGraph::MouseGraph(float x, float y, float angle, std::string filename, floa
 
 MouseGraph::~MouseGraph()
 {
-	if (mnHandle != -1)
+	// 保持している画像ハンドルが有効な場合のみメモリから解放するため
+	if (mnHandle != InvalidGraphHandle)
 	{
-		 DeleteGraph(mnHandle);
-		 mnHandle = -1;
+		DeleteGraph(mnHandle);
+		mnHandle = InvalidGraphHandle;
 	}
 }
 
 void MouseGraph::Update()
 {
-	if (mnHandle == -1) return;
+	// 画像の読み込みに失敗している場合は判定を行わないため
+	if (mnHandle == InvalidGraphHandle) return;
 
 	int w, h;
 	GetGraphSize(mnHandle, &w, &h);
 
-
-	// ボタンが有効じゃなかったら
+	// ボタンが無効な状態のときはホバー判定を無効化するため
 	if (!isActive)
 	{
 		isHover = false;
 		return;
 	}
 
-
-	// マウスと重なっているかの判定 拡大率を考慮
-	if (Mouse::x >= mx - (w * mRate) / 2 && Mouse::x <= mx + (w * mRate) / 2 &&
-		Mouse::y >= my - (h * mRate) / 2 && Mouse::y <= my + (h * mRate) / 2)
+	// 現在の拡大率を考慮した当たり判定の範囲内にマウスがあるかを判定するため
+	if (Mouse::x >= mx - (w * mRate) / CenterDivisor && Mouse::x <= mx + (w * mRate) / CenterDivisor &&
+		Mouse::y >= my - (h * mRate) / CenterDivisor && Mouse::y <= my + (h * mRate) / CenterDivisor)
 	{
 		isHover = true;
 	}
@@ -63,54 +62,42 @@ void MouseGraph::Update()
 
 void MouseGraph::Draw()
 {
-	if (mnHandle == -1) return;
-
+	// 描画対象の画像が正常に読み込まれている場合のみ描画を行うため
+	if (mnHandle == InvalidGraphHandle) return;
 
 	int w, h;
 	GetGraphSize(mnHandle, &w, &h);
 
-
-	// 拡大率を変える
+	// マウスが重なっている状態に応じて適用する拡大率を切り替えるため
 	float rate = isHover ? mChangeRate : mRate;
 
-
-	// 2D用に設定
-	//SetUseZBufferFlag(FALSE);
-	//SetWriteZBufferFlag(FALSE);
-
+	// 無効な状態のときは暗くして描画するためにブレンドモードを設定するため
 	if (!isActive)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+		SetDrawBlendMode(DX_BLENDMODE_MULA, BlendModeParamMax);
 	}
 
-	// 描画
+	// 指定された座標と拡大率で画像を中心基準で回転描画するため
 	DrawRotaGraph((int)mx, (int)my, rate, mAngle, mnHandle, TRUE);
 
-	// 3D用に設定
-	//SetUseZBufferFlag(TRUE);
-	//SetWriteZBufferFlag(TRUE);
-
-
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-
 }
-
 
 bool MouseGraph::IsClicked()
 {
-	// マウスがのってるかつクリックされたらtrue
+	// マウスが乗っていて、かつクリックの瞬間であるかを返すため
 	return isHover && Mouse::IsTrigger();
 }
 
 void MouseGraph::SetPosition(float x, float y)
 {
+	// 座標を更新するため
 	mx = x;
 	my = y;
-
 }
 
 void MouseGraph::SetAngle(float angle)
 {
+	// 角度を更新するため
 	mAngle = angle;
 }

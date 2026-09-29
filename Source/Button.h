@@ -4,7 +4,6 @@
 
 class Button
 {
-
 public:
 
 	// 場所を決められるように
@@ -21,13 +20,22 @@ public:
 	void Draw();   // 表示
 	void Update(); // 判定
 
-
 	bool IsClicked(); // マウスが乗っててかつ押されたらの返すやつ
 
 	// ターンエンドボタンが押せる状態か プレイヤーのターンかのやつ
 	void SetActive(bool active) { isActive = active; }
 
 private:
+	// 定数定義
+	static constexpr float DefaultScale = 1.0f;                       // 通常時のスケール
+	static constexpr float HoverScale = 1.1f;                         // ホバー時の拡大率
+	static constexpr float CenterDivisor = 2.0f;                      // 中心計算用の除算値
+	static constexpr float StringHeightOffset = 10.0f;                // 文字の縦方向の位置調整用オフセット
+
+	// 色に関する定数
+	static const int InactiveColor = 20;                              // 無効時の背景色の輝度（共通）
+	static const int InactiveStringColorValue = 80;                   // 無効時の文字色の輝度（共通）
+	static const int DefaultStringColorMax = 255;                     // 通常時の文字色の最大輝度（白）
 
 	// BOXの位置
 	int x1;

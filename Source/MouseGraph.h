@@ -9,8 +9,8 @@ public:
 
 	// コンストラクタ
 	MouseGraph(
-		float x,			// Xの位置　中心基準
-		float y,			// Yの位置　中心基準
+		float x,			// Xの位置 中心基準
+		float y,			// Yの位置 中心基準
 		float angle,		// 角度
 		std::string filename,// 画像ハンドル
 		float rate,	    // 拡大率
@@ -32,6 +32,10 @@ public:
 	void SetAngle(float angle);
 
 private:
+	// 定数定義
+	static constexpr float CenterDivisor = 2.0f;                       // 中心位置を計算するための除算値
+	static constexpr int InvalidGraphHandle = -1;                      // 画像の読み込み失敗や無効状態を表すハンドル値
+	static constexpr int BlendModeParamMax = 255;                      // ブレンドモードの最大値（不透明度など）
 
 	// XとY
 	float mx;
@@ -43,7 +47,6 @@ private:
 	// 拡大率
 	float mRate;
 	float mChangeRate;
-
 
 	// 今マウスが乗っているかのフラグ
 	bool isHover;

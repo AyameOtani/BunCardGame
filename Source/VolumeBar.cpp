@@ -10,13 +10,12 @@ VolumeBar::VolumeBar(int inX, int inY, int inWidth, int inHeight, int inColor)
 {
 }
 
-
 void VolumeBar::Draw(int inVolume)
 {
-	// 音量に応じたバーの幅を計算 100を上限にするため
-    int volumeWidth = inVolume * mnWidth / 100;
+    // 現在の音量に応じたバーの描画幅を算出するため
+    int volumeWidth = inVolume * mnWidth / MaxVolume;
 
-    // 音量に応じたバーを描画
+    // 音量に応じた現在のバーの塗りつぶしを描画するため
     DrawBox(
         mnX,
         mnY,
@@ -26,13 +25,13 @@ void VolumeBar::Draw(int inVolume)
         TRUE
     );
 
-    // バーの枠を描画
+    // 音量バー全体の最大範囲を示す枠線を表現するため
     DrawBox(
         mnX,
         mnY,
         mnX + mnWidth,
         mnY + mnHeight,
-        GetColor(255, 255, 255),
+        GetColor(FrameColorMax, FrameColorMax, FrameColorMax),
         FALSE
     );
 }

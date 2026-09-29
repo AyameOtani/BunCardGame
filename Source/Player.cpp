@@ -193,43 +193,6 @@ void Player::Update(Enemy& enemy)
                 int top = (int)itemPositions[i].y - scaledH / 2;
                 int bottom = (int)itemPositions[i].y + scaledH / 2;
 
-            //    if (!usedItems[i] && Mouse::x >= left && Mouse::x <= right &&
-            //        Mouse::y >= top && Mouse::y <= bottom)
-            //    {
-            //        currentHover = i; // 数値を代入して今選んでいるのがわかる
-            //        mfItemSizes[i] = 0.3f;
-            //        if (Mouse::IsTrigger())
-            //        {
-            //            Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
-            //            // クリックされたアイテムの効果を発動
-            //            Effect e;
-            //            if (i == 0) // ハサミ
-            //            {
-            //                e = { EffectType::EXTRA_PLAY, 0, 0 };
-				        //}
-            //            else if (i == 1) // のり
-            //            {
-            //                e = { EffectType::KEEP_CARD, 0, 0 };
-            //            }
-            //            else if (i == 2) // ペン
-            //            {
-            //                e = { EffectType::PEN_RANDOM, 0, 0 };
-            //            }
-            //            EffectManager::ApplyEffect(e, *this, enemy);
-            //            usedItems[i] = true; // 使用済みに設定
-
-            //            // アイテム使用回数を保存するやつ
-            //            Master::mpSaveItemCount += 1;
-
-            //        }
-            //    }
-            //    else
-            //    {
-            //        mfItemSizes[i] = 0.25f;
-            //    }
-            //    mnHoverItem = currentHover; // 代入している
-
-
                 // マウスが乗っているか
                 bool isHover =
                     Mouse::x >= left && Mouse::x <= right &&
