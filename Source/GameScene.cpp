@@ -1259,8 +1259,15 @@ void GameScene::Draw() // 描画
 		DrawRotaGraph(125, 740, 0.3f, 0.0f, mnHandleMP, TRUE);
 
 		// MPの描画
-		DrawFormatStringToHandle(103, 718, color, Master::mpGameManager->GetFontManager()->GetMpFontHandle(), "%d", mpPlayer->mp);
-
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Hutehodo,
+			103,
+			718,
+			50,
+			color,
+			"%d",
+			mpPlayer->mp
+		);
 		// MPが足りなかったら
 		if (mpPlayer->GetMpError())
 		{
@@ -1275,19 +1282,38 @@ void GameScene::Draw() // 描画
 		DrawCircle(190, 994, 24, GetColor(255, 0, 0), TRUE);
 
 
-		// 山札の文字を合わせるため
+		// 山札の枚数
 		int value = (int)mpPlayer->deck.size();
+
 		char str[32];
 		sprintf_s(str, "%d", value);
+		int size = 20;
+
+		// ふてほど20pxのフォントハンドルを取得
+		int fontHandle =
+			Master::mpGameManager->GetFontManager()->GetHutehodoFontHandle(size);
+
 		// 文字列の横幅を取得
-		int width = GetDrawStringWidth(str, (int)strlen(str));
-		// 中央座標に対して補正している
+		int width = GetDrawStringWidthToHandle(
+			str,
+			(int)strlen(str),
+			fontHandle
+		);
+
+		// 中央座標に対して補正
 		int centerX = 190;
 		int drawX = centerX - width / 2;
+
 		// 描画
-		DrawFormatStringToHandle(drawX, 985, color,Master::mpGameManager->GetFontManager()->GetItemFontHandle(), "%s", str);
-
-
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Hutehodo,
+			drawX,
+			985,
+			size,
+			color,
+			"%s",
+			str
+		);
 	}
 
 	if (mpTurnEnd != nullptr)
@@ -1330,11 +1356,12 @@ void GameScene::Draw() // 描画
 		);
 
 		// メッセージ
-		DrawFormatStringToHandle(
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Hutehodo,
 			(int)mfItemNoteX + 50,
 			590,
+			23,
 			mnColor,
-			Master::mpGameManager->GetFontManager()->GetStatusFontHandle(),
 			"%s",
 			mItemMessage.c_str()
 		);
@@ -1353,9 +1380,16 @@ void GameScene::Draw() // 描画
 
 	// ターン数の表示　バウンドありverにしてる
 	DrawRotaGraph(330, (int)mfTurnBox + 30, 0.20f, 0.0f, mnHandleTurnBag, TRUE); // 背景のミニミニ黒板ちゃん
-	DrawFormatStringToHandle(215, (int)mfTurnY, GetColor(255, 255, 255), Master::mpGameManager->GetFontManager()->GetScoreFontHandle(),
-		"%dターン目", (int)Master::mpTurnCount);
-	
+	// 経過ターン数
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		215,
+		(int)mfTurnY,
+		45,
+		GetColor(255, 255, 255),
+		"%dターン目",
+		(int)Master::mpTurnCount
+	);
 
 
 	// 止まっている時は画面を暗くしている  黒いBOXだしている
@@ -1413,23 +1447,30 @@ void GameScene::Draw() // 描画
 			);
 
 			// タイトル
-			DrawStringToHandle(
+			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+				FontManager::FontType::Nikumaru,
 				800,
 				300,
-				"音量設定",
+				80,
 				color,
-				Master::mpGameManager->GetFontManager()->GetSelectFontHandle()
+				"音量設定"
 			);
+
+			// フォントサイズ
+			int textFontSize = 60;
+			int volumeFontSize = 30;
+
 
 			// BGM関係
 			{
 				// BGM文字
-				DrawStringToHandle(
+				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+					FontManager::FontType::Nikumaru,
 					TitlePosition::BgmTextX,
 					TitlePosition::BgmTextY,
-					"BGM",
+					textFontSize,
 					TitleColor::White,
-					Master::mpGameManager->GetFontManager()->GetTextFontHandle()
+					"BGM"
 				);
 
 				int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
@@ -1438,7 +1479,8 @@ void GameScene::Draw() // 描画
 				mpBgmVolumeBar->Draw(bgmVolume);
 
 				// BGM音量の数字
-				DrawFormatStringToHandle(
+				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+					FontManager::FontType::Nikumaru,
 					TitlePosition::VolumeBarX
 					+ (bgmVolume * TitlePosition::VolumeBarWidth
 						/ TitleSetting::VolumeMax)
@@ -1447,9 +1489,8 @@ void GameScene::Draw() // 描画
 					TitlePosition::BgmBarY
 					- TitlePosition::VolumeNumberYOffset,
 
+					volumeFontSize,
 					TitleColor::White,
-
-					Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 					"%d",
 					bgmVolume
 				);
@@ -1474,12 +1515,13 @@ void GameScene::Draw() // 描画
 			// SE関係
 			{
 				// SE文字
-				DrawStringToHandle(
+				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+					FontManager::FontType::Nikumaru,
 					TitlePosition::SeTextX,
 					TitlePosition::SeTextY,
-					"SE",
+					textFontSize,
 					TitleColor::White,
-					Master::mpGameManager->GetFontManager()->GetTextFontHandle()
+					"SE"
 				);
 
 				int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
@@ -1488,7 +1530,8 @@ void GameScene::Draw() // 描画
 				mpSeVolumeBar->Draw(seVolume);
 
 				// SE音量の数字
-				DrawFormatStringToHandle(
+				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+					FontManager::FontType::Nikumaru,
 					TitlePosition::VolumeBarX
 					+ (seVolume * TitlePosition::VolumeBarWidth
 						/ TitleSetting::VolumeMax)
@@ -1497,9 +1540,8 @@ void GameScene::Draw() // 描画
 					TitlePosition::SeBarY
 					- TitlePosition::VolumeNumberYOffset,
 
+					volumeFontSize,
 					TitleColor::White,
-
-					Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 					"%d",
 					seVolume
 				);

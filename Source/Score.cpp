@@ -130,54 +130,88 @@ void Score::Draw()
 
 	FontManager* fontManager =
 		Master::mpGameManager->GetFontManager();
-	int scoreFontHandle = fontManager->GetScoreFontHandle();
+
+	int textSize = 45; // 文字のサイズ
+
 	// スコアの描画
 	// 残りHP
-	DrawFormatStringToHandle(
-		x, y, color,
-		scoreFontHandle,
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		x,
+		y,
+		textSize,
+		color,
 		"残りHP"
 	);
-	DrawFormatStringToHandle(
-		scoreX, y, color,
-		scoreFontHandle,
-		"%d", hp
+
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		scoreX,
+		y,
+		textSize,
+		color,
+		"%d",
+		hp
 	);
 
 	// 経過ターン数
-	DrawFormatStringToHandle(
-		x, y1, color,
-		scoreFontHandle,
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		x,
+		y1,
+		textSize,
+		color,
 		"経過ターン数"
 	);
-	DrawFormatStringToHandle(
-		scoreX, y1, color,
-		scoreFontHandle,
-		"%d", turn
+
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		scoreX,
+		y1,
+		textSize,
+		color,
+		"%d",
+		turn
 	);
 
 	// 使用カード枚数
-	DrawFormatStringToHandle(
-		x, y2, color,
-		scoreFontHandle,
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		x,
+		y2,
+		textSize,
+		color,
 		"使用カード枚数"
 	);
-	DrawFormatStringToHandle(
-		scoreX, y2, color,
-		scoreFontHandle,
-		"%d", Master::mpSaveCardCount
+
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		scoreX,
+		y2,
+		textSize,
+		color,
+		"%d",
+		Master::mpSaveCardCount
 	);
 
 	// 使用アイテム数
-	DrawFormatStringToHandle(
-		x, y3, color,
-		scoreFontHandle,
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		x,
+		y3,
+		textSize,
+		color,
 		"使用アイテム数"
 	);
-	DrawFormatStringToHandle(
-		scoreX, y3, color,
-		scoreFontHandle,
-		"%d", Master::mpSaveItemCount
+
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
+		scoreX,
+		y3,
+		textSize,
+		color,
+		"%d",
+		Master::mpSaveItemCount
 	);
 
 

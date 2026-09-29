@@ -470,22 +470,31 @@ void Title::Draw()
 			mnVolumeSettingsBg,
 			TRUE
 		);
-		DrawStringToHandle(
+
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Nikumaru,
 			TitlePosition::VolumeTitleX,
 			TitlePosition::VolumeTitleY,
-			"音量設定",
-			TitleColor::White,  Master::mpGameManager->GetFontManager()->GetSelectFontHandle());
+			80,
+			TitleColor::White,
+			"音量設定"
+		);
 
+
+		// フォントサイズ
+		int textFontSize = 60;
+		int volumeFontSize = 30;
 
 		// BGM関係
 		{
 			// BGM文字
-			DrawStringToHandle(
+			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+				FontManager::FontType::Nikumaru,
 				TitlePosition::BgmTextX,
 				TitlePosition::BgmTextY,
-				"BGM",
+				textFontSize,
 				TitleColor::White,
-				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
+				"BGM"
 			);
 
 			int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
@@ -494,7 +503,8 @@ void Title::Draw()
 			mpBgmVolumeBar->Draw(bgmVolume);
 
 			// BGM音量の数字
-			DrawFormatStringToHandle(
+			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+				FontManager::FontType::Nikumaru,
 				TitlePosition::VolumeBarX
 				+ (bgmVolume * TitlePosition::VolumeBarWidth
 					/ TitleSetting::VolumeMax)
@@ -502,13 +512,12 @@ void Title::Draw()
 
 				TitlePosition::BgmBarY
 				- TitlePosition::VolumeNumberYOffset,
-
+				volumeFontSize,
 				TitleColor::White,
-
-				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 				"%d",
 				bgmVolume
 			);
+
 
 			// BGMつまみ
 			DrawRotaGraph(
@@ -530,12 +539,13 @@ void Title::Draw()
 		// SE関係
 		{
 			// SE文字
-			DrawStringToHandle(
+			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+				FontManager::FontType::Nikumaru,
 				TitlePosition::SeTextX,
 				TitlePosition::SeTextY,
-				"SE",
+				textFontSize,
 				TitleColor::White,
-				Master::mpGameManager->GetFontManager()->GetTextFontHandle()
+				"SE"
 			);
 
 			int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
@@ -544,7 +554,8 @@ void Title::Draw()
 			mpSeVolumeBar->Draw(seVolume);
 
 			// SE音量の数字
-			DrawFormatStringToHandle(
+			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+				FontManager::FontType::Nikumaru,
 				TitlePosition::VolumeBarX
 				+ (seVolume * TitlePosition::VolumeBarWidth
 					/ TitleSetting::VolumeMax)
@@ -552,13 +563,13 @@ void Title::Draw()
 
 				TitlePosition::SeBarY
 				- TitlePosition::VolumeNumberYOffset,
-
+				volumeFontSize,
 				TitleColor::White,
-
-				Master::mpGameManager->GetFontManager()->GetMusicFontHandle(),
 				"%d",
 				seVolume
 			);
+
+
 
 			// SEつまみ
 			DrawRotaGraph(

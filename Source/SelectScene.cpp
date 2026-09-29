@@ -188,12 +188,13 @@ void SelectScene::Draw()
 	}
 
 	// 選択の文字
-	DrawStringToHandle(
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
 		Utility::SCREEN_WIDTH / 2 - 400,
 		Utility::SCREEN_HEIGHT / 2 - 200,
-		"ステージを選択しよう",
-		GetColor(255, 255, 255),
-		Master::mpGameManager->GetFontManager()->GetSelectFontHandle()
+		80,
+		TitleColor::White,
+		"ステージを選択しよう"
 	);
 
 	// シーン移動したら白くフェードのやつ

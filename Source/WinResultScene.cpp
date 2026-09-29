@@ -57,14 +57,15 @@ void WinResultScene::Draw()
 
 	unsigned int color = GetColor(60, 60, 60); // 黒色
 
-	// フォントを変えたよ　大谷
-	DrawStringToHandle(
+	Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+		FontManager::FontType::Nikumaru,
 		800,
 		(int)m_Score.GetMoveY() - 300,
-		"勝利",
+		180,
 		color,
-		Master::mpGameManager->GetFontManager()->GetResultFontHandle()
+		"勝利"
 	);
+
 	Scene::Draw();
 
 }

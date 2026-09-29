@@ -768,9 +768,16 @@ void Player::HpGaugeDraw()
     DrawRoundRect(hpX, y, hpX + width, y + height, 10, 10, GetColor(255, 255, 255), FALSE);
     // ------------ //
 
-    DrawFormatStringToHandle(hpX + 70, drawY, GetColor(255, 255, 255),
-        Master::mpGameManager->GetFontManager()->GetHpFontHandle(), "HP  %d / %d", hp, maxHp);
-
+    Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+        FontManager::FontType::Hutehodo,
+        hpX + 70,
+        drawY,
+        16,
+        GetColor(255, 255, 255),
+        "HP  %d / %d",
+        hp,
+        maxHp
+    );
 }
 
 // 必殺技ゲージの描画
@@ -790,7 +797,6 @@ void Player::SpecialGaugeDraw()
 
     // 必殺技ゲージの枠線
     DrawBox(spX, y, spX + specialWidth, y + specialHeight, GetColor(255, 255, 255), false);
-    // ------------ //
 
     // =========================
     // SP文字
@@ -801,12 +807,13 @@ void Player::SpecialGaugeDraw()
     int spWidth = GetDrawStringWidth("SP", 2);
     int spDrawX = centerX - spWidth / 2;
 
-    DrawStringToHandle(
+    Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+        FontManager::FontType::Hutehodo,
         spDrawX,
         y + specialHeight + 30,
-        "SP",
+        20,
         GetColor(255, 255, 255),
-        Master::mpGameManager->GetFontManager()->GetItemFontHandle()
+        "SP"
     );
 
 
@@ -814,18 +821,32 @@ void Player::SpecialGaugeDraw()
     // 数字
     // =========================
 
+    int size = 25;
+    int fontHandle =
+        Master::mpGameManager->GetFontManager()->GetNikumaruFontHandle(size);
+
     char str[32];
     sprintf_s(str, "%d", specialCharge);
 
-    int numWidth = GetDrawStringWidthToHandle(str, (int)strlen(str), Master::mpGameManager->GetFontManager()->GetItemFontHandle());
+    // 文字幅を取得
+    int numWidth = GetDrawStringWidthToHandle(
+        str,
+        (int)strlen(str),
+        fontHandle
+    );
+
+    // 中央揃え用のX座標を計算
     int numDrawX = centerX - numWidth / 2;
 
-    DrawStringToHandle(
+    // FontManagerDrawStringで描画
+    Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+        FontManager::FontType::Nikumaru,
         numDrawX,
         y + specialHeight + 80,
-        str,
+        size,
         GetColor(255, 255, 255),
-        Master::mpGameManager->GetFontManager()->GetItemFontHandle()
+        "%d",
+        specialCharge
     );
 }
 
@@ -837,22 +858,47 @@ void Player::IconDraw()
 
     int drawY = y; // 基準位置
 
-    //アイコンの描画
+    // アイコンの描画
     int iconX = x - 50;
     int iconY = 720;
     int yDist = 18;
 
-    //シールドのアイコン描画
+    // シールドのアイコン描画
     DrawGraph(iconX - 45, iconY, mnShieldHandle, TRUE);
 
-    // 表示する文字幅を取得
-    int textWidth = GetDrawFormatStringWidth("%d", block);
+
+    // =========================
+    // ブロック数
+    // =========================
+
+    // フォントハンドルを取得
+    int fontHandle =
+        Master::mpGameManager->GetFontManager()->GetHutehodoFontHandle(23);
+
+    // 表示する文字
+    char str[32];
+    sprintf_s(str, "%d", block);
+
+    // 文字幅を取得
+    int textWidth = GetDrawStringWidthToHandle(
+        str,
+        (int)strlen(str),
+        fontHandle
+    );
+
     // 中央になるようにXを調整
     int textX = (iconX - 3) - textWidth / 2;
-    // 描画
-    DrawFormatStringToHandle(textX, drawY + 38, GetColor(230, 230, 230),
-        Master::mpGameManager->GetFontManager()->GetStatusFontHandle(), "%d", block);
 
+    // 描画
+    Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+        FontManager::FontType::Hutehodo,
+        textX,
+        drawY + 38,
+        23,
+        GetColor(230, 230, 230),
+        "%d",
+        block
+    );
 
     // バフ・デバフ（ここから下に伸びる）
     int effectX = x;
@@ -970,41 +1016,46 @@ void Player::Draw()
         DrawBox(drawX - BoardDist, drawY - BoardDist, 1670+BoardDist,
             (drawY + BoardDist) + 150,GetColor(23,92, 11), TRUE);
 
-        // 文字の描画
-        //DrawString(drawX, drawY, itemMemo[mnHoverItem], GetColor(225, 225, 225));
-
-        DrawFormatStringToHandle(drawX, drawY, GetColor(255, 255, 255),
-            Master::mpGameManager->GetFontManager()->GetItemFontHandle(), itemMemo[mnHoverItem]);
+        Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+            FontManager::FontType::Hutehodo,
+            drawX,
+            drawY,
+            20,
+            GetColor(255, 255, 255),
+            itemMemo[mnHoverItem]
+        );
 
         if (mnHoverItem == 2) // はさみだったら
         {
             // 説明
             int textY = drawY + 45;
 
-            DrawFormatStringToHandle(
+            Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+                FontManager::FontType::Hutehodo,
                 drawX,
                 textY,
+                20,
                 GetColor(255, 255, 255),
-                Master::mpGameManager->GetFontManager()->GetItemFontHandle(),
                 "1. 1ターン コストをランダムにする"
             );
 
-            DrawFormatStringToHandle(
+            Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+                FontManager::FontType::Hutehodo,
                 drawX,
                 textY + 32,
+                20,
                 GetColor(255, 255, 255),
-                Master::mpGameManager->GetFontManager()->GetItemFontHandle(),
                 "2. MPを全消費してHPを回復する"
             );
 
-            DrawFormatStringToHandle(
+            Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+                FontManager::FontType::Hutehodo,
                 drawX,
                 textY + 64,
+                20,
                 GetColor(255, 255, 255),
-                Master::mpGameManager->GetFontManager()->GetItemFontHandle(),
                 "3. 2ターン敵をスタンさせる"
             );
-
         }
 
     }

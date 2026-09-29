@@ -160,8 +160,16 @@ void Enemy::HpGaugeDraw()
     // Hpゲージの枠線
     DrawRoundRect(hpX, y, hpX + width, y + height, 10, 10, GetColor(255, 255, 255), false);
 
-    DrawFormatStringToHandle(hpX + 70, drawY, GetColor(255, 255, 255),
-        Master::mpGameManager->GetFontManager()->GetHpFontHandle(), "HP  %d / %d", hp, maxHp);
+    Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+        FontManager::FontType::Hutehodo,
+        hpX + 70,
+        drawY,
+        16,
+        GetColor(255, 255, 255),
+        "HP  %d / %d",
+        hp,
+        maxHp
+    );
 }
 
 void Enemy::EnemyIcon()
@@ -169,33 +177,81 @@ void Enemy::EnemyIcon()
     // 表示を開始する基準位置
     int x = (int)mvPosition.x - 80;
     int y = (int)mvPosition.y + 110;
-    //アイコンの描画
+
+    // アイコンの描画
     int iconX = x - 50;
     int iconY = y += 20;
 
     int yDist = 18;
 
-    //シールドのアイコン描画
+    // =========================
+    // シールド
+    // =========================
+
+    // シールドのアイコン描画
     DrawGraph(iconX - 35, iconY, mnShieldHandle, TRUE);
+
+    // フォントハンドルを取得
+    int fontHandle =
+        Master::mpGameManager->GetFontManager()->GetHutehodoFontHandle(23);
+
+    // 表示する文字
+    char strShield[32];
+    sprintf_s(strShield, "%d", block);
+
     // 表示する文字幅を取得
-    int textWidth_S = GetDrawFormatStringWidth("%d", block);
+    int textWidth_S = GetDrawStringWidthToHandle(
+        strShield,
+        (int)strlen(strShield),
+        fontHandle
+    );
+
     // 中央になるようにXを調整
     int ShildText = (x - 43) - textWidth_S / 2;
+
     // 描画
-    DrawFormatStringToHandle(ShildText, y + yDist, GetColor(230, 230, 230),
-        Master::mpGameManager->GetFontManager()->GetStatusFontHandle(), "%d", block);
+    Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+        FontManager::FontType::Hutehodo,
+        ShildText,
+        y + yDist,
+        23,
+        GetColor(230, 230, 230),
+        "%d",
+        block
+    );
 
 
-    //呪いのアイコン描画
+    // =========================
+    // 呪い
+    // =========================
+
+    // 呪いのアイコン描画
     DrawGraph(iconX + 10, iconY - 10, mnCurseHandle, TRUE);
-    // 表示する文字幅を取得
-    int textWidth_C = GetDrawFormatStringWidth("%d", curse);
-    // 中央になるようにXを調整
-    int CurseText = (x+2) - (textWidth_C / 2);
-    // 描画
-    DrawFormatStringToHandle(CurseText, y + yDist, GetColor(230, 230, 230),
-        Master::mpGameManager->GetFontManager()->GetStatusFontHandle(), "%d", curse);
 
+    // 表示する文字
+    char strCurse[32];
+    sprintf_s(strCurse, "%d", curse);
+
+    // 表示する文字幅を取得
+    int textWidth_C = GetDrawStringWidthToHandle(
+        strCurse,
+        (int)strlen(strCurse),
+        fontHandle
+    );
+
+    // 中央になるようにXを調整
+    int CurseText = (x + 2) - (textWidth_C / 2);
+
+    // 描画
+    Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+        FontManager::FontType::Hutehodo,
+        CurseText,
+        y + yDist,
+        23,
+        GetColor(230, 230, 230),
+        "%d",
+        curse
+    );
 }
 
 void Enemy::Draw()
