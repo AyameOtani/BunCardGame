@@ -1,6 +1,11 @@
 ﻿#include "FontManager.h"
 
+#include <DxLib.h>
+#include <cstdarg>
+#include <cstdio>
+
 FontManager::FontManager()
+    :mType(FontType::None)
 {
 
 }
@@ -19,7 +24,6 @@ void FontManager::Initialize()
         FR_PRIVATE, // このプログラムだけで使うってやつらしい
         NULL
     );
-
 
 
     // フォルダにあるフォントをダウンロード
@@ -217,14 +221,166 @@ void FontManager::Initialize()
    
 }
 
+int FontManager::GetNikumaruFontHandle(int size)
+{
+    // すでに同じサイズのフォントが作られているか確認
+    auto it = mNikumaruFontHandles.find(size);
+
+    if (it != mNikumaruFontHandles.end())
+    {
+        // すでに存在するので、そのハンドルを返す
+        return it->second;
+    }
+    // まだ存在しないので新しく作成する
+    int handle = CreateNikumaruFont(size);
+
+    if (handle == -1)
+    {
+        return -1;
+    }
+    // サイズとフォントハンドルを保存
+    mNikumaruFontHandles[size] = handle;
+    return handle;
+}
+
+int FontManager::CreateNikumaruFont(int size)
+{
+    int handle = CreateFontToHandle(
+        "Nikumaru",
+        size,
+        5
+    );
+    // フォントの作成に失敗した場合
+    if (handle == -1)
+    {
+        printfDx("にくまるフォントの作成に失敗しました。\n");
+
+        // 標準フォントで代替
+        handle = CreateFontToHandle(
+            NULL,
+            size,
+            5
+        );
+    }
+    return handle;
+}
+
+
+
+int FontManager::GetHutehodoFontHandle(int size)
+{
+    // すでに同じサイズのフォントが作られているか確認
+    auto it = mHutehodoFontHandles.find(size);
+
+    if (it != mHutehodoFontHandles.end())
+    {
+        // すでに存在するので、そのハンドルを返す
+        return it->second;
+    }
+    // まだ存在しないので新しく作成する
+    int handle = CreateHutehodoFont(size);
+
+    if (handle == -1)
+    {
+        return -1;
+    }
+    // サイズとフォントハンドルを保存
+    mHutehodoFontHandles[size] = handle;
+    return handle;
+}
+
+
+int FontManager::CreateHutehodoFont(int size)
+{
+    int handle = CreateFontToHandle(
+        "Futehodo-MaruGothic",
+        size,
+        5
+    );
+    // フォントの作成に失敗した場合
+    if (handle == -1)
+    {
+        printfDx("ふてほど丸ゴシックフォントの作成に失敗しました。\n");
+
+        // 標準フォントで代替
+        handle = CreateFontToHandle(
+            NULL,
+            size,
+            5
+        );
+    }
+    return handle;
+}
+
+
+
+void FontManager::FontManagerDrawString(
+    FontType type,
+    int x,
+    int y,
+    int size,
+    unsigned int color,
+    const char* format,
+    ...
+)
+{
+    // 指定されたサイズのフォントを取得
+    int fontHandle{};
+    if (type == FontType::Nikumaru)
+    {
+        fontHandle = GetNikumaruFontHandle(size);
+    }
+    else
+    {
+        fontHandle = GetHutehodoFontHandle(size);
+    }
+
+    if (fontHandle == -1)
+    {
+        return;
+    }
+
+    // printf形式で文字列を作成する
+    char buffer[1024];
+
+    va_list args;
+    va_start(args, format);
+
+    vsnprintf(
+        buffer,
+        sizeof(buffer),
+        format,
+        args
+    );
+
+    va_end(args);
+
+    // 作成した文字列を描画
+    DrawStringToHandle(
+        x,
+        y,
+        buffer,
+        color,
+        fontHandle
+    );
+}
+
+
+
 void FontManager::Finalize()
 {
-    DeleteFontToHandle(mnResultFont);
-    DeleteFontToHandle(mnScoreFont);
-    DeleteFontToHandle(mnSelecFont);
-    DeleteFontToHandle(mnMusicFont);
-    DeleteFontToHandle(mnTextFont);
-    DeleteFontToHandle(mnStatusFont);
-    DeleteFontToHandle(mnMpFont);
-    DeleteFontToHandle(mnHpFont);
+    // 作成したフォントをすべて削除する
+    for (auto& font : mNikumaruFontHandles)
+    {
+        DeleteFontToHandle(font.second);
+    }
+    mNikumaruFontHandles.clear();
+
+
+    // 作成したフォントをすべて削除する
+    for (auto& font : mHutehodoFontHandles)
+    {
+        DeleteFontToHandle(font.second);
+    }
+    mHutehodoFontHandles.clear();
 }
