@@ -28,10 +28,6 @@ void FontManager::Initialize()
     {
         printfDx("にくまるフォントの登録に失敗しました。\n");
     }
-    else
-    {
-        printfDx("にくまるフォントの登録に成功しました。\n");
-    }
 
 
     // ふてほどフォントを登録
@@ -44,10 +40,6 @@ void FontManager::Initialize()
     if (hutehodoResult == 0)
     {
         printfDx("ふてほどフォントの登録に失敗しました。\n");
-    }
-    else
-    {
-        printfDx("ふてほどフォントの登録に成功しました。\n");
     }
 }
 int FontManager::GetNikumaruFontHandle(int size)
