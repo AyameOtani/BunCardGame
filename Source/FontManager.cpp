@@ -133,6 +133,19 @@ int FontManager::CreateHutehodoFont(int size)
     return handle;
 }
 
+// フォントタイプを設定する
+int FontManager::ApplyFontType(int _size, FontType _type)
+{
+    if (_type == FontType::Nikumaru)
+    {
+       return GetNikumaruFontHandle(_size);
+    }
+    else
+    {
+        return GetHutehodoFontHandle(_size);
+    }
+}
+
 
 
 void FontManager::FontManagerDrawString(
@@ -146,20 +159,9 @@ void FontManager::FontManagerDrawString(
 )
 {
     // 指定されたサイズのフォントを取得
-    int fontHandle{};
-    if (type == FontType::Nikumaru)
-    {
-        fontHandle = GetNikumaruFontHandle(size);
-    }
-    else
-    {
-        fontHandle = GetHutehodoFontHandle(size);
-    }
+    int fontHandle = ApplyFontType(size, type);
+    if (fontHandle == -1) { return; }
 
-    if (fontHandle == -1)
-    {
-        return;
-    }
 
     // printf形式で文字列を作成する
     char buffer[1024];

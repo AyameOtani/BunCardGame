@@ -8,8 +8,8 @@
 struct Part
 {
 	std::string name;
-	float angle = 0.0f;      // 今の角度
-	float targetAngle = 0.0f;// 目標角度
+	float angle = 0.0f;         // 今の角度
+	float targetAngle = 0.0f;   // 目標角度
 	float xOffset = 0.0f;		// 現在の横方向のズレ
 	float targetXOffset = 0.0f;	// 目標の横方向のズレ
 	float yOffset = 0.0f;		// 現在の縦方向のズレ

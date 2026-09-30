@@ -29,7 +29,7 @@ public:
 	NextScene mNextScene = NONE_SCENE;
 
 private:
-	// ボタン 大谷
+	// ボタン
 	std::unique_ptr<MouseGraph> mpGameStart;
 	std::unique_ptr<MouseGraph> mpExplainGraph;
 	std::unique_ptr<MouseGraph> mpOptionButton;
@@ -66,15 +66,13 @@ private:
 	// カードのターゲット位置 小池
 	float targetX;
 	float targetY;
-
-
 	float targetAngle = -0.05f;
 	float targetRota = 1.0f;
 
 	// 白いBOXの透明度
 	float mfWhiteBoxAlpha = 0.0f;
 
-	// ボタン演出 大谷
+	// ボタン演出
 	float mfStartX;
 	float mfStartY;
 	float mfExplainX;

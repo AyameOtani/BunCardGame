@@ -39,7 +39,6 @@ void LoseResultScene::Update()
 				->SetNextScene(SceneManager::SCENE_TYPE::TITLE);
 			Master::mpGameManager->GetSoundManager()
 				->PlaySE(SoundManager::SE_DECIDE);
-
 		}
 	}
 

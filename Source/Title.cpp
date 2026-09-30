@@ -157,14 +157,12 @@ void Title::Update()
 
 	if (mpExplainGraph)
 	{
-
 		if (fabs(mfExplainX - mfTargetExplainX) < TitleAnimation::ButtonStopDistance &&
 			fabs(mfExplainY - mfTargetExplainY) < TitleAnimation::ButtonStopDistance)
 		{
 			mfExplainX = mfTargetExplainX;
 			mfExplainY = mfTargetExplainY;
 		}
-		
 		mpExplainGraph->SetPosition(mfExplainX,mfExplainY);
 	}
 
@@ -207,7 +205,7 @@ void Title::Update()
 
 
 	// ゲームボタンのUpdateと判定  マウスがまだ押されていなかったら判定
-	// 音量調節中は押せないように追加  大谷
+	// 音量調節中は押せないようにしている
 	if (mpGameStart && mpExplainGraph && !mbMouseButton)
 	{
 		mpGameStart->Update();
@@ -236,17 +234,15 @@ void Title::Update()
 			}
 		}
 
-		if (mpGameStart->IsClicked() && !mbOption) // 押されたらゲーム画面にいく
+		if (mpGameStart->IsClicked() && !mbOption) // 押されたらゲーム画面に遷移
 		{
 			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
-			//Master::mpGameManager->GetSoundManager()->StartFadeOut();
-			mbMouseButton = true; // フラグをTRUE
+			mbMouseButton = true; 
 			mNextScene = SELECT_SCENE; // ゲーム画面に飛ぶのを設定
 		}
 		else if (mpExplainGraph->IsClicked() && !mbOption)
 		{
 			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
-			//Master::mpGameManager->GetSoundManager()->StartFadeOut();
 			mbMouseButton = true;
 			mNextScene = EXPLAIN_SCENE; // 説明画面に飛ぶのを設定
 		}

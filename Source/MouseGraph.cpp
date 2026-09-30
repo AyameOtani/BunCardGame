@@ -19,7 +19,7 @@ MouseGraph::MouseGraph(float x, float y, float angle, std::string filename, floa
 
 	if (mnHandle == InvalidGraphHandle)
 	{
-		printfDx("画像読み込み失敗");
+		printfDx("マウスホバー画像読み込み失敗");
 	}
 }
 

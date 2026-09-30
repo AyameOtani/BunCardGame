@@ -9,12 +9,12 @@ public:
 
 	// コンストラクタ
 	MouseGraph(
-		float x,			// Xの位置 中心基準
-		float y,			// Yの位置 中心基準
-		float angle,		// 角度
+		float x,			 // Xの位置 中心基準
+		float y,			 // Yの位置 中心基準
+		float angle,		 // 角度
 		std::string filename,// 画像ハンドル
-		float rate,	    // 拡大率
-		float changerate  // 変えた後の拡大率
+		float rate,	         // 拡大率
+		float changerate     // 変えた後の拡大率
 	);
 
 	~MouseGraph();
