@@ -3,9 +3,7 @@
 #include <string>
 #include <DxLib.h>
 
-//==================================================
 //  画面の大きさに関する設定
-//================================================
 namespace ScreenSize
 {
 	static constexpr int Width = 1920;
@@ -16,9 +14,6 @@ namespace ScreenSize
 	static constexpr int CenterY = Height / 2;
 }
 
-//==================================================
-// 音量に関する設定
-//==================================================
 
 // 音量に関する設定
 namespace SoundSetting
@@ -178,8 +173,8 @@ namespace TitleAnimation
 }
 
 
-// タイトル画面の色
-namespace TitleColor
+// よく使用する色
+namespace ColorOption
 {
 	static const int White = GetColor(255, 255, 255);
 	static const int Black = GetColor(0, 0, 0);
@@ -204,12 +199,31 @@ namespace TitleSetting
 	static constexpr int LogoOffsetX = 0;
 }
 
-
-//==================================================
-// 勝利リザルト画面で使用するもの一覧
-//==================================================
-
-namespace WinResultPath
+// アニメーションに必要な設定
+namespace AnimOption
 {
+	static constexpr float PartSpeed = 0.2f; // パーツを動かす速さ
+}
 
+// プレイヤーのステータス関係
+namespace PlayerStatus
+{
+	static const int InitialHp = 100; // 初期HP
+	static const int InitiaMp = 3; // 初期MP
+	static const int MaxSpacialCharge = 100; // 最大必殺ゲージ
+	static constexpr float InitScale = 1.7f; // 画像の大きさ
+}
+
+// アイテム画像パス
+namespace ItemGraphPath
+{
+	// はさみ、のり、ペンの画像パス
+	std::string const Scissors = "Resource/Item/img_scissors.png";
+	std::string const Glue = "Resource/Item/img_glue.png";
+	std::string const Pen = "Resource/Item/img_pen.png";
+
+	// 使用後のパス
+	std::string const Use_Scissors = "Resource/Item/img_use_scissors.png";
+	std::string const Use_Glue = "Resource/Item/img_use_glue.png";
+	std::string const Use_Pen = "Resource/Item/img_use_pen.png";
 }

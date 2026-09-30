@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <string>
+#include "GameConstants.h"
+
 
 /// <summary>
 /// アニメーションに必要なパーツ一つ一つに情報を持たせて
@@ -23,4 +25,4 @@ void UpdatePart(Part& p);
 void DrawPart(const Part& p, float baseX, float baseY, float size);
 
 // パーツを動かすための速さ
-static constexpr float partSpeed = 0.2f;
+static constexpr float partSpeed = AnimOption::PartSpeed;

@@ -193,7 +193,7 @@ void SelectScene::Draw()
 		Utility::SCREEN_WIDTH / 2 - 400,
 		Utility::SCREEN_HEIGHT / 2 - 200,
 		80,
-		TitleColor::White,
+		ColorOption::White,
 		"ステージを選択しよう"
 	);
 

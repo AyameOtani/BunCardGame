@@ -13,36 +13,33 @@ Player::Player(VECTOR initPos, SceneManager::GScene gscene)
     , mGScene(gscene)
 {
     // ステータス一旦ここにしてる
-    hp = 100;
-    maxHp = 100;
-    maxMp = 3;
+    maxHp = PlayerStatus::InitialHp;
+    hp = maxHp;
+    maxMp = PlayerStatus::InitiaMp;
     mp = maxMp;
     specialCharge = 0;    
-    specialChargeMax = 100;
+    specialChargeMax = PlayerStatus::MaxSpacialCharge;
 	displayHp = maxHp;
 	displayDamageHp = maxHp;
-
 
     SetFontSize(25);
 
     // 画像の大きさ大きくする
-    SetScale(1.7f);
+    SetScale(PlayerStatus::InitScale);
 
     // タグ
     SetTag(Object2D::Player2D);
-
     animator.ownerType = AnimationData::AnimOwner::PLAYER; // プレイヤーの判別追加
 
-
     // アイテム画像のロード
-    itemImageHandles[0] = LoadGraph("Resource/Item/img_scissors.png"); // ハサミ
-    itemImageHandles[1] = LoadGraph("Resource/Item/img_glue.png"); // のり
-    itemImageHandles[2] = LoadGraph("Resource/Item/img_pen.png"); // ペン
+    itemImageHandles[0] = LoadGraph(ItemGraphPath::Scissors.c_str()); // ハサミ
+    itemImageHandles[1] = LoadGraph(ItemGraphPath::Glue.c_str()); // のり
+    itemImageHandles[2] = LoadGraph(ItemGraphPath::Pen.c_str()); // ペン
 
     // 使用後
-    itemUsedHandles[0] = LoadGraph("Resource/Item/img_use_scissors.png");
-    itemUsedHandles[1] = LoadGraph("Resource/Item/img_use_glue.png");
-    itemUsedHandles[2] = LoadGraph("Resource/Item/img_use_pen.png");
+    itemUsedHandles[0] = LoadGraph(ItemGraphPath::Use_Scissors.c_str());
+    itemUsedHandles[1] = LoadGraph(ItemGraphPath::Use_Glue.c_str());
+    itemUsedHandles[2] = LoadGraph(ItemGraphPath::Use_Pen.c_str());
 
     // アイテムの位置設定
 	float GraphX = 1800.0f; // 画面右端からの距離
@@ -52,8 +49,6 @@ Player::Player(VECTOR initPos, SceneManager::GScene gscene)
 
 	mnPoisonHandle = LoadGraph("Resource/Icon/icon_poison.png"); // 毒のエフェクト画像のロード
 	mnShieldHandle = LoadGraph("Resource/Icon/icon_shield.png"); // シールドのエフェクト画像のロード
-
-
     mnCardOperateHandle = LoadGraph("Resource/2D/card_operate.png"); // カードの選択説明の画像
 }
 

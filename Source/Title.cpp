@@ -119,14 +119,14 @@ void Title::Initialize()
 		TitlePosition::BgmBarY,
 		TitlePosition::VolumeBarWidth,
 		TitlePosition::VolumeBarHeight,
-		TitleColor::BgmBar
+		ColorOption::BgmBar
 	);
 	mpSeVolumeBar = std::make_unique<VolumeBar>(
 		TitlePosition::VolumeBarX,
 		TitlePosition::SeBarY,
 		TitlePosition::VolumeBarWidth,
 		TitlePosition::VolumeBarHeight,
-		TitleColor::SeBar
+		ColorOption::SeBar
 	);
 
 	mbInitialize = true; // 初期化終わりON
@@ -377,7 +377,7 @@ void Title::Draw()
 	// ロゴの位置
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2;
-	int color = TitleColor::White;
+	int color = ColorOption::White;
 
 
 	// 2D用に設定
@@ -432,7 +432,7 @@ void Title::Draw()
 		if (mbWhite)
 		{
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)mfWhiteBoxAlpha); // 半透明にするため
-			DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TitleColor::White, TRUE);
+			DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, ColorOption::White, TRUE);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		}
 	}
@@ -451,7 +451,7 @@ void Title::Draw()
 			0,
 			Utility::SCREEN_WIDTH,
 			Utility::SCREEN_HEIGHT,
-			TitleColor::Black,
+			ColorOption::Black,
 			TRUE
 		);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); // 戻す
@@ -472,7 +472,7 @@ void Title::Draw()
 			TitlePosition::VolumeTitleX,
 			TitlePosition::VolumeTitleY,
 			80,
-			TitleColor::White,
+			ColorOption::White,
 			"音量設定"
 		);
 
@@ -489,7 +489,7 @@ void Title::Draw()
 				TitlePosition::BgmTextX,
 				TitlePosition::BgmTextY,
 				textFontSize,
-				TitleColor::White,
+				ColorOption::White,
 				"BGM"
 			);
 
@@ -509,7 +509,7 @@ void Title::Draw()
 				TitlePosition::BgmBarY
 				- TitlePosition::VolumeNumberYOffset,
 				volumeFontSize,
-				TitleColor::White,
+				ColorOption::White,
 				"%d",
 				bgmVolume
 			);
@@ -540,7 +540,7 @@ void Title::Draw()
 				TitlePosition::SeTextX,
 				TitlePosition::SeTextY,
 				textFontSize,
-				TitleColor::White,
+				ColorOption::White,
 				"SE"
 			);
 
@@ -560,7 +560,7 @@ void Title::Draw()
 				TitlePosition::SeBarY
 				- TitlePosition::VolumeNumberYOffset,
 				volumeFontSize,
-				TitleColor::White,
+				ColorOption::White,
 				"%d",
 				seVolume
 			);

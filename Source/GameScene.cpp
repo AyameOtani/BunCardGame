@@ -263,14 +263,14 @@ void GameScene::Initialize() // 初期化
 		TitlePosition::BgmBarY,
 		TitlePosition::VolumeBarWidth,
 		TitlePosition::VolumeBarHeight,
-		TitleColor::BgmBar
+		ColorOption::BgmBar
 	);
 	mpSeVolumeBar = std::make_unique<VolumeBar>(
 		TitlePosition::VolumeBarX,
 		TitlePosition::SeBarY,
 		TitlePosition::VolumeBarWidth,
 		TitlePosition::VolumeBarHeight,
-		TitleColor::SeBar
+		ColorOption::SeBar
 	);
 
 
@@ -1469,7 +1469,7 @@ void GameScene::Draw() // 描画
 					TitlePosition::BgmTextX,
 					TitlePosition::BgmTextY,
 					textFontSize,
-					TitleColor::White,
+					ColorOption::White,
 					"BGM"
 				);
 
@@ -1490,7 +1490,7 @@ void GameScene::Draw() // 描画
 					- TitlePosition::VolumeNumberYOffset,
 
 					volumeFontSize,
-					TitleColor::White,
+					ColorOption::White,
 					"%d",
 					bgmVolume
 				);
@@ -1520,7 +1520,7 @@ void GameScene::Draw() // 描画
 					TitlePosition::SeTextX,
 					TitlePosition::SeTextY,
 					textFontSize,
-					TitleColor::White,
+					ColorOption::White,
 					"SE"
 				);
 
@@ -1541,7 +1541,7 @@ void GameScene::Draw() // 描画
 					- TitlePosition::VolumeNumberYOffset,
 
 					volumeFontSize,
-					TitleColor::White,
+					ColorOption::White,
 					"%d",
 					seVolume
 				);
