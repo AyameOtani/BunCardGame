@@ -7,48 +7,57 @@
 
 
 Title::Title()
+	: Scene()
+	// スマートポインタ
+	, mpGameStart(nullptr)
+	, mpExplainGraph(nullptr)
+	, mpOptionButton(nullptr)
+	, mpMusicClose(nullptr)
+	, mpBgmVolumeBar(nullptr)
+	, mpSeVolumeBar(nullptr)
+	// 次のシーン
+	, mNextScene(NONE_SCENE)
+	// 画像ハンドル
+	, mnRogoHandle(-1)
+	, mnBagHandle(-1)
+	, mnCardHandle(-1)
+	, mnVolumeSettingsBg(-1)
+	// 菊池
+	, mnKorukuitaHandle(-1)
+	, mnBatuHandle(-1)
+	, mnOnpuHandle(-1)
+	// 音量設定
+	, mbOption(false)
+	// タイトル演出
+	, mbMouseButton(false)
+	, mbWhite(false)
+	// カード演出
+	, mnCardX(TitleAnimation::CardInitialX)
+	, mnCardY(TitleAnimation::CardInitialY)
+	, mnCardAngle(3.0f)
+	, mnCardRota(0.01f)
+	// カードのターゲット位置
+	, targetX(TitlePosition::CardTargetOffsetX)
+	, targetY(TitlePosition::CardTargetOffsetY)
+	, targetAngle(-0.05f)
+	, targetRota(1.0f)
+	// 白いBOX
+	, mfWhiteBoxAlpha(0.0f)
+	// ボタン演出
+	, mfStartX(TitlePosition::StartInitialX)
+	, mfStartY(static_cast<float>(ScreenSize::Height) + TitlePosition::ButtonInitialYOffset)
+	, mfExplainX(static_cast<float>(ScreenSize::Width) + TitlePosition::ExplainInitialX)
+	, mfExplainY(static_cast<float>(ScreenSize::Height) + TitlePosition::ButtonInitialYOffset)
+	, mfTargetStartX(static_cast<float>(ScreenSize::CenterX) + TitlePosition::StartTargetOffsetX)
+	, mfTargetStartY(static_cast<float>(ScreenSize::CenterY) + TitlePosition::StartTargetOffsetY)
+	, mfTargetExplainX(static_cast<float>(ScreenSize::CenterX) + TitlePosition::ExplainTargetOffsetX)
+	, mfTargetExplainY(static_cast<float>(ScreenSize::CenterY) + TitlePosition::ExplainTargetOffsetY)
+	// ロゴ演出
+	, mfTurnY(TitleAnimation::LogoInitialY)
+	, mbInitialize(false)
+	, mfLogoTime(0.0f)
 {
 
-	targetX = TitlePosition::CardTargetOffsetX;
-	targetY = TitlePosition::CardTargetOffsetY;
-
-
-	mpGameStart = nullptr;
-	mpExplainGraph = nullptr;
-	mpOptionButton = nullptr;
-	mpMusicClose = nullptr;
-	mpBgmVolumeBar = nullptr;
-	mpSeVolumeBar = nullptr;
-
-	// 演出用変数の初期値を設定
-	mnCardX = TitleAnimation::CardInitialX;
-	mnCardY = TitleAnimation::CardInitialY;
-
-	int x = ScreenSize::CenterX;
-	int y = ScreenSize::CenterY;
-
-	// Start 左下から
-	mfStartX = TitlePosition::StartInitialX;
-	mfStartY = (float)ScreenSize::Height + TitlePosition::ButtonInitialYOffset;
-
-	// Explain 右下から
-	mfExplainX = (float)ScreenSize::Width + TitlePosition::ExplainInitialX;
-	mfExplainY = (float)ScreenSize::Height + TitlePosition::ButtonInitialYOffset;
-
-	// 最終位置
-	mfTargetStartX = (float)x + TitlePosition::StartTargetOffsetX;
-	mfTargetStartY = (float)y + TitlePosition::StartTargetOffsetY;
-	mfTargetExplainX = (float)x + TitlePosition::ExplainTargetOffsetX;
-	mfTargetExplainY = (float)y + TitlePosition::ExplainTargetOffsetY;
-
-	// フラグや変数の初期化
-	mfTurnY = TitleAnimation::LogoInitialY;
-	mbInitialize = false;
-	mbOption = false;
-	mbMouseButton = false;
-	mbWhite = false;
-	mfWhiteBoxAlpha = 0.0f;
-	mfLogoTime = 0.0f;
 }
 
 

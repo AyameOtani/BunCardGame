@@ -26,7 +26,7 @@ public:
 		EXPLAIN_SCENE,
 	};
 
-	NextScene mNextScene = NONE_SCENE;
+	NextScene mNextScene;
 
 private:
 	// スマートポインタ
@@ -35,43 +35,44 @@ private:
 	std::unique_ptr<MouseGraph> mpExplainGraph;
 	std::unique_ptr<MouseGraph> mpOptionButton;
 	std::unique_ptr<MouseGraph> mpMusicClose;
+
 	// 音量バー
 	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
 	std::unique_ptr<VolumeBar> mpSeVolumeBar;
 
 
 	// 画像ハンドル
-	int mnRogoHandle = -1;
-	int mnBagHandle = -1;
-	int mnCardHandle = -1;
-	int mnVolumeSettingsBg = -1;
+	int mnRogoHandle;
+	int mnBagHandle;
+	int mnCardHandle;
+	int mnVolumeSettingsBg;
 
 	// 菊池
-	int mnKorukuitaHandle = -1;
-	int mnBatuHandle = -1;
-	int mnOnpuHandle = -1;
+	int mnKorukuitaHandle;
+	int mnBatuHandle;
+	int mnOnpuHandle;
 
 	// 音量設定を開いているか
-	bool mbOption = false;
+	bool mbOption;
 
 	// タイトル演出
-	bool mbMouseButton = false;
-	bool mbWhite = false;
+	bool mbMouseButton;
+	bool mbWhite;
 
 	// カード演出
-	float mnCardX = 0.0f;
-	float mnCardY = 0.0f;
-	float mnCardAngle = 3.0f;
-	float mnCardRota = 0.01f;
+	float mnCardX;
+	float mnCardY;
+	float mnCardAngle;
+	float mnCardRota;
 
 	// カードのターゲット位置 小池
 	float targetX;
 	float targetY;
-	float targetAngle = -0.05f;
-	float targetRota = 1.0f;
+	float targetAngle;
+	float targetRota;
 
 	// 白いBOXの透明度
-	float mfWhiteBoxAlpha = 0.0f;
+	float mfWhiteBoxAlpha;
 
 	// ボタン演出
 	float mfStartX;
@@ -85,6 +86,6 @@ private:
 
 	// ロゴ演出
 	float mfTurnY;
-	bool mbInitialize = false;
-	float mfLogoTime = 0.0f;
+	bool mbInitialize;
+	float mfLogoTime;
 };
