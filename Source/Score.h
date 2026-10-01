@@ -16,44 +16,76 @@ public:
 	void DrawUseCardScoreString(); // 使用カード枚数の描画
 	void DrawUseItemScoreString(); // 使用アイテム数の描画
 
-
 	enum class ScoreRank
 	{
-		RANK_NONOE, // ランクなし　初期化
-		RANK_MAX,	 // 花丸ランク
+		RANK_NONOE,  // ランクなし　初期化
+		RANK_MAX,    // 花丸ランク
 		RANK_NORMAL, // 二重丸ランク
-		RANK_LOW,	 // まるランク
+		RANK_LOW,    // まるランク
 	};
 
 	ScoreRank mScoreRank; // スコアランク
 
-	float GetMoveY() const { return mfTurnBox; } // Yの位置を取得するやつ
+	// テキストのY座標を移動させる
+	float GetMoveY() const { return mfTurnBox;}
 
 private:
 
-	bool MoveScoreY(float& currentY,
+	// Y座標を移動させる
+	bool MoveScoreY(
+		float& currentY,
 		float targetY,
-		float& velocity);
+		float& velocity
+	);
 
-	// もともと読み込んでおく
+	// スコア画像を読み込む
+	void LoadScoreImages();
+
+	// スコアの文字を描画する
+	void DrawScoreStrings();
+
+	// スコアの文字を1つ描画する
+	void DrawScoreString(
+		const char* text,
+		int value,
+		int y
+	);
+
+	// HPのスコアを計算する
+	int CalculateHpScore(int hp);
+
+	// ターン数のスコアを計算する
+	int CalculateTurnScore(int turn);
+
+	// 総合ランクを計算する
+	void CalculateScoreRank();
+
+	// ランクに対応した画像ハンドルを取得する
+	int GetScoreRankHandle();
+
+	// ランク画像を描画する
+	void DrawScoreRank();
+
+
+	// スコア画像
 	int mnScoreMax;
 	int mnScoreNormal;
 	int mnScoreLow;
-	int mnHandle; // スコア画像のハンドル
 
 	int mnDrawScoreTime; // スコアを描画する時間
-	float mfTurnMoveY; // バウンドのやつ 文字のY
-	float mfUseCardMoveY; // バウンドのやつ 文字のY
-	float mfUseItemMoveY; // バウンドのやつ 文字のY
 
+	float mfTurnMoveY;    // 経過ターン数のY
+	float mfUseCardMoveY; // 使用カード枚数のY
+	float mfUseItemMoveY; // 使用アイテム数のY
 
 	bool mbInitialize; // 初期化が終わったか
-	bool mbMove; // 文字の動きが終わったかのフラグ
-	float mfMoveY; // バウンドのやつ 文字のY
-	float mfTurnBox; // 勝利の文字
+	bool mbMove;       // 文字の動きが終わったか
+
+	float mfMoveY;   // HPのY
+	float mfTurnBox; // 勝利の文字のY
 
 
-	// テキストをバウンドさせるもの 文字のYの速度
+	// 文字をバウンドさせる速度
 	float mfHpVelocity;
 	float mfTurnVelocity;
 	float mfUseCardVelocity;
