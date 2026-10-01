@@ -21,8 +21,6 @@ void LoseResultScene::Initialize()
 	int y = Utility::SCREEN_HEIGHT / 2;
 	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
 	mpMouseGraph = new MouseGraph((float)x, (float)y + 430.0f, 0.0f, "Resource/Title/Result.png", 0.38f, 0.43f); // スタートボタン
-
-	m_Score.Initialize(); // スコアの初期化
 }
 
 void LoseResultScene::Update()

@@ -224,3 +224,43 @@ namespace ItemGraphPath
 	std::string const Use_Glue = "Resource/Item/img_use_glue.png";
 	std::string const Use_Pen = "Resource/Item/img_use_pen.png";
 }
+
+
+// スコア関係の設定
+namespace ScoreSetting
+{
+	static constexpr int HpScoreStartTime = 60; // HPスコアの表示を開始する時間
+	static constexpr int TurnScoreStartTime = 120; // 経過ターンスコアの表示を開始する時間
+	static constexpr int UseCardScoreStartTime = 180; // 使用カード枚数の表示を開始する時間
+	static constexpr int UseItemScoreStartTime = 240; // 使用アイテム数の表示を開始する時間
+
+	static constexpr int ScoreX = 650; // スコア文字のX座標
+	static constexpr int TextSize = 45; // スコア文字の大きさ
+
+	static constexpr int ScoreNumberXOffset = 600; // スコアの数字を表示するX座標のずらし幅
+	static constexpr int ScoreTargetY = 520; // スコア文字の最終的なY座標
+	static constexpr int TurnScoreYOffset = 60; // 経過ターン数のY座標のずらし幅
+	static constexpr int UseCardScoreYOffset = 150; // 使用カード枚数のY座標のずらし幅
+	static constexpr int UseItemScoreYOffset = 210; // 使用アイテム数のY座標のずらし幅
+
+
+	static constexpr float Gravity = 0.1f; // スコア演出の重力
+	static constexpr float SpringPower = 0.25f; // スコア演出のバネの強さ
+	static constexpr float Damping = 0.70f; // スコア演出の減衰
+
+	static constexpr float StopDistance = 0.6f; // スコア演出が停止したと判定する距離
+
+
+	static constexpr int HpScoreMax = 75;      // HPがこの値以上なら最高ランク
+	static constexpr int HpScoreNormal = 40;   // HPがこの値以上なら通常ランク
+	static constexpr int TurnScoreMax = 8;     // ターン数がこの値以下なら最高ランク
+	static constexpr int TurnScoreNormal = 16; // ターン数がこの値以下なら通常ランク
+	static constexpr int RankImageY = 400;      // ランク画像を描画するY座標
+	static constexpr float RankImageScale = 0.2f; // ランク画像の拡大率
+
+	static constexpr float TurnMoveYInitialValue = -100.0f;		// 経過ターン数の文字のY座標の初期値
+	static constexpr float UseCardMoveYInitialValue = -100.0f;  // 使用カード枚数の文字のY座標の初期値
+	static constexpr float UseItemMoveYInitialValue = -100.0f;  // 使用アイテム数の文字のY座標の初期値
+	static constexpr float MoveYInitialValue = -100.0f;			// HPの文字のY座標の初期値
+	static constexpr float TurnBoxInitialValue = -100.0f;		// ターン数の背景のY座標の初期値
+}

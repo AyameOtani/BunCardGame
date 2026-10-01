@@ -177,7 +177,7 @@ void Title::Update()
 			mfExplainX = mfTargetExplainX;
 			mfExplainY = mfTargetExplainY;
 		}
-		mpExplainGraph->SetPosition(mfExplainX,mfExplainY);
+		mpExplainGraph->SetPosition(mfExplainX, mfExplainY);
 	}
 
 	// 初期化が終わっていたら
@@ -251,7 +251,7 @@ void Title::Update()
 		if (mpGameStart->IsClicked() && !mbOption) // 押されたらゲーム画面に遷移
 		{
 			Master::mpGameManager->GetSoundManager()->PlaySE(SoundManager::SE_DECIDE);
-			mbMouseButton = true; 
+			mbMouseButton = true;
 			mNextScene = SELECT_SCENE; // ゲーム画面に飛ぶのを設定
 		}
 		else if (mpExplainGraph->IsClicked() && !mbOption)
@@ -313,7 +313,7 @@ void Title::Update()
 			{
 				Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::SELECT_SCENE);
 			}
-			if (mNextScene == EXPLAIN_SCENE) 
+			if (mNextScene == EXPLAIN_SCENE)
 			{
 				Master::Master::mpGameManager->GetSceneManager()->SetNextScene(SceneManager::EXPAIN_SCENE);
 			}
@@ -340,44 +340,26 @@ void Title::Update()
 		if (GetMouseInput() & MOUSE_INPUT_LEFT)
 		{
 			// BGMバー
-			if (mouseX >= TitlePosition::VolumeBarX &&
-				mouseX <= TitlePosition::VolumeBarX
-				+ TitlePosition::VolumeBarWidth
-				+ TitlePosition::VolumeBarDist &&
-				mouseY >= TitlePosition::BgmBarY
-				- TitlePosition::VolumeBarUp &&
-				mouseY <= TitlePosition::BgmBarY
-				+ TitlePosition::VolumeBarDown)
+			if (mpBgmVolumeBar &&
+				mpBgmVolumeBar->IsMouseOver(mouseX, mouseY))
 			{
 				int bgmVolume =
-					(mouseX - TitlePosition::VolumeBarX)
-					* SoundSetting::VolumeMax
-					/ TitlePosition::VolumeBarWidth;
+					mpBgmVolumeBar->GetVolumeFromMouse(mouseX);
 
 				Master::mpGameManager->GetSoundManager()->SetBGMVolume(bgmVolume);
 				Master::mpGameManager->GetSoundManager()->SaveVolume();
 			}
 
 			// SEバー
-			if (mouseX >= TitlePosition::VolumeBarX &&
-				mouseX <= TitlePosition::VolumeBarX
-				+ TitlePosition::VolumeBarWidth
-				+ TitlePosition::VolumeBarDist &&
-				mouseY >= TitlePosition::SeBarY
-				- TitlePosition::VolumeBarUp &&
-				mouseY <= TitlePosition::SeBarY
-				+ TitlePosition::VolumeBarDown)
+			if (mpSeVolumeBar &&
+				mpSeVolumeBar->IsMouseOver(mouseX, mouseY))
 			{
 				int seVolume =
-					(mouseX - TitlePosition::VolumeBarX)
-					* SoundSetting::VolumeMax
-					/ TitlePosition::VolumeBarWidth;
+					mpSeVolumeBar->GetVolumeFromMouse(mouseX);
 
 				Master::mpGameManager->GetSoundManager()->SetSEVolume(seVolume);
 				Master::mpGameManager->GetSoundManager()->SaveVolume();
 			}
-
-		
 		}
 	}
 
@@ -397,7 +379,7 @@ void Title::Draw()
 	// 2D用に設定
 	SetUseZBufferFlag(FALSE);
 	SetWriteZBufferFlag(FALSE);
-	
+
 	// 背景描画
 	DrawRotaGraph(
 		x + TitleSetting::BackgroundOffsetX,
@@ -609,7 +591,7 @@ void Title::Draw()
 
 void Title::Finalize()
 {
-	
+
 	// 画像ハンドルの削除
 	if (mnRogoHandle != -1) { DeleteGraph(mnRogoHandle); mnRogoHandle = -1; }
 	if (mnBagHandle != -1) { DeleteGraph(mnBagHandle);  mnBagHandle = -1; }
