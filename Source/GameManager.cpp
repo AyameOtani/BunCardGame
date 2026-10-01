@@ -13,21 +13,31 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-	Finalize();
+	// シーンの終了処理
+	Master::mpGameManager->GetSceneManager()->Finalize();
+	// サウンドの終了処理
+	mpSoundManager->Finalize();
+	// フォントの終了処理
+	mpFontManager->Finalize();
+
+
+	// スマートポインタの解放
+	mpAnimationManager.reset();
+	mpFontManager.reset();
+	mpSoundManager.reset();
+	mpResourceManager.reset();
+	mpSceneManager.reset();
 }
 
 void GameManager::Initialize()
 {
 	// アニメーションの初期化
 	mpAnimationManager->Initialize();
-
 	// フォントの初期化
 	mpFontManager->Initialize();
-
 	// サウンドの初期化
 	// シーンより先に初期化する必要がある
 	mpSoundManager->Initialize();
-
 	// シーンマネージャーの初期化
 	Master::mpGameManager->GetSceneManager()->Initialize();
 }
@@ -39,18 +49,6 @@ void GameManager::Update()
 
 	// シーンの更新
 	Master::mpGameManager->GetSceneManager()->Update();
-}
-
-void GameManager::Finalize()
-{
-	// シーンの終了処理
-	Master::mpGameManager->GetSceneManager()->Finalize();
-
-	// サウンドの終了処理
-	mpSoundManager->Finalize();
-
-	// フォントの終了処理
-	mpFontManager->Finalize();
 }
 
 

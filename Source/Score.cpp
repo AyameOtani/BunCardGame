@@ -2,6 +2,39 @@
 #include "Master.h" 
 #include "Utility.h" 
 
+
+// 重力、バネ、減衰を使ってY座標を移動させる関数
+bool Score::MoveScoreY(
+	float& currentY,
+	float targetY,
+	float& velocity)
+{
+	float gravity = ScoreSetting::Gravity;
+	float power = ScoreSetting::SpringPower;
+	float damping = ScoreSetting::Damping;
+
+	velocity += gravity;
+
+	float force = (targetY - currentY) * power;
+	velocity += force;
+
+	velocity *= damping;
+
+	currentY += velocity;
+
+	if (fabs(velocity) < ScoreSetting::StopDistance &&
+		fabs(targetY - currentY) < ScoreSetting::StopDistance)
+	{
+		currentY = targetY;
+		velocity = 0.0f;
+
+		return true;
+	}
+
+	return false;
+}
+
+
 Score::Score()
 	: mScoreRank(ScoreRank::RANK_NONOE)
 	, mnScoreMax(-1)
@@ -16,27 +49,33 @@ Score::Score()
 	, mbMove(false)
 	, mfMoveY(ScoreSetting::MoveYInitialValue)
 	, mfTurnBox(ScoreSetting::TurnBoxInitialValue)
+	, mfHpVelocity(0.0f)
+	, mfTurnVelocity(0.0f)
+	, mfUseCardVelocity(0.0f)
+	, mfUseItemVelocity(0.0f)
+	, mfTurnBoxVelocity(0.0f)
 {
 	// 花丸の画像 
-	mnScoreMax = LoadGraph("Resource/Title/ScoreMax.png");
+	mnScoreMax = LoadGraph(ResourcePath::ScoreMax);
 	if (mnScoreMax == -1)
 	{
 		printfDx("MP画像ない");
 	}
 
 	// にじゅうまるの画像 
-	mnScoreNormal = LoadGraph("Resource/Title/ScoreNormal.png");
+	mnScoreNormal = LoadGraph(ResourcePath::ScoreNormal);
 	if (mnScoreNormal == -1)
 	{
 		printfDx("MP画像ない");
 	}
 
 	// ただのまるの画像 
-	mnScoreLow = LoadGraph("Resource/Title/ScoreLow.png");
+	mnScoreLow = LoadGraph(ResourcePath::ScoreLow);
 	if (mnScoreLow == -1)
 	{
 		printfDx("MP画像ない");
 	}
+
 	mbInitialize = true;
 }
 
@@ -51,69 +90,45 @@ Score::~Score()
 
 void Score::Update()
 {
-	// ゲームの初期化が終わっていたら 
+	// ゲームの初期化が終わっていたら
 	if (mbInitialize)
 	{
-		mnDrawScoreTime++; // スコアの描画をする時間を増やす 
+		mnDrawScoreTime++; // スコアの描画をする時間を増やす
 
-		//---リザルトに移動したら勝利と敗北の文字を時間関係なしに表示させるために追加---// 
-		static float velocity = 0.0f; // 今の速度 
-		float targetY = ScoreSetting::ScoreTargetY; // 目的地Y 
+		// リザルトに移動したら勝利と敗北の文字を時間関係なしに表示させるため
+		float targetY = ScoreSetting::ScoreTargetY;
 
-		// 調整パラメータ 
-		float gravity = ScoreSetting::Gravity;      // 落ちる速さ 重力 
-		float power = ScoreSetting::SpringPower;	   // バネの強さ 
-		float damping = ScoreSetting::Damping;     // 減衰 
+		// 後ろの画像を移動させる
+		MoveScoreY(
+			mfTurnBox,
+			targetY,
+			mfTurnBoxVelocity
+		);
 
-		// 重力で下に引っ張る 
-		velocity += gravity;
-
-		// バネ 
-		float force = (targetY - mfTurnBox) * power;
-		velocity += force;
-
-		// 減衰 
-		velocity *= damping;
-
-		// 移動させてる 
-		mfTurnBox += velocity; // 後ろの画像も一緒に 
-
-
-		// ほぼ目的地についたら止める 
-		if (fabs(velocity) < ScoreSetting::StopDistance && fabs(targetY - mfTurnBox) < ScoreSetting::StopDistance)
-		{
-			mfTurnBox = targetY;
-			mfTurnBox = targetY;
-			velocity = 0.0f;
-			//mbMove = true; // 文字の動きが終わったフラグON  ・文字の動きが終わったフラグは使用アイテム数の文字が描画し終わったときにONにするように変更した 
-		}
-
-
-		// 文字が指定した時間になったら動かす 
+		// 文字が指定した時間になったら動かす
 		if (mnDrawScoreTime >= ScoreSetting::HpScoreStartTime)
 		{
-			// HPの残数の文字を動かす関数 ・Update関数から移動させた 
+			// HPの残数の文字を動かす
 			DrawHpScoreString();
 		}
 		if (mnDrawScoreTime >= ScoreSetting::TurnScoreStartTime)
 		{
-			// 経過ターン数の文字を動かす関数 
+			// 経過ターン数の文字を動かす
 			DrawTurnScoreString();
 		}
 		if (mnDrawScoreTime >= ScoreSetting::UseCardScoreStartTime)
 		{
-			// 使用カード枚数の文字を動かす関数 
+			// 使用カード枚数の文字を動かす
 			DrawUseCardScoreString();
 		}
 		if (mnDrawScoreTime >= ScoreSetting::UseItemScoreStartTime)
 		{
-			// 使用アイテム数の文字を動かす関数 
+			// 使用アイテム数の文字を動かす
 			DrawUseItemScoreString();
 		}
-
 	}
-
 }
+
 
 void Score::Draw()
 {
@@ -121,7 +136,7 @@ void Score::Draw()
 	int turn = Master::mpTurnCount; // ターンの回数 
 
 
-	unsigned int color = GetColor(60, 60, 60); // 黒色 
+	unsigned int color = ColorOption::DarkGray; // 60の黒色 
 
 	int x = ScoreSetting::ScoreX; // Xの位置 
 	int scoreX = x + ScoreSetting::ScoreNumberXOffset; // スコアのXの位置 
@@ -129,10 +144,6 @@ void Score::Draw()
 	int y1 = (int)mfTurnMoveY; // 経過ターン数のYの位置 y + 60 
 	int y2 = (int)mfUseCardMoveY; // 経過ターン数のYの位置 y + 150 
 	int y3 = (int)mfUseItemMoveY; // 経過ターン数のYの位置 y + 210 
-
-	FontManager* fontManager =
-		Master::mpGameManager->GetFontManager();
-
 	int textSize = ScoreSetting::TextSize; // 文字のサイズ 
 
 	// スコアの描画 
@@ -297,153 +308,49 @@ void Score::Draw()
 }
 
 
-//----追加した関数-----// 
 // HPの残数の文字を動かす関数 ・Update関数から移動させた 
 void Score::DrawHpScoreString()
 {
-	static float velocity = 0.0f; // 今の速度 
-	float targetY = ScoreSetting::ScoreTargetY; // 目的地Y 
-
-	// 調整パラメータ 
-	float gravity = ScoreSetting::Gravity;      // 落ちる速さ 重力 
-	float power = ScoreSetting::SpringPower;	   // バネの強さ 
-	float damping = ScoreSetting::Damping;     // 減衰 
-
-	// 重力で下に引っ張る 
-	velocity += gravity;
-
-	// バネ 
-	float force = (targetY - mfMoveY) * power;
-	velocity += force;
-
-	// 減衰 
-	velocity *= damping;
-
-	// 移動させてる 
-	mfMoveY += velocity;
-	//mfTurnBox += velocity; // 後ろの画像も一緒に 
-
-
-	// ほぼ目的地についたら止める 
-	if (fabs(velocity) < ScoreSetting::StopDistance && fabs(targetY - mfMoveY) < ScoreSetting::StopDistance)
-	{
-		//mfTurnBox = targetY; 
-		//mfTurnBox = targetY; 
-		mfMoveY = targetY;
-		velocity = 0.0f;
-		//mbMove = true; // 文字の動きが終わったフラグON  ・文字の動きが終わったフラグは使用アイテム数の文字が描画し終わったときにONにするように変更した 
-	}
-
+	MoveScoreY(
+		mfMoveY,
+		ScoreSetting::ScoreTargetY,
+		mfHpVelocity
+	);
 }
 
-
-//----追加した関数-----// 
 // 経過ターン数の文字を動かす関数 
 void Score::DrawTurnScoreString()
 {
-	static float velocity = 0.0f; // 今の速度 
-	float targetY = mfMoveY + ScoreSetting::TurnScoreYOffset; // 目的地Y 
+	float targetY = mfMoveY + ScoreSetting::TurnScoreYOffset;
 
-	// 調整パラメータ 
-	float gravity = ScoreSetting::Gravity;      // 落ちる速さ 重力 
-	float power = ScoreSetting::SpringPower;	   // バネの強さ 
-	float damping = ScoreSetting::Damping;     // 減衰 
-
-
-	// 重力で下に引っ張る 
-	velocity += gravity;
-
-	// バネ 
-	float force = (targetY - mfTurnMoveY) * power;
-	velocity += force;
-
-	// 減衰 
-	velocity *= damping;
-
-	// 移動させてる 
-	mfTurnMoveY += velocity;
-
-
-	// ほぼ目的地についたら止める 
-	if (fabs(velocity) < ScoreSetting::StopDistance && fabs(targetY - mfTurnMoveY) < ScoreSetting::StopDistance)
-	{
-		mfTurnMoveY = targetY;
-		velocity = 0.0f;
-	}
-
+	MoveScoreY(
+		mfTurnMoveY,
+		targetY,
+		mfTurnVelocity
+	);
 }
-
-//----追加した関数----// 
 // 使用カード枚数の文字を動かす関数 
 void Score::DrawUseCardScoreString()
 {
-	static float velocity = 0.0f; // 今の速度 
-	float targetY = mfMoveY + ScoreSetting::UseCardScoreYOffset; // 目的地Y 
+	float targetY = mfMoveY + ScoreSetting::UseCardScoreYOffset;
 
-	// 調整パラメータ 
-	float gravity = ScoreSetting::Gravity;      // 落ちる速さ 重力 
-	float power = ScoreSetting::SpringPower;	   // バネの強さ 
-	float damping = ScoreSetting::Damping;     // 減衰 
-
-	// 重力で下に引っ張る 
-	velocity += gravity;
-
-	// バネ 
-	float force = (targetY - mfUseCardMoveY) * power;
-	velocity += force;
-
-	// 減衰 
-	velocity *= damping;
-
-	// 移動させてる 
-	mfUseCardMoveY += velocity;
-
-
-	// ほぼ目的地についたら止める 
-	if (fabs(velocity) < ScoreSetting::StopDistance && fabs(targetY - mfUseCardMoveY) < ScoreSetting::StopDistance)
-	{
-		mfUseCardMoveY = targetY;
-		velocity = 0.0f;
-	}
-
-
+	MoveScoreY(
+		mfUseCardMoveY,
+		targetY,
+		mfUseCardVelocity
+	);
 }
 
-//----追加した関数-----// 
 // 使用アイテム数の文字を動かす関数 
 void Score::DrawUseItemScoreString()
 {
-	// ゲームの初期化が終わっていたら 
-	if (mbInitialize)
+	float targetY = mfMoveY + ScoreSetting::UseItemScoreYOffset;
+
+	if (MoveScoreY(
+		mfUseItemMoveY,
+		targetY,
+		mfUseItemVelocity))
 	{
-		static float velocity = 0.0f; // 今の速度 
-		float targetY = mfMoveY + ScoreSetting::UseItemScoreYOffset; // 目的地Y 
-
-		// 調整パラメータ 
-		float gravity = ScoreSetting::Gravity;      // 落ちる速さ 重力 
-		float power = ScoreSetting::SpringPower;	   // バネの強さ 
-		float damping = ScoreSetting::Damping;     // 減衰 
-
-		// 重力で下に引っ張る 
-		velocity += gravity;
-
-		// バネ 
-		float force = (targetY - mfUseItemMoveY) * power;
-		velocity += force;
-
-		// 減衰 
-		velocity *= damping;
-
-		// 移動させてる 
-		mfUseItemMoveY += velocity;
-
-
-		// ほぼ目的地についたら止める 
-		if (fabs(velocity) < ScoreSetting::StopDistance && fabs(targetY - mfUseItemMoveY) < ScoreSetting::StopDistance)
-		{
-			mfUseItemMoveY = targetY;
-			velocity = 0.0f;
-			mbMove = true; // 文字の動きが終わったフラグON 
-		}
+		mbMove = true;
 	}
 }

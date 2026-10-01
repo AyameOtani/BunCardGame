@@ -19,7 +19,6 @@ public:
 
 	void Initialize();
 	void Update();
-	void Finalize();
 
 	SceneManager* GetSceneManager();
 	SoundManager* GetSoundManager();

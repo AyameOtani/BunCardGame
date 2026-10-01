@@ -14,14 +14,12 @@ namespace ScreenSize
 	static constexpr int CenterY = Height / 2;
 }
 
-
 // 音量に関する設定
 namespace SoundSetting
 {
 	static constexpr int VolumeMin = 0;
 	static constexpr int VolumeMax = 100;
 }
-
 
 
 // タイトル画面のリソースパスを定義する名前空間
@@ -175,6 +173,7 @@ namespace ColorOption
 {
 	static const int White = GetColor(255, 255, 255);
 	static const int Black = GetColor(0, 0, 0);
+	static const int DarkGray = GetColor(60, 60, 60);
 
 	static const int BgmBar = GetColor(238, 136, 214);
 	static const int SeBar = GetColor(252, 235, 98);
@@ -263,4 +262,13 @@ namespace ScoreSetting
 	static constexpr float UseItemMoveYInitialValue = -100.0f;  // 使用アイテム数の文字のY座標の初期値
 	static constexpr float MoveYInitialValue = -100.0f;			// HPの文字のY座標の初期値
 	static constexpr float TurnBoxInitialValue = -100.0f;		// ターン数の背景のY座標の初期値
+}
+
+// リザルド画面で表示するはなまる画像のパス
+namespace ResourcePath
+{
+	// スコア画像
+	static const char* ScoreMax = "Resource/Title/ScoreMax.png";
+	static const char* ScoreNormal = "Resource/Title/ScoreNormal.png";
+	static const char* ScoreLow = "Resource/Title/ScoreLow.png";
 }

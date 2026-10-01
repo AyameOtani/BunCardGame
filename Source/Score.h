@@ -16,6 +16,7 @@ public:
 	void DrawUseCardScoreString(); // 使用カード枚数の描画
 	void DrawUseItemScoreString(); // 使用アイテム数の描画
 
+
 	enum class ScoreRank
 	{
 		RANK_NONOE, // ランクなし　初期化
@@ -26,9 +27,13 @@ public:
 
 	ScoreRank mScoreRank; // スコアランク
 
-
 	float GetMoveY() const { return mfTurnBox; } // Yの位置を取得するやつ
+
 private:
+
+	bool MoveScoreY(float& currentY,
+		float targetY,
+		float& velocity);
 
 	// もともと読み込んでおく
 	int mnScoreMax;
@@ -47,4 +52,11 @@ private:
 	float mfMoveY; // バウンドのやつ 文字のY
 	float mfTurnBox; // 勝利の文字
 
+
+	// テキストをバウンドさせるもの 文字のYの速度
+	float mfHpVelocity;
+	float mfTurnVelocity;
+	float mfUseCardVelocity;
+	float mfUseItemVelocity;
+	float mfTurnBoxVelocity;
 };

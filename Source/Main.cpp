@@ -121,7 +121,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
 	// Manager関係の終了処理
-	Master::mpGameManager->Finalize();
 	delete Master::mpGameManager;
 
 	// DXライブラリ使用の終了
