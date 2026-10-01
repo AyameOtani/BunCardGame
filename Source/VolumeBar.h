@@ -5,6 +5,12 @@
 // オブジェクト指向的にするためにクラス化した。
 class VolumeBar
 {
+private:
+    // 定数定義
+    static constexpr int MaxVolume = 100;                              // 音量の最大値（上限）
+    static constexpr int FrameColorMax = 255;                          // バーの枠線の色（白）
+
+
 public:
     // 音量バーを生成する
     // x, y      : 音量バーの左上座標
@@ -16,10 +22,6 @@ public:
     void Draw(int inVolume);
 
 private:
-    // 定数定義
-    static constexpr int MaxVolume = 100;                              // 音量の最大値（上限）
-    static constexpr int FrameColorMax = 255;                          // バーの枠線の色の最大輝度（白）
-
     int mnX;        // 音量バーのX座標
     int mnY;        // 音量バーのY座標
     int mnWidth;    // 音量バーの幅

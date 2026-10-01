@@ -54,7 +54,12 @@ Title::Title()
 
 Title::~Title()
 {
-
+	mpGameStart.reset();
+	mpExplainGraph.reset();
+	mpOptionButton.reset();
+	mpMusicClose.reset();
+	mpBgmVolumeBar.reset();
+	mpSeVolumeBar.reset();
 }
 
 

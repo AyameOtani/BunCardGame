@@ -29,6 +29,7 @@ public:
 	NextScene mNextScene = NONE_SCENE;
 
 private:
+	// スマートポインタ
 	// ボタン
 	std::unique_ptr<MouseGraph> mpGameStart;
 	std::unique_ptr<MouseGraph> mpExplainGraph;
