@@ -1,5 +1,6 @@
 ﻿#include "VolumeBar.h"
 #include "DxLib.h"
+#include "GameConstants.h"
 
 VolumeBar::VolumeBar(
 	int inX,
@@ -48,15 +49,18 @@ void VolumeBar::Draw(int inVolume)
 
 bool VolumeBar::IsMouseOver(int inMouseX, int inMouseY) const
 {
+	// マウス操作をしやすくするため左右の判定範囲を広げている
+	// 音量バー本体の範囲内にマウスがあるか判定する
 	return
-		inMouseX >= mnX &&
-		inMouseX <= mnX + mnWidth &&
+		inMouseX >= mnX - VolumeController::BarMargin &&
+		inMouseX <= mnX + mnWidth + VolumeController::BarMargin &&
 		inMouseY >= mnY &&
 		inMouseY <= mnY + mnHeight;
 }
 
 int VolumeBar::GetVolumeFromMouse(int inMouseX) const
 {
+	// マウスのX座標から、音量バー上の位置を音量値に変換する
 	int volume =
 		(inMouseX - mnX) * MaxVolume / mnWidth;
 

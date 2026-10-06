@@ -6,6 +6,7 @@
 #include "MouseGraph.h"
 #include "Utility.h"
 #include "VolumeBar.h"
+#include "VolumeSetting.h"
 
 class Title : public Scene
 {
@@ -43,17 +44,18 @@ private:
 	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
 	std::unique_ptr<VolumeBar> mpSeVolumeBar;
 
+	// 音量つまみ
+	VolumeSetting mVolumeSet;
+
 
 	// 画像ハンドル
 	int mnRogoHandle;
 	int mnBagHandle;
 	int mnCardHandle;
-	int mnVolumeSettingsBg;
 
 	// 菊池
 	int mnKorukuitaHandle;
 	int mnBatuHandle;
-	int mnOnpuHandle;
 
 	// 音量設定を開いているか
 	bool mbOption;

@@ -212,21 +212,6 @@ void GameScene::Initialize() // 初期化
 
 	// 音量調整のやつ
 	mpHaguruma = new MouseGraph((float)x - 330.0f, (float)y - 210.0f, 0.0f, "Resource/Title/option.png", 0.21f, 0.24f); // 音量調整のやつ
-	// 音量設定背景
-	mnMusicBag = LoadGraph("Resource/Title/Titleboard.png");
-
-	if (mnMusicBag == -1)
-	{
-		printfDx("黒板画像読み込み失敗");
-	}
-
-	// 音符画像
-	mnOnpuHandle = LoadGraph("Resource/Title/MusicNote.png");
-
-	if (mnOnpuHandle == -1)
-	{
-		printfDx("音符画像読み込み失敗");
-	}
 
 	// ×ボタン
 	mpMusicClose = new MouseGraph(
@@ -1351,109 +1336,10 @@ void GameScene::Draw() // 描画
 
 void GameScene::DrawVolumeTexts()
 {
-	// フォントサイズ
-	int textFontSize = VolumeFontSize::TextFontSize;
-	int volumeFontSize = VolumeFontSize::VolumeFontSize;
-
-	// BGM関係
+	if (mbOption)
 	{
-		// BGM文字
-		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-			FontManager::FontType::Nikumaru,
-			TitlePosition::BgmTextX,
-			TitlePosition::BgmTextY,
-			textFontSize,
-			ColorOption::White,
-			"BGM"
-		);
-
-		int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
-
-		// BGMバー
-		mpBgmVolumeBar->Draw(bgmVolume);
-
-		// BGM音量の数字
-		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-			FontManager::FontType::Nikumaru,
-			TitlePosition::VolumeBarX
-			+ (bgmVolume * TitlePosition::VolumeBarWidth
-				/ SoundSetting::VolumeMax)
-			+ TitlePosition::VolumeNumberXOffset,
-
-			TitlePosition::BgmBarY
-			- TitlePosition::VolumeNumberYOffset,
-
-			volumeFontSize,
-			ColorOption::White,
-			"%d",
-			bgmVolume
-		);
-
-		// BGMつまみ
-		DrawRotaGraph(
-			TitlePosition::VolumeBarX
-			+ (bgmVolume * TitlePosition::VolumeBarWidth
-				/ SoundSetting::VolumeMax),
-
-			TitlePosition::BgmBarY
-			+ TitlePosition::MusicNoteOffset,
-
-			TitleScale::MusicNote,
-			0.0f,
-			mnOnpuHandle,
-			TRUE
-		);
-	}
-
-
-	// SE関係
-	{
-		// SE文字
-		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-			FontManager::FontType::Nikumaru,
-			TitlePosition::SeTextX,
-			TitlePosition::SeTextY,
-			textFontSize,
-			ColorOption::White,
-			"SE"
-		);
-
-		int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
-
-		// SEバー
-		mpSeVolumeBar->Draw(seVolume);
-
-		// SE音量の数字
-		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-			FontManager::FontType::Nikumaru,
-			TitlePosition::VolumeBarX
-			+ (seVolume * TitlePosition::VolumeBarWidth
-				/ SoundSetting::VolumeMax)
-			+ TitlePosition::VolumeNumberXOffset,
-
-			TitlePosition::SeBarY
-			- TitlePosition::VolumeNumberYOffset,
-
-			volumeFontSize,
-			ColorOption::White,
-			"%d",
-			seVolume
-		);
-
-		// SEつまみ
-		DrawRotaGraph(
-			TitlePosition::VolumeBarX
-			+ (seVolume * TitlePosition::VolumeBarWidth
-				/ SoundSetting::VolumeMax),
-
-			TitlePosition::SeBarY
-			+ TitlePosition::MusicNoteOffset,
-
-			TitleScale::MusicNote,
-			0.0f,
-			mnOnpuHandle,
-			TRUE
-		);
+		mVolumeSet.DrawBgmText(*mpBgmVolumeBar);
+		mVolumeSet.DrawSeText(*mpSeVolumeBar);
 	}
 }
 
@@ -1485,41 +1371,7 @@ void GameScene::DrawVolumeSettings()
 		// 音量設定画面
 		if (mbOption)
 		{
-			int color = GetColor(255, 255, 255);
-
-			// 背景暗く
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 120);
-
-			DrawBox(
-				0,
-				0,
-				Utility::SCREEN_WIDTH,
-				Utility::SCREEN_HEIGHT,
-				GetColor(0, 0, 0),
-				TRUE
-			);
-
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-			// 黒板
-			DrawRotaGraph(
-				Utility::SCREEN_WIDTH / 2,
-				Utility::SCREEN_HEIGHT / 2,
-				1.0f,
-				0.0f,
-				mnMusicBag,
-				TRUE
-			);
-
-			// タイトル
-			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-				FontManager::FontType::Nikumaru,
-				800,
-				300,
-				80,
-				color,
-				"音量設定"
-			);
+			mVolumeSet.DrawVolumeSettingPanel();
 
 			// ×ボタン
 			if (mpMusicClose)
@@ -1595,9 +1447,6 @@ void GameScene::Finalize() // 終了処理
 
 	delete mpMusicClose;
 	mpMusicClose = nullptr;
-
-	if (mnMusicBag != -1) DeleteGraph(mnMusicBag);
-	if (mnOnpuHandle != -1) DeleteGraph(mnOnpuHandle);
 }
 
 

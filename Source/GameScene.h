@@ -11,6 +11,7 @@
 #include "GameConstants.h"
 #include "VolumeBar.h"
 #include <memory>
+#include "VolumeSetting.h"
 
 
 class Player;
@@ -84,11 +85,11 @@ private:  // メンバ変数として定義
 	// 音量設定
 	MouseGraph* mpMusicClose = nullptr;
 
-	int mnMusicBag = -1;
-	int mnOnpuHandle = -1;
-
 	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
 	std::unique_ptr<VolumeBar> mpSeVolumeBar;
+
+	// 音量つまみ
+	VolumeSetting mVolumeSet;
 
 	// スクリーン関係
 	int mnCardWorkScreen = -1;

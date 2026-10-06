@@ -52,6 +52,7 @@
     <ClCompile Include="Source\Title.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
     <ClCompile Include="Source\VolumeBar.cpp" />
+    <ClCompile Include="Source\VolumeSetting.cpp" />
     <ClCompile Include="Source\WinResultScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +93,7 @@
     <ClInclude Include="Source\Unit.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\VolumeBar.h" />
+    <ClInclude Include="Source\VolumeSetting.h" />
     <ClInclude Include="Source\WinResultScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

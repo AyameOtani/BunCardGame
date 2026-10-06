@@ -21,11 +21,9 @@ Title::Title()
 	, mnRogoHandle(-1)
 	, mnBagHandle(-1)
 	, mnCardHandle(-1)
-	, mnVolumeSettingsBg(-1)
 	// 菊池
 	, mnKorukuitaHandle(-1)
 	, mnBatuHandle(-1)
-	, mnOnpuHandle(-1)
 	// 音量設定
 	, mbOption(false)
 	// タイトル演出
@@ -100,10 +98,6 @@ void Title::Initialize()
 	if (mnBagHandle == -1) { printfDx("背景画像ない"); }
 	mnCardHandle = LoadGraph(TitleResourcePath::MoveBackGround.c_str());
 	if (mnCardHandle == -1) { printfDx("動く黒板の画像がない"); }
-	mnVolumeSettingsBg = LoadGraph(TitleResourcePath::VolumeSettingsBg.c_str());
-	if (mnVolumeSettingsBg == -1) { printfDx("音量設定の背景画像がない"); }
-	mnOnpuHandle = LoadGraph(TitleResourcePath::MusicNote.c_str()); // 音符の画像
-	if (mnOnpuHandle == -1) { printfDx("音符の画像がない"); }
 
 
 	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
@@ -443,44 +437,7 @@ void Title::DrawVolumeSettings()
 {
 	if (mbOption)
 	{
-		// 背景暗くする
-		SetDrawBlendMode(
-			DX_BLENDMODE_ALPHA,
-			TitleSetting::VolumeBackgroundAlpha
-		);
-		//黒いBOX
-		DrawBox(
-			0,
-			0,
-			Utility::SCREEN_WIDTH,
-			Utility::SCREEN_HEIGHT,
-			ColorOption::Black,
-			TRUE
-		);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); // 戻す
-
-
-		// 音量設定の背景の黒板
-		DrawRotaGraph(
-			Utility::SCREEN_WIDTH / 2,
-			Utility::SCREEN_HEIGHT / 2,
-			TitleScale::VolumeSettingsBackground,
-			0.0f,
-			mnVolumeSettingsBg,
-			TRUE
-		);
-
-		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-			FontManager::FontType::Nikumaru,
-			TitlePosition::VolumeTitleX,
-			TitlePosition::VolumeTitleY,
-			80,
-			ColorOption::White,
-			"音量設定"
-		);
-
-
-	
+		mVolumeSet.DrawVolumeSettingPanel();
 
 		// 黒板の上の×ボタンの描画
 		if (mpMusicClose)
@@ -494,106 +451,8 @@ void Title::DrawVolumeTexts()
 {
 	if (mbOption)
 	{
-		// フォントサイズ
-		int textFontSize = VolumeFontSize::TextFontSize;
-		int volumeFontSize = VolumeFontSize::VolumeFontSize;
-
-		// BGM関係
-		{
-			// BGM文字
-			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-				FontManager::FontType::Nikumaru,
-				TitlePosition::BgmTextX,
-				TitlePosition::BgmTextY,
-				textFontSize,
-				ColorOption::White,
-				"BGM"
-			);
-
-			int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
-			// BGMバー
-			mpBgmVolumeBar->Draw(bgmVolume);
-
-			// BGM音量の数字
-			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-				FontManager::FontType::Nikumaru,
-				TitlePosition::VolumeBarX
-				+ (bgmVolume * TitlePosition::VolumeBarWidth
-					/ SoundSetting::VolumeMax)
-				+ TitlePosition::VolumeNumberXOffset,
-
-				TitlePosition::BgmBarY
-				- TitlePosition::VolumeNumberYOffset,
-				volumeFontSize,
-				ColorOption::White,
-				"%d",
-				bgmVolume
-			);
-
-			// BGMつまみ
-			DrawRotaGraph(
-				TitlePosition::VolumeBarX
-				+ (bgmVolume * TitlePosition::VolumeBarWidth
-					/ SoundSetting::VolumeMax),
-
-				TitlePosition::BgmBarY
-				+ TitlePosition::MusicNoteOffset,
-
-				TitleScale::MusicNote,
-				0.0f,
-				mnOnpuHandle,
-				TRUE
-			);
-		}
-
-
-		// SE関係
-		{
-			// SE文字
-			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-				FontManager::FontType::Nikumaru,
-				TitlePosition::SeTextX,
-				TitlePosition::SeTextY,
-				textFontSize,
-				ColorOption::White,
-				"SE"
-			);
-
-			int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
-			// SEバー
-			mpSeVolumeBar->Draw(seVolume);
-
-			// SE音量の数字
-			Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-				FontManager::FontType::Nikumaru,
-				TitlePosition::VolumeBarX
-				+ (seVolume * TitlePosition::VolumeBarWidth
-					/ SoundSetting::VolumeMax)
-				+ TitlePosition::VolumeNumberXOffset,
-
-				TitlePosition::SeBarY
-				- TitlePosition::VolumeNumberYOffset,
-				volumeFontSize,
-				ColorOption::White,
-				"%d",
-				seVolume
-			);
-
-			// SEつまみ
-			DrawRotaGraph(
-				TitlePosition::VolumeBarX
-				+ (seVolume * TitlePosition::VolumeBarWidth
-					/ SoundSetting::VolumeMax),
-
-				TitlePosition::SeBarY
-				+ TitlePosition::MusicNoteOffset,
-
-				TitleScale::MusicNote,
-				0.0f,
-				mnOnpuHandle,
-				TRUE
-			);
-		}
+		mVolumeSet.DrawBgmText(*mpBgmVolumeBar);
+		mVolumeSet.DrawSeText(*mpSeVolumeBar);
 	}
 }
 
@@ -604,5 +463,4 @@ void Title::Finalize()
 	if (mnRogoHandle != -1) { DeleteGraph(mnRogoHandle); mnRogoHandle = -1; }
 	if (mnBagHandle != -1) { DeleteGraph(mnBagHandle);  mnBagHandle = -1; }
 	if (mnCardHandle != -1) { DeleteGraph(mnCardHandle); mnCardHandle = -1; }
-	if (mnOnpuHandle != -1) { DeleteGraph(mnOnpuHandle); mnOnpuHandle = -1; }
 }

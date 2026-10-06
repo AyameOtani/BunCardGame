@@ -277,9 +277,11 @@ namespace ResourcePath
 	static const char* ScoreLow = "Resource/Title/ScoreLow.png";
 }
 
-// 音量設定画面の文字サイズの設定
-namespace VolumeFontSize
+// 音量設定画面
+namespace VolumeController
 {
-	static const int TextFontSize = 60;
-	static const int VolumeFontSize = 30;
+	static const int TextFontSize = 60; // 音量のテキストの文字サイズ
+	static const int VolumeTextSize = 30; // 音量数字の文字サイズ
+
+	static const int BarMargin = 30; // 音量バー範囲を長くする
 }
