@@ -22,7 +22,9 @@ public:
 	void DrawVolumeSettings(); // 音量設定の描画
 	void DrawVolumeTexts(); // 音量設定のテキストを描画
 
-	// 次にどの画面にいくかの種類
+
+
+	// 次のシーンを取得する関数
 	enum NextScene
 	{
 		NONE_SCENE,
@@ -31,6 +33,21 @@ public:
 	};
 
 	NextScene mNextScene;
+
+private:
+	// Update処理
+	// ボタンの移動アニメーションを更新
+	void UpdateButtonAnimation();
+	// ロゴの上下アニメーションを更新
+	void UpdateLogoAnimation();
+	// ボタンのクリック・入力処理を更新
+	void UpdateButtonInput();
+	// シーン遷移のアニメーションを更新
+	void UpdateSceneTransition();
+	// シーン遷移時の白いBOXの透過処理を更新
+	void UpdateWhiteBox();
+	// 音量設定の入力処理を更新
+	void UpdateVolumeSetting();
 
 private:
 	// スマートポインタ
