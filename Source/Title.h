@@ -18,6 +18,9 @@ public:
 	void Draw() override;
 	void Finalize() override;
 
+	void DrawVolumeSettings(); // 音量設定の描画
+	void DrawVolumeText(); // 音量設定のテキストを描画
+
 	// 次にどの画面にいくかの種類
 	enum NextScene
 	{

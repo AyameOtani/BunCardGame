@@ -3,6 +3,7 @@
 #include <string>
 #include <DxLib.h>
 
+
 //  画面の大きさに関する設定
 namespace ScreenSize
 {
@@ -21,15 +22,22 @@ namespace SoundSetting
 	static constexpr int VolumeMax = 100;
 }
 
+// ゲーム背景などの背景画像のパス
+namespace BackgroundGraph
+{
+	constexpr const char* EasyPath = "Resource/Background/easy_back.png";
+	constexpr const char* NormalPath = "Resource/Background/normal_back.png";
+	constexpr const char* HardPath = "Resource/Background/hard_back.png";
+}
 
 // タイトル画面のリソースパスを定義する名前空間
 namespace  TitleResourcePath
 {
 	static const std::string GameStartButton = "Resource/Title/Start.png"; // ゲームスタートボタンの画像パス
 	static const std::string ExplainButton = "Resource/Title/Explain.png"; // 操作説明ボタンの画像パス
-	static const std::string Rogo = "Resource/Title/Rogo.png"; // ロゴの画像パス
-	static const std::string Bagground = "Resource/Title/Title.png"; // タイトル画面背景の画像パス
-	static const std::string MoveBagGround = "Resource/Title/move_bag_ground.png"; // 動く黒板の画像パス
+	static const std::string Logo = "Resource/Title/Logo.png"; // ロゴの画像パス
+	static const std::string Background = "Resource/Title/Title.png"; // タイトル画面背景の画像パス
+	static const std::string MoveBackGround = "Resource/Title/move_back_ground.png"; // 動く黒板の画像パス
 	static const std::string VolumeSettingsBg = "Resource/Title/Titleboard.png"; // 音量設定背景の画像パス
 	static const std::string MusicNote = "Resource/Title/MusicNote.png"; // 音符の画像パス
 	static const std::string MusicClose = "Resource/Title/MusicClose.png"; // 音量設定の×ボタンの画像パス
@@ -183,10 +191,6 @@ namespace ColorOption
 // タイトル画面のその他設定
 namespace TitleSetting
 {
-	// 音量
-	static constexpr int VolumeMin = 0;
-	static constexpr int VolumeMax = 100;
-
 	// 音量設定背景の暗さ
 	static constexpr int VolumeBackgroundAlpha = 120;
 
@@ -205,8 +209,8 @@ namespace AnimOption
 namespace PlayerStatus
 {
 	static const int InitialHp = 100; // 初期HP
-	static const int InitiaMp = 3; // 初期MP
-	static const int MaxSpacialCharge = 100; // 最大必殺ゲージ
+	static const int InitialMp = 3; // 初期MP
+	static const int MaxSpecialCharge = 100; // 最大必殺ゲージ
 	static constexpr float InitScale = 1.7f; // 画像の大きさ
 }
 
@@ -214,14 +218,14 @@ namespace PlayerStatus
 namespace ItemGraphPath
 {
 	// はさみ、のり、ペンの画像パス
-	std::string const Scissors = "Resource/Item/img_scissors.png";
-	std::string const Glue = "Resource/Item/img_glue.png";
-	std::string const Pen = "Resource/Item/img_pen.png";
+	static std::string const Scissors = "Resource/Item/img_scissors.png";
+	static std::string const Glue = "Resource/Item/img_glue.png";
+	static std::string const Pen = "Resource/Item/img_pen.png";
 
 	// 使用後のパス
-	std::string const Use_Scissors = "Resource/Item/img_use_scissors.png";
-	std::string const Use_Glue = "Resource/Item/img_use_glue.png";
-	std::string const Use_Pen = "Resource/Item/img_use_pen.png";
+	static std::string const Use_Scissors = "Resource/Item/img_use_scissors.png";
+	static std::string const Use_Glue = "Resource/Item/img_use_glue.png";
+	static std::string const Use_Pen = "Resource/Item/img_use_pen.png";
 }
 
 
@@ -271,4 +275,11 @@ namespace ResourcePath
 	static const char* ScoreMax = "Resource/Title/ScoreMax.png";
 	static const char* ScoreNormal = "Resource/Title/ScoreNormal.png";
 	static const char* ScoreLow = "Resource/Title/ScoreLow.png";
+}
+
+// 音量設定画面の文字サイズの設定
+namespace VolumeFontSize
+{
+	static const int TextFontSize = 60;
+	static const int VolumeFontSize = 30;
 }

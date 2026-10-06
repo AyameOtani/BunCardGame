@@ -28,9 +28,9 @@ public:
 	int GetVolumeFromMouse(int inMouseX) const;
 
 private:
-	int mnX;		// 音量バーのX座標
-	int mnY;		// 音量バーのY座標
-	int mnWidth;	// 音量バーの幅
-	int mnHeight;	// 音量バーの高さ
-	int mnColor;	// 音量バーの色
+	int mnX;	
+	int mnY;	
+	int mnWidth;
+	int mnHeight;
+	int mnColor;
 };

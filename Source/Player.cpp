@@ -15,10 +15,10 @@ Player::Player(VECTOR initPos, SceneManager::GScene gscene)
     // ステータス一旦ここにしてる
     maxHp = PlayerStatus::InitialHp;
     hp = maxHp;
-    maxMp = PlayerStatus::InitiaMp;
+    maxMp = PlayerStatus::InitialMp;
     mp = maxMp;
     specialCharge = 0;    
-    specialChargeMax = PlayerStatus::MaxSpacialCharge;
+    specialChargeMax = PlayerStatus::MaxSpecialCharge;
 	displayHp = maxHp;
 	displayDamageHp = maxHp;
 

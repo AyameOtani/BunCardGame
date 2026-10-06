@@ -94,11 +94,11 @@ void Title::Initialize()
 		TitleScale::ExplainHover
 	);
 
-	mnRogoHandle = LoadGraph(TitleResourcePath::Rogo.c_str());
+	mnRogoHandle = LoadGraph(TitleResourcePath::Logo.c_str());
 	if (mnRogoHandle == -1) { printfDx("ロゴ画像ない"); }
-	mnBagHandle = LoadGraph(TitleResourcePath::Bagground.c_str());
+	mnBagHandle = LoadGraph(TitleResourcePath::Background.c_str());
 	if (mnBagHandle == -1) { printfDx("背景画像ない"); }
-	mnCardHandle = LoadGraph(TitleResourcePath::MoveBagGround.c_str());
+	mnCardHandle = LoadGraph(TitleResourcePath::MoveBackGround.c_str());
 	if (mnCardHandle == -1) { printfDx("動く黒板の画像がない"); }
 	mnVolumeSettingsBg = LoadGraph(TitleResourcePath::VolumeSettingsBg.c_str());
 	if (mnVolumeSettingsBg == -1) { printfDx("音量設定の背景画像がない"); }
@@ -433,7 +433,14 @@ void Title::Draw()
 		}
 	}
 
-	// 音量調整のやつがONなら描画
+	DrawVolumeSettings();
+	DrawVolumeText();
+	Scene::Draw();
+}
+
+// 音量設定中フラグがONなら描画される
+void Title::DrawVolumeSettings()
+{
 	if (mbOption)
 	{
 		// 背景暗くする
@@ -473,6 +480,20 @@ void Title::Draw()
 		);
 
 
+	
+
+		// 黒板の上の×ボタンの描画
+		if (mpMusicClose)
+		{
+			mpMusicClose->Draw();
+		}
+	}
+}
+
+void Title::DrawVolumeText()
+{
+	if (mbOption)
+	{
 		// フォントサイズ
 		int textFontSize = 60;
 		int volumeFontSize = 30;
@@ -490,7 +511,6 @@ void Title::Draw()
 			);
 
 			int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
-
 			// BGMバー
 			mpBgmVolumeBar->Draw(bgmVolume);
 
@@ -499,7 +519,7 @@ void Title::Draw()
 				FontManager::FontType::Nikumaru,
 				TitlePosition::VolumeBarX
 				+ (bgmVolume * TitlePosition::VolumeBarWidth
-					/ TitleSetting::VolumeMax)
+					/ SoundSetting::VolumeMax)
 				+ TitlePosition::VolumeNumberXOffset,
 
 				TitlePosition::BgmBarY
@@ -510,12 +530,11 @@ void Title::Draw()
 				bgmVolume
 			);
 
-
 			// BGMつまみ
 			DrawRotaGraph(
 				TitlePosition::VolumeBarX
 				+ (bgmVolume * TitlePosition::VolumeBarWidth
-					/ TitleSetting::VolumeMax),
+					/ SoundSetting::VolumeMax),
 
 				TitlePosition::BgmBarY
 				+ TitlePosition::MusicNoteOffset,
@@ -541,7 +560,6 @@ void Title::Draw()
 			);
 
 			int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
-
 			// SEバー
 			mpSeVolumeBar->Draw(seVolume);
 
@@ -550,7 +568,7 @@ void Title::Draw()
 				FontManager::FontType::Nikumaru,
 				TitlePosition::VolumeBarX
 				+ (seVolume * TitlePosition::VolumeBarWidth
-					/ TitleSetting::VolumeMax)
+					/ SoundSetting::VolumeMax)
 				+ TitlePosition::VolumeNumberXOffset,
 
 				TitlePosition::SeBarY
@@ -561,13 +579,11 @@ void Title::Draw()
 				seVolume
 			);
 
-
-
 			// SEつまみ
 			DrawRotaGraph(
 				TitlePosition::VolumeBarX
 				+ (seVolume * TitlePosition::VolumeBarWidth
-					/ TitleSetting::VolumeMax),
+					/ SoundSetting::VolumeMax),
 
 				TitlePosition::SeBarY
 				+ TitlePosition::MusicNoteOffset,
@@ -578,15 +594,7 @@ void Title::Draw()
 				TRUE
 			);
 		}
-
-		// 黒板の上の×ボタンの描画
-		if (mpMusicClose)
-		{
-			mpMusicClose->Draw();
-		}
 	}
-
-	Scene::Draw();
 }
 
 void Title::Finalize()

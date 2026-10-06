@@ -128,7 +128,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), Enemy::EnemyType::TypeA);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/Background/easy_bag.png");
+		mnBagHandle = LoadGraph(BackgroundGraph::EasyPath);
 		mpEnemy->Initialize("Resource/Enemy/easy_enemy.png"); // 初期化
 		break;
 
@@ -137,7 +137,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), Enemy::EnemyType::TypeB);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/Background/Normal_bag.png");
+		mnBagHandle = LoadGraph(BackgroundGraph::NormalPath);
 		mpEnemy->Initialize("Resource/Enemy/normal_enemy.png"); // 初期化
 		break;
 
@@ -146,7 +146,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), Enemy::EnemyType::TypeC);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/Background/hard_bag.png");
+		mnBagHandle = LoadGraph(BackgroundGraph::HardPath);
 		mpEnemy->Initialize("Resource/Enemy/hard_enemy.png"); // 初期化
 		break;
 
@@ -155,7 +155,7 @@ void GameScene::Initialize() // 初期化
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), Enemy::EnemyType::TypeB);
 		// 画像読み込み用 背景
-		mnBagHandle = LoadGraph("Resource/Background/Normal_bag.png");
+		mnBagHandle = LoadGraph(BackgroundGraph::NormalPath);
 		mpEnemy->Initialize("Resource/Enemy/normal_enemy.png"); // 初期化
 		break;
 	}
@@ -1483,7 +1483,7 @@ void GameScene::Draw() // 描画
 					FontManager::FontType::Nikumaru,
 					TitlePosition::VolumeBarX
 					+ (bgmVolume * TitlePosition::VolumeBarWidth
-						/ TitleSetting::VolumeMax)
+						/ SoundSetting::VolumeMax)
 					+ TitlePosition::VolumeNumberXOffset,
 
 					TitlePosition::BgmBarY
@@ -1499,7 +1499,7 @@ void GameScene::Draw() // 描画
 				DrawRotaGraph(
 					TitlePosition::VolumeBarX
 					+ (bgmVolume * TitlePosition::VolumeBarWidth
-						/ TitleSetting::VolumeMax),
+						/ SoundSetting::VolumeMax),
 
 					TitlePosition::BgmBarY
 					+ TitlePosition::MusicNoteOffset,
@@ -1534,7 +1534,7 @@ void GameScene::Draw() // 描画
 					FontManager::FontType::Nikumaru,
 					TitlePosition::VolumeBarX
 					+ (seVolume * TitlePosition::VolumeBarWidth
-						/ TitleSetting::VolumeMax)
+						/ SoundSetting::VolumeMax)
 					+ TitlePosition::VolumeNumberXOffset,
 
 					TitlePosition::SeBarY
@@ -1550,7 +1550,7 @@ void GameScene::Draw() // 描画
 				DrawRotaGraph(
 					TitlePosition::VolumeBarX
 					+ (seVolume * TitlePosition::VolumeBarWidth
-						/ TitleSetting::VolumeMax),
+						/ SoundSetting::VolumeMax),
 
 					TitlePosition::SeBarY
 					+ TitlePosition::MusicNoteOffset,

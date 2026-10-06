@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\Base">
       <UniqueIdentifier>{08e6b23a-a909-41a7-abc4-532dd86cef0d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Item">
-      <UniqueIdentifier>{6f4b1a5d-71d9-452c-9b4b-6fc39d01e1bc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Anim">
       <UniqueIdentifier>{71b63f6c-b737-4872-b0d0-4c1b0413c213}</UniqueIdentifier>
     </Filter>
@@ -221,9 +218,6 @@
     <ClInclude Include="Source\MouseGraph.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Item.h">
-      <Filter>ソース ファイル\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ExplainScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -255,6 +249,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameConstants.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Item.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
