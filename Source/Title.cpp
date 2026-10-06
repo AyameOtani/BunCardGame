@@ -434,7 +434,7 @@ void Title::Draw()
 	}
 
 	DrawVolumeSettings();
-	DrawVolumeText();
+	DrawVolumeTexts();
 	Scene::Draw();
 }
 
@@ -490,13 +490,13 @@ void Title::DrawVolumeSettings()
 	}
 }
 
-void Title::DrawVolumeText()
+void Title::DrawVolumeTexts()
 {
 	if (mbOption)
 	{
 		// フォントサイズ
-		int textFontSize = 60;
-		int volumeFontSize = 30;
+		int textFontSize = VolumeFontSize::TextFontSize;
+		int volumeFontSize = VolumeFontSize::VolumeFontSize;
 
 		// BGM関係
 		{

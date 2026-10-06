@@ -8,7 +8,6 @@
 #include "SceneManager.h"
 #include "Card.h" // 追加　小池
 
-
 #include "GameConstants.h"
 #include "VolumeBar.h"
 #include <memory>
@@ -28,14 +27,10 @@ public:
 	{
 		PLAYER_TURN,      // プレイヤーがカードを選べる時間
 		PLAYER_ANIMATION, // プレイヤーがカードを使ってその演出が終わるのを待つ時間
-
 		ENEMY_THINK,      // 敵のターン開始  3秒待つ
 		ENEMY_CARD_SHOW,  // カード演出　追加 小池
 		ENEMY_ACTION,     // 敵が攻撃したり  カードを引いたりする演出の時間
-
 		ENEMY_CARD_HIDE, // 追加 小池　敵のカードを隠す時間
-
-
 		RESULT_CHECK      // どちらかのHPが0になったか確認する時間
 	};
 
@@ -59,9 +54,12 @@ public:
 
 	// 持続ダメージと残りターンを減らすやつ
 	void UpdateUnitStatus(Unit& unit);
-
 	// ノートのスライド
 	void ShowItemMessage(const std::string& text, const int& color);
+
+	void DrawVolumeSettings(); // 音量設定の描画
+	void DrawVolumeTexts(); // 音量設定のテキストを描画
+
 
 private:  // メンバ変数として定義
 	Player* mpPlayer = nullptr;

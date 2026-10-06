@@ -132,7 +132,6 @@ void GameScene::Initialize() // 初期化
 		mpEnemy->Initialize("Resource/Enemy/easy_enemy.png"); // 初期化
 		break;
 
-
 	case SceneManager::GScene::normal://普通なら
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), Enemy::EnemyType::TypeB);
@@ -141,7 +140,6 @@ void GameScene::Initialize() // 初期化
 		mpEnemy->Initialize("Resource/Enemy/normal_enemy.png"); // 初期化
 		break;
 
-
 	case SceneManager::GScene::hard://難しいなら
 		// 敵の初期化
 		mpEnemy = new Enemy(VGet(Utility::SCREEN_WIDTH - dist, posY, 0.0f), Enemy::EnemyType::TypeC);
@@ -149,7 +147,6 @@ void GameScene::Initialize() // 初期化
 		mnBagHandle = LoadGraph(BackgroundGraph::HardPath);
 		mpEnemy->Initialize("Resource/Enemy/hard_enemy.png"); // 初期化
 		break;
-
 
 	default:
 		// 敵の初期化
@@ -177,24 +174,9 @@ void GameScene::Initialize() // 初期化
 		printfDx("mpEnemyが作成されていません\n");
 	}
 
-
-	//// カード描画用スクリーンの設定  pickOptionこれでとる
-	//int w, h;
-	//if (!mpPlayer->pickOption.empty() && mpPlayer->hand[0] != nullptr)
-	//{
-	//	mpPlayer->pickOption[0]->GetFrameSize(&w, &h);
-	//}
-	//else
-	//{
-	//	// 万が一手札がない場合のデフォルトサイズ
-	//	w = 200; h = 300;
-	//}
-
-
 	// カード描画用スクリーンの設定
 	int w = 256; // デフォルト値を先に設定しておく
 	int h = 384;
-
 	// mpPlayerが存在 かつ pickOptionに中身があるか
 	if (mpPlayer != nullptr && !mpPlayer->pickOption.empty())
 	{
@@ -214,7 +196,6 @@ void GameScene::Initialize() // 初期化
 
 	mnCardWorkScreen = MakeScreen(w, h, TRUE);
 	mnCardFontHandle = CreateFontToHandle(NULL, (int)(h * 0.061f), 3, DX_FONTTYPE_NORMAL);
-
 
 	// ボタン画像の生成
 	mpTurnEnd = new MouseGraph(1580.0f, 900.0f, 0.0f,"Resource/Button/turn_end_button.png", 0.25f, 0.28f);
@@ -1327,23 +1308,6 @@ void GameScene::Draw() // 描画
 	}
 
 
-	
-	/*// デバック用
-	if (mpPlayer->IsCardMove())
-	{
-		//DrawFormatString(100, 980, color, "カード移動中");
-	}
-	if (ChargeCount == 4)
-	{
-		//DrawFormatString(0, 600, GetColor(255, 0, 0), "次は３０ダメージがくる！！！", TRUE);
-	}
-
-	if (mpEnemy && mpEnemy->stunTurns > 0)
-	{
-		//DrawFormatString(Utility::SCREEN_WIDTH - 400, 450, GetColor(255, 255, 0), "【スタン中：残り %d ターン】", mpEnemy->stunTurns);
-	}*/
-
-
     // アイテム通知
 	if (!mItemMessage.empty())
 	{
@@ -1368,16 +1332,6 @@ void GameScene::Draw() // 描画
 	}
 
 
-	//敵のカウント デバッグ用
-	//DrawFormatStringToHandle(
-	//	0,
-	//	0,
-	//	GetColor(255,0,0),
-	//	Master::mpGameManager->GetFontManager()->GetStatusFontHandle(),
-	//	"%d",
-	//	ChargeCount
-	//);
-
 	// ターン数の表示　バウンドありverにしてる
 	DrawRotaGraph(330, (int)mfTurnBox + 30, 0.20f, 0.0f, mnHandleTurnBag, TRUE); // 背景のミニミニ黒板ちゃん
 	// 経過ターン数
@@ -1391,7 +1345,120 @@ void GameScene::Draw() // 描画
 		(int)Master::mpTurnCount
 	);
 
+	DrawVolumeSettings();
+	DrawVolumeTexts();
+}
 
+void GameScene::DrawVolumeTexts()
+{
+	// フォントサイズ
+	int textFontSize = VolumeFontSize::TextFontSize;
+	int volumeFontSize = VolumeFontSize::VolumeFontSize;
+
+	// BGM関係
+	{
+		// BGM文字
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Nikumaru,
+			TitlePosition::BgmTextX,
+			TitlePosition::BgmTextY,
+			textFontSize,
+			ColorOption::White,
+			"BGM"
+		);
+
+		int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
+
+		// BGMバー
+		mpBgmVolumeBar->Draw(bgmVolume);
+
+		// BGM音量の数字
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Nikumaru,
+			TitlePosition::VolumeBarX
+			+ (bgmVolume * TitlePosition::VolumeBarWidth
+				/ SoundSetting::VolumeMax)
+			+ TitlePosition::VolumeNumberXOffset,
+
+			TitlePosition::BgmBarY
+			- TitlePosition::VolumeNumberYOffset,
+
+			volumeFontSize,
+			ColorOption::White,
+			"%d",
+			bgmVolume
+		);
+
+		// BGMつまみ
+		DrawRotaGraph(
+			TitlePosition::VolumeBarX
+			+ (bgmVolume * TitlePosition::VolumeBarWidth
+				/ SoundSetting::VolumeMax),
+
+			TitlePosition::BgmBarY
+			+ TitlePosition::MusicNoteOffset,
+
+			TitleScale::MusicNote,
+			0.0f,
+			mnOnpuHandle,
+			TRUE
+		);
+	}
+
+
+	// SE関係
+	{
+		// SE文字
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Nikumaru,
+			TitlePosition::SeTextX,
+			TitlePosition::SeTextY,
+			textFontSize,
+			ColorOption::White,
+			"SE"
+		);
+
+		int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
+
+		// SEバー
+		mpSeVolumeBar->Draw(seVolume);
+
+		// SE音量の数字
+		Master::mpGameManager->GetFontManager()->FontManagerDrawString(
+			FontManager::FontType::Nikumaru,
+			TitlePosition::VolumeBarX
+			+ (seVolume * TitlePosition::VolumeBarWidth
+				/ SoundSetting::VolumeMax)
+			+ TitlePosition::VolumeNumberXOffset,
+
+			TitlePosition::SeBarY
+			- TitlePosition::VolumeNumberYOffset,
+
+			volumeFontSize,
+			ColorOption::White,
+			"%d",
+			seVolume
+		);
+
+		// SEつまみ
+		DrawRotaGraph(
+			TitlePosition::VolumeBarX
+			+ (seVolume * TitlePosition::VolumeBarWidth
+				/ SoundSetting::VolumeMax),
+
+			TitlePosition::SeBarY
+			+ TitlePosition::MusicNoteOffset,
+
+			TitleScale::MusicNote,
+			0.0f,
+			mnOnpuHandle,
+			TRUE
+		);
+	}
+}
+
+void GameScene::DrawVolumeSettings()
+{
 	// 止まっている時は画面を暗くしている  黒いBOXだしている
 	if (mbStop)
 	{
@@ -1401,7 +1468,7 @@ void GameScene::Draw() // 描画
 
 		int x = Utility::SCREEN_WIDTH / 2;
 		int y = Utility::SCREEN_HEIGHT / 2;
-		DrawRotaGraph(x, y, 0.9f, 0.0f,mnNoteHandle, TRUE);
+		DrawRotaGraph(x, y, 0.9f, 0.0f, mnNoteHandle, TRUE);
 
 		mpTitle->Draw();
 		mpGame->Draw();
@@ -1411,11 +1478,9 @@ void GameScene::Draw() // 描画
 		// 選択が選ばれたら
 		if (mbSelectON)
 		{
-			DrawRotaGraph(x, Utility::SCREEN_HEIGHT/2 - 20, 0.80f, 0.0f, mnItemEHandle, TRUE);
+			DrawRotaGraph(x, Utility::SCREEN_HEIGHT / 2 - 20, 0.80f, 0.0f, mnItemEHandle, TRUE);
 			mpClose->Draw();
 		}
-
-
 
 		// 音量設定画面
 		if (mbOption)
@@ -1456,124 +1521,14 @@ void GameScene::Draw() // 描画
 				"音量設定"
 			);
 
-			// フォントサイズ
-			int textFontSize = 60;
-			int volumeFontSize = 30;
-
-
-			// BGM関係
-			{
-				// BGM文字
-				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-					FontManager::FontType::Nikumaru,
-					TitlePosition::BgmTextX,
-					TitlePosition::BgmTextY,
-					textFontSize,
-					ColorOption::White,
-					"BGM"
-				);
-
-				int bgmVolume = Master::mpGameManager->GetSoundManager()->GetBGMVolume();
-
-				// BGMバー
-				mpBgmVolumeBar->Draw(bgmVolume);
-
-				// BGM音量の数字
-				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-					FontManager::FontType::Nikumaru,
-					TitlePosition::VolumeBarX
-					+ (bgmVolume * TitlePosition::VolumeBarWidth
-						/ SoundSetting::VolumeMax)
-					+ TitlePosition::VolumeNumberXOffset,
-
-					TitlePosition::BgmBarY
-					- TitlePosition::VolumeNumberYOffset,
-
-					volumeFontSize,
-					ColorOption::White,
-					"%d",
-					bgmVolume
-				);
-
-				// BGMつまみ
-				DrawRotaGraph(
-					TitlePosition::VolumeBarX
-					+ (bgmVolume * TitlePosition::VolumeBarWidth
-						/ SoundSetting::VolumeMax),
-
-					TitlePosition::BgmBarY
-					+ TitlePosition::MusicNoteOffset,
-
-					TitleScale::MusicNote,
-					0.0f,
-					mnOnpuHandle,
-					TRUE
-				);
-			}
-
-
-			// SE関係
-			{
-				// SE文字
-				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-					FontManager::FontType::Nikumaru,
-					TitlePosition::SeTextX,
-					TitlePosition::SeTextY,
-					textFontSize,
-					ColorOption::White,
-					"SE"
-				);
-
-				int seVolume = Master::mpGameManager->GetSoundManager()->GetSEVolume();
-
-				// SEバー
-				mpSeVolumeBar->Draw(seVolume);
-
-				// SE音量の数字
-				Master::mpGameManager->GetFontManager()->FontManagerDrawString(
-					FontManager::FontType::Nikumaru,
-					TitlePosition::VolumeBarX
-					+ (seVolume * TitlePosition::VolumeBarWidth
-						/ SoundSetting::VolumeMax)
-					+ TitlePosition::VolumeNumberXOffset,
-
-					TitlePosition::SeBarY
-					- TitlePosition::VolumeNumberYOffset,
-
-					volumeFontSize,
-					ColorOption::White,
-					"%d",
-					seVolume
-				);
-
-				// SEつまみ
-				DrawRotaGraph(
-					TitlePosition::VolumeBarX
-					+ (seVolume * TitlePosition::VolumeBarWidth
-						/ SoundSetting::VolumeMax),
-
-					TitlePosition::SeBarY
-					+ TitlePosition::MusicNoteOffset,
-
-					TitleScale::MusicNote,
-					0.0f,
-					mnOnpuHandle,
-					TRUE
-				);
-			}
-
 			// ×ボタン
 			if (mpMusicClose)
 			{
 				mpMusicClose->Draw();
 			}
 		}
-
 	}
-	// PS.ここから下に描画したらポーズ中でも暗くならないから注意   大谷
-
 }
-
 
 // 毒とかターンのやつ
 void GameScene::UpdateUnitStatus(Unit& unit)
