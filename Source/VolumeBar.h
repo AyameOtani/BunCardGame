@@ -17,6 +17,7 @@ public:
 	// height    : 音量バーの高さ
 	// color     : 音量バーの色
 	VolumeBar(int inX, int inY, int inWidth, int inHeight, int inColor);
+	~VolumeBar();
 
 	// 音量に応じてバーを描画する
 	void Draw(int inVolume);

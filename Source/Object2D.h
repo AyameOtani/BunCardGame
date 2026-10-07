@@ -31,20 +31,17 @@ public:    // enum, struct, 定数の定義
 public:
 	// コンストラクタ（一枚絵用）
 	Object2D(std::string filename, VECTOR initPos);
-
 	// コンストラクタ アニメーションプレイヤー用
 	Object2D(VECTOR initPos);
 
 	// コンストラクタ（アニメーション用）
-	// 大きさかえられるように設定　大谷
+	// 大きさかえられるように設定
 	Object2D(VECTOR initPos, std::string filename, int allNum, int numX, int numY, int interval, float scale = 1.0f);
 
 
 	virtual ~Object2D(); // デストラクタ
 
 	virtual void Update(); //アップデート
-	// ★★  上書きされるかも知れないからvirtualをつける
-
 	virtual void Draw(); // 描画
 
 public:   // ゲッター・セッター

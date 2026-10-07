@@ -58,8 +58,8 @@ private:
 	std::unique_ptr<MouseGraph> mpMusicClose;
 
 	// 音量バー
-	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
-	std::unique_ptr<VolumeBar> mpSeVolumeBar;
+	VolumeBar mBgmVolumeBar;
+	VolumeBar mSeVolumeBar;
 
 	// 音量つまみ
 	VolumeSetting mVolumeSet;

@@ -13,8 +13,6 @@ Title::Title()
 	, mpExplainGraph(nullptr)
 	, mpOptionButton(nullptr)
 	, mpMusicClose(nullptr)
-	, mpBgmVolumeBar(nullptr)
-	, mpSeVolumeBar(nullptr)
 	// 次のシーン
 	, mNextScene(NONE_SCENE)
 	// 画像ハンドル
@@ -29,6 +27,8 @@ Title::Title()
 	// タイトル演出
 	, mbMouseButton(false)
 	, mbWhite(false)
+
+	// --- 小池 --- //
 	// カード演出
 	, mnCardX(TitleAnimation::CardInitialX)
 	, mnCardY(TitleAnimation::CardInitialY)
@@ -39,8 +39,10 @@ Title::Title()
 	, targetY(TitlePosition::CardTargetOffsetY)
 	, targetAngle(-0.05f)
 	, targetRota(1.0f)
-	// 白いBOX
 	, mfWhiteBoxAlpha(0.0f)
+	// ------
+	
+
 	// ボタン演出
 	, mfStartX(TitlePosition::StartInitialX)
 	, mfStartY(static_cast<float>(ScreenSize::Height) + TitlePosition::ButtonInitialYOffset)
@@ -54,6 +56,23 @@ Title::Title()
 	, mfTurnY(TitleAnimation::LogoInitialY)
 	, mbInitialize(false)
 	, mfLogoTime(0.0f)
+
+	// 音量バーの初期化
+	, mBgmVolumeBar(
+		TitlePosition::VolumeBarX,
+		TitlePosition::BgmBarY,
+		TitlePosition::VolumeBarWidth,
+		TitlePosition::VolumeBarHeight,
+		ColorOption::BgmBar
+	)
+	
+	, mSeVolumeBar(
+		TitlePosition::VolumeBarX,
+		TitlePosition::SeBarY,
+		TitlePosition::VolumeBarWidth,
+		TitlePosition::VolumeBarHeight,
+		ColorOption::SeBar
+	)
 {
 
 }
@@ -65,8 +84,6 @@ Title::~Title()
 	mpExplainGraph.reset();
 	mpOptionButton.reset();
 	mpMusicClose.reset();
-	mpBgmVolumeBar.reset();
-	mpSeVolumeBar.reset();
 }
 
 
@@ -119,23 +136,6 @@ void Title::Initialize()
 	);
 
 	Master::mpGameManager->GetSoundManager()->PlayBGM(SoundManager::BgmTitle);
-
-
-	// 音量バーの生成
-	mpBgmVolumeBar = std::make_unique<VolumeBar>(
-		TitlePosition::VolumeBarX,
-		TitlePosition::BgmBarY,
-		TitlePosition::VolumeBarWidth,
-		TitlePosition::VolumeBarHeight,
-		ColorOption::BgmBar
-	);
-	mpSeVolumeBar = std::make_unique<VolumeBar>(
-		TitlePosition::VolumeBarX,
-		TitlePosition::SeBarY,
-		TitlePosition::VolumeBarWidth,
-		TitlePosition::VolumeBarHeight,
-		ColorOption::SeBar
-	);
 
 	mbInitialize = true; // 初期化終わりON
 }
@@ -455,11 +455,10 @@ void Title::UpdateVolumeSetting()
 
 
 	// BGMバー
-	if (mpBgmVolumeBar &&
-		mpBgmVolumeBar->IsMouseOver(mouseX, mouseY))
+	if (mBgmVolumeBar.IsMouseOver(mouseX, mouseY))
 	{
 		int bgmVolume =
-			mpBgmVolumeBar->GetVolumeFromMouse(mouseX);
+			mBgmVolumeBar.GetVolumeFromMouse(mouseX);
 
 		Master::mpGameManager
 			->GetSoundManager()
@@ -472,11 +471,10 @@ void Title::UpdateVolumeSetting()
 
 
 	// SEバー
-	if (mpSeVolumeBar &&
-		mpSeVolumeBar->IsMouseOver(mouseX, mouseY))
+	if (mSeVolumeBar.IsMouseOver(mouseX, mouseY))
 	{
 		int seVolume =
-			mpSeVolumeBar->GetVolumeFromMouse(mouseX);
+			mSeVolumeBar.GetVolumeFromMouse(mouseX);
 
 		Master::mpGameManager
 			->GetSoundManager()
@@ -599,8 +597,8 @@ void Title::DrawVolumeTexts()
 {
 	if (mbOption)
 	{
-		mVolumeSet.DrawBgmText(*mpBgmVolumeBar);
-		mVolumeSet.DrawSeText(*mpSeVolumeBar);
+		mVolumeSet.DrawBgmText(mBgmVolumeBar);
+		mVolumeSet.DrawSeText(mSeVolumeBar);
 	}
 }
 

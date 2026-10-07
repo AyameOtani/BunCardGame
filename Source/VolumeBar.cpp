@@ -17,6 +17,11 @@ VolumeBar::VolumeBar(
 {
 }
 
+VolumeBar::~VolumeBar()
+{
+
+}
+
 void VolumeBar::Draw(int inVolume)
 {
 	// 現在の音量に応じたバーの描画幅を算出する

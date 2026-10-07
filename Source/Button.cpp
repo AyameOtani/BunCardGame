@@ -72,21 +72,24 @@ void Button::Draw()
         stringColor = GetColor(DefaultStringColorMax, DefaultStringColorMax, DefaultStringColorMax);
     }
 
+
+    int centerPos = CenterDivisor;
+
     // 拡大縮小の中心を基準にした描画座標を算出するため
-    float cx = (x1 + x2) / CenterDivisor;
-    float cy = (y1 + y2) / CenterDivisor;
+    float cx = (x1 + x2) / centerPos;
+    float cy = (y1 + y2) / centerPos;
     float w = (float)(x2 - x1);
     float h = (float)(y2 - y1);
 
-    float drawX1 = cx - (w * scale) / CenterDivisor;
-    float drawY1 = cy - (h * scale) / CenterDivisor;
-    float drawX2 = cx + (w * scale) / CenterDivisor;
-    float drawY2 = cy + (h * scale) / CenterDivisor;
+    float drawX1 = cx - (w * scale) / centerPos;
+    float drawY1 = cy - (h * scale) / centerPos;
+    float drawX2 = cx + (w * scale) / centerPos;
+    float drawY2 = cy + (h * scale) / centerPos;
 
     int stringW = GetDrawFormatStringWidth("%s", memo.c_str());
 
     DrawBox((int)drawX1, (int)drawY1, (int)drawX2, (int)drawY2, drawColor, TRUE);
-    DrawFormatString((int)(cx - stringW / CenterDivisor), (int)(cy - StringHeightOffset), stringColor, "%s", memo.c_str());
+    DrawFormatString((int)(cx - stringW / centerPos), (int)(cy - StringHeightOffset), stringColor, "%s", memo.c_str());
 }
 
 bool Button::IsClicked()

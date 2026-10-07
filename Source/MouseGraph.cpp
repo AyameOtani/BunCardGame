@@ -10,7 +10,6 @@ MouseGraph::MouseGraph(float x, float y, float angle, std::string filename, floa
 	this->mAngle = angle;
 	this->mRate = rate;
 	this->mChangeRate = changerate;
-
 	this->isActive = true;
 	this->isHover = false;
 
@@ -79,7 +78,6 @@ void MouseGraph::Draw()
 
 	// 指定された座標と拡大率で画像を中心基準で回転描画するため
 	DrawRotaGraph((int)mx, (int)my, rate, mAngle, mnHandle, TRUE);
-
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 

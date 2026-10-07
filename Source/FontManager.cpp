@@ -162,7 +162,6 @@ void FontManager::FontManagerDrawString(
     int fontHandle = ApplyFontType(size, type);
     if (fontHandle == -1) { return; }
 
-
     // printf形式で文字列を作成する
     char buffer[1024];
 
