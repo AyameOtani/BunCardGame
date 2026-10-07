@@ -2,7 +2,8 @@
 #include "DxLib.h"
 #include <string>
 
-// マウスと重なっていたら大きくするやつの画像用
+// マウスが乗ったら拡大する画像のクラス
+// 呼び出して使えるようにするために作成した
 class MouseGraph
 {
 public:
@@ -27,8 +28,8 @@ public:
 	// ターンエンドボタンが押せる状態か プレイヤーのターンかのやつ
 	void SetActive(bool active) { isActive = active; }
 
+	//　アクセサ
 	void SetPosition(float x, float y);
-
 	void SetAngle(float angle);
 
 private:
@@ -37,18 +38,13 @@ private:
 	static constexpr int InvalidGraphHandle = -1;                      // 画像の読み込み失敗や無効状態を表すハンドル値
 	static constexpr int BlendModeParamMax = 255;                      // ブレンドモードの最大値（不透明度など）
 
-	// XとY
 	float mx;
 	float my;
-	// 角度
 	float mAngle;
-	// ハンドル
 	int mnHandle;
-	// 拡大率
 	float mRate;
 	float mChangeRate;
 
-	// 今マウスが乗っているかのフラグ
 	bool isHover;
-	bool isActive; // ボタンが有効か
+	bool isActive;
 };

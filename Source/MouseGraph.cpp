@@ -5,16 +5,14 @@
 MouseGraph::MouseGraph(float x, float y, float angle, std::string filename, float rate, float changerate)
 {
 	// 各種パラメータを保持して初期状態を構築するため
-	this->mx = x;
-	this->my = y;
-	this->mAngle = angle;
-	this->mRate = rate;
-	this->mChangeRate = changerate;
-	this->isActive = true;
-	this->isHover = false;
-
-	// 指定されたファイルパスから画像データを読み込むため
-	this->mnHandle = LoadGraph(filename.c_str());
+	mx = x;
+	my = y;
+	mAngle = angle;
+	mRate = rate;
+	mChangeRate = changerate;
+	isActive = true;
+	isHover = false;
+	mnHandle = LoadGraph(filename.c_str());
 
 	if (mnHandle == InvalidGraphHandle)
 	{
@@ -24,7 +22,6 @@ MouseGraph::MouseGraph(float x, float y, float angle, std::string filename, floa
 
 MouseGraph::~MouseGraph()
 {
-	// 保持している画像ハンドルが有効な場合のみメモリから解放するため
 	if (mnHandle != InvalidGraphHandle)
 	{
 		DeleteGraph(mnHandle);
@@ -34,22 +31,25 @@ MouseGraph::~MouseGraph()
 
 void MouseGraph::Update()
 {
-	// 画像の読み込みに失敗している場合は判定を行わないため
 	if (mnHandle == InvalidGraphHandle) return;
 
 	int w, h;
 	GetGraphSize(mnHandle, &w, &h);
 
-	// ボタンが無効な状態のときはホバー判定を無効化するため
 	if (!isActive)
 	{
 		isHover = false;
 		return;
 	}
 
+	float halfWidth = (w * mRate) / CenterDivisor;
+	float halfHeight = (h * mRate) / CenterDivisor;
+
 	// 現在の拡大率を考慮した当たり判定の範囲内にマウスがあるかを判定するため
-	if (Mouse::x >= mx - (w * mRate) / CenterDivisor && Mouse::x <= mx + (w * mRate) / CenterDivisor &&
-		Mouse::y >= my - (h * mRate) / CenterDivisor && Mouse::y <= my + (h * mRate) / CenterDivisor)
+	if (Mouse::x >= mx - halfWidth
+		&& Mouse::x <= mx + halfWidth
+		&&Mouse::y >= my - halfHeight
+		&& Mouse::y <= my + halfHeight)
 	{
 		isHover = true;
 	}
@@ -61,16 +61,13 @@ void MouseGraph::Update()
 
 void MouseGraph::Draw()
 {
-	// 描画対象の画像が正常に読み込まれている場合のみ描画を行うため
 	if (mnHandle == InvalidGraphHandle) return;
 
 	int w, h;
 	GetGraphSize(mnHandle, &w, &h);
-
-	// マウスが重なっている状態に応じて適用する拡大率を切り替えるため
 	float rate = isHover ? mChangeRate : mRate;
 
-	// 無効な状態のときは暗くして描画するためにブレンドモードを設定するため
+	// 無効な状態のときは暗くして描画するため
 	if (!isActive)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_MULA, BlendModeParamMax);
@@ -81,21 +78,21 @@ void MouseGraph::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+
+// マウスが乗っててかつ押されたらの返すアクセサの中身
 bool MouseGraph::IsClicked()
 {
-	// マウスが乗っていて、かつクリックの瞬間であるかを返すため
 	return isHover && Mouse::IsTrigger();
 }
 
+
 void MouseGraph::SetPosition(float x, float y)
 {
-	// 座標を更新するため
 	mx = x;
 	my = y;
 }
 
 void MouseGraph::SetAngle(float angle)
 {
-	// 角度を更新するため
 	mAngle = angle;
 }

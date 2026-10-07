@@ -10,11 +10,13 @@ Button::Button(int x1, int y1, int x2, int y2, int color, int changeColor, std::
     this->y2 = y2;
     this->color = color;
     this->changeColor = changeColor;
-    this->isHover = false;
-    this->isActive = true;
-    this->scale = DefaultScale;
     this->memo = memo;
-    this->stringColor = GetColor(DefaultStringColorMax, DefaultStringColorMax, DefaultStringColorMax);
+
+
+    isHover = false;
+    isActive = true;
+    scale = DefaultScale;
+    stringColor = GetColor(DefaultStringColorMax, DefaultStringColorMax, DefaultStringColorMax);
 }
 
 void Button::Update()
@@ -81,10 +83,14 @@ void Button::Draw()
     float w = (float)(x2 - x1);
     float h = (float)(y2 - y1);
 
-    float drawX1 = cx - (w * scale) / centerPos;
-    float drawY1 = cy - (h * scale) / centerPos;
-    float drawX2 = cx + (w * scale) / centerPos;
-    float drawY2 = cy + (h * scale) / centerPos;
+
+	float halfW = (w * scale) / centerPos;
+	float halfH = (h * scale) / centerPos;
+
+    float drawX1 = cx - halfW;
+    float drawY1 = cy - halfH;
+    float drawX2 = cx + halfW;
+    float drawY2 = cy + halfH;
 
     int stringW = GetDrawFormatStringWidth("%s", memo.c_str());
 
