@@ -21,6 +21,7 @@ public:
 
 	void DrawVolumeSettings(); // 音量設定の描画
 	void DrawVolumeTexts(); // 音量設定のテキストを描画
+	void RenderGameScene(); // ゲーム画面に行くまでの描画
 
 
 
@@ -36,28 +37,22 @@ public:
 
 private:
 	// Update処理
-	// ボタンの移動アニメーションを更新
-	void UpdateButtonAnimation();
-	// ロゴの上下アニメーションを更新
-	void UpdateLogoAnimation();
-	// ボタンのクリック・入力処理を更新
-	void UpdateButtonInput();
-	// シーン遷移のアニメーションを更新
-	void UpdateSceneTransition();
-	// シーン遷移時の白いBOXの透過処理を更新
-	void UpdateWhiteBox();
-	// 音量設定の入力処理を更新
-	void UpdateVolumeSetting();
+	void UpdateButtonAnimation(); // ボタンの移動アニメーションを更新
+	void UpdateLogoAnimation(); // ロゴの上下アニメーションを更新
+	void UpdateButtonInput(); // ボタンのクリック・入力処理を更新
+	void UpdateSceneTransition(); // シーン遷移のアニメーションを更新
+	void UpdateWhiteBox(); // シーン遷移時の白いBOXの透過処理を更新
+	void UpdateVolumeSetting(); // 音量設定の入力処理を更新
 
 private:
 	// スマートポインタ
-	// ボタン
+	// ボタン関係
 	std::unique_ptr<MouseGraph> mpGameStart;
 	std::unique_ptr<MouseGraph> mpExplainGraph;
 	std::unique_ptr<MouseGraph> mpOptionButton;
 	std::unique_ptr<MouseGraph> mpMusicClose;
 
-	// 音量バー
+	// 音量バー関係
 	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
 	std::unique_ptr<VolumeBar> mpSeVolumeBar;
 
