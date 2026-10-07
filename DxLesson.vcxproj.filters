@@ -114,7 +114,7 @@
     <ClCompile Include="Source\VolumeBar.cpp">
       <Filter>ソース ファイル\Anim</Filter>
     </ClCompile>
-    <ClCompile Include="Source\VolumeSetting.cpp">
+    <ClCompile Include="Source\VolumeTextSet.cpp">
       <Filter>ソース ファイル\Anim</Filter>
     </ClCompile>
     <ClCompile Include="Source\ExplainScene.cpp">
@@ -242,7 +242,7 @@
     <ClInclude Include="Source\Item.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\VolumeSetting.h">
+    <ClInclude Include="Source\VolumeTextSet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameScene.h">

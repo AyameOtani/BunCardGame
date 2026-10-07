@@ -6,7 +6,7 @@
 #include "MouseGraph.h"
 #include "Utility.h"
 #include "VolumeBar.h"
-#include "VolumeSetting.h"
+#include "VolumeTextSet.h"
 
 class Title : public Scene
 {
@@ -57,7 +57,7 @@ private:
 	std::unique_ptr<VolumeBar> mpSeVolumeBar;
 
 	// 音量つまみ
-	VolumeSetting mVolumeSet;
+	VolumeTextSet mVolumeSet;
 
 
 	// 画像ハンドル

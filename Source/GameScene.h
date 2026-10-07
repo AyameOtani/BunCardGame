@@ -11,7 +11,7 @@
 #include "GameConstants.h"
 #include "VolumeBar.h"
 #include <memory>
-#include "VolumeSetting.h"
+#include "VolumeTextSet.h"
 
 
 class Player;
@@ -89,7 +89,7 @@ private:  // メンバ変数として定義
 	std::unique_ptr<VolumeBar> mpSeVolumeBar;
 
 	// 音量つまみ
-	VolumeSetting mVolumeSet;
+	VolumeTextSet mVolumeSet;
 
 	// スクリーン関係
 	int mnCardWorkScreen = -1;

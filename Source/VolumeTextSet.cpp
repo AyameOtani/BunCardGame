@@ -1,14 +1,15 @@
-#include "VolumeSetting.h"
+#include "VolumeTextSet.h"
 #include "GameConstants.h"
 #include "Master.h"
 #include "Utility.h"
 
-VolumeSetting::VolumeSetting()
+VolumeTextSet::VolumeTextSet()
 	: mnVolumeHandle(-1)
 	, mnVolumeBackground(-1)
 	, mnTextFontSize(VolumeController::TextFontSize)
 	, mnVolumeFontSize(VolumeController::VolumeTextSize)
 {
+	// ‰æ‘œ“Ç‚İ‚İ
 	mnVolumeHandle = LoadGraph(TitleResourcePath::MusicNote.c_str());
 	if (mnVolumeHandle == -1) { printfDx("‰¹•„‚Ì‰æ‘œ‚ª‚È‚¢"); }
 
@@ -17,7 +18,7 @@ VolumeSetting::VolumeSetting()
 
 }
 
-VolumeSetting::~VolumeSetting()
+VolumeTextSet::~VolumeTextSet()
 {
 	if (mnVolumeHandle != -1)
 	{
@@ -33,7 +34,7 @@ VolumeSetting::~VolumeSetting()
 }
 
 // BGM‚Ì‰¹—ÊƒeƒLƒXƒg‚ğ•`‰æ‚·‚éŠÖ”
-void VolumeSetting::DrawBgmText(VolumeBar& bgm) const
+void VolumeTextSet::DrawBgmText(VolumeBar& bgm) const
 {
 	// BGMŠÖŒW
 	{
@@ -87,7 +88,7 @@ void VolumeSetting::DrawBgmText(VolumeBar& bgm) const
 
 
 // ‰¹—Ê‚ÌƒeƒLƒXƒg‚ğ•`‰æ‚·‚éŠÖ”
-void VolumeSetting::DrawSeText(VolumeBar& se) const
+void VolumeTextSet::DrawSeText(VolumeBar& se) const
 {
 	// SEŠÖŒW
 	{
@@ -138,7 +139,7 @@ void VolumeSetting::DrawSeText(VolumeBar& se) const
 }
 
 // ƒQ[ƒ€‰æ–Ê‚ğˆÃ‚­‚µ‚Ä‰¹—Ê‰æ–Ê‚Ì”wŒi‚ğ•`‰æ‚·‚éŠÖ”
-void VolumeSetting::DrawVolumeSettingPanel()
+void VolumeTextSet::DrawVolumeSettingPanel()
 {
 	// ”wŒiˆÃ‚­‚·‚é
 	SetDrawBlendMode(
