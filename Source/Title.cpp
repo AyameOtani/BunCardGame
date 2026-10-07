@@ -84,6 +84,12 @@ Title::~Title()
 	mpExplainGraph.reset();
 	mpOptionButton.reset();
 	mpMusicClose.reset();
+<<<<<<< HEAD
+=======
+	mpBgmVolumeBar.reset();
+	mpSeVolumeBar.reset();
+
+>>>>>>> a7a6c2225ebcc2d3dda517ef2c024800ec568452
 }
 
 
@@ -165,6 +171,7 @@ void Title::Update()
 }
 
 
+// ボタンの移動アニメーションを更新
 void Title::UpdateButtonAnimation()
 {
 	// スタートボタンを目標位置へ移動
@@ -217,6 +224,8 @@ void Title::UpdateButtonAnimation()
 	}
 }
 
+
+// ロゴの上下アニメーションを更新
 void Title::UpdateLogoAnimation()
 {
 	if (!mbInitialize)
@@ -260,6 +269,8 @@ void Title::UpdateLogoAnimation()
 	}
 }
 
+
+// ボタンのクリック・入力処理を更新
 void Title::UpdateButtonInput()
 {
 	// マウスボタンを押している最中は操作できない
@@ -343,13 +354,13 @@ void Title::UpdateButtonInput()
 	}
 }
 
+// シーン遷移のアニメーションを更新
 void Title::UpdateSceneTransition()
 {
 	if (!mbMouseButton)
 	{
 		return;
 	}
-
 
 	float diffX =
 		(float)targetX - mnCardX;
@@ -434,6 +445,7 @@ void Title::UpdateSceneTransition()
 }
 
 
+// 音量設定の入力処理を更新
 void Title::UpdateVolumeSetting()
 {
 	if (mbMouseButton || !mbOption)
@@ -441,18 +453,14 @@ void Title::UpdateVolumeSetting()
 		return;
 	}
 
-
 	int mouseX;
 	int mouseY;
-
 	GetMousePoint(&mouseX, &mouseY);
-
 
 	if (!(GetMouseInput() & MOUSE_INPUT_LEFT))
 	{
 		return;
 	}
-
 
 	// BGMバー
 	if (mBgmVolumeBar.IsMouseOver(mouseX, mouseY))
@@ -468,7 +476,6 @@ void Title::UpdateVolumeSetting()
 			->GetSoundManager()
 			->SaveVolume();
 	}
-
 
 	// SEバー
 	if (mSeVolumeBar.IsMouseOver(mouseX, mouseY))
@@ -487,13 +494,13 @@ void Title::UpdateVolumeSetting()
 }
 
 
+// シーン遷移時の白いBOXの透過処理を更新
 void Title::UpdateWhiteBox()
 {
 	if (!mbWhite)
 	{
 		return;
 	}
-
 	mfWhiteBoxAlpha +=
 		TitleAnimation::WhiteBoxAlphaIncrease;
 
@@ -514,7 +521,6 @@ void Title::Draw()
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2;
 	int color = ColorOption::White;
-
 
 	// 2D用に設定
 	SetUseZBufferFlag(FALSE);
@@ -554,28 +560,35 @@ void Title::Draw()
 	// ゲーム画面に行く時の演出の画像
 	if (mbMouseButton)
 	{
-		// 黒板イラストの描画
-		DrawRotaGraph(
-			(int)mnCardX,
-			(int)mnCardY,
-			mnCardRota,
-			mnCardAngle,
-			mnCardHandle,
-			TRUE
-		);
-
-		// 白いBOXがONなら描画
-		if (mbWhite)
-		{
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)mfWhiteBoxAlpha); // 半透明にするため
-			DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, ColorOption::White, TRUE);
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		}
+		RenderGameScene();
 	}
 
 	DrawVolumeSettings();
 	DrawVolumeTexts();
 	Scene::Draw();
+}
+
+
+// ゲーム画面にいくための描画
+void Title::RenderGameScene()
+{
+	// 黒板イラストの描画
+	DrawRotaGraph(
+		(int)mnCardX,
+		(int)mnCardY,
+		mnCardRota,
+		mnCardAngle,
+		mnCardHandle,
+		TRUE
+	);
+
+	// 白いBOXがONなら描画
+	if (mbWhite)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)mfWhiteBoxAlpha); // 半透明にするため
+		DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, ColorOption::White, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 
 // 音量設定中フラグがONなら描画される

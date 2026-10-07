@@ -6,7 +6,7 @@
 #include "MouseGraph.h"
 #include "Utility.h"
 #include "VolumeBar.h"
-#include "VolumeSetting.h"
+#include "VolumeTextSet.h"
 
 class Title : public Scene
 {
@@ -21,6 +21,7 @@ public:
 
 	void DrawVolumeSettings(); // 音量設定の描画
 	void DrawVolumeTexts(); // 音量設定のテキストを描画
+	void RenderGameScene(); // ゲーム画面に行くまでの描画
 
 
 
@@ -36,33 +37,33 @@ public:
 
 private:
 	// Update処理
-	// ボタンの移動アニメーションを更新
-	void UpdateButtonAnimation();
-	// ロゴの上下アニメーションを更新
-	void UpdateLogoAnimation();
-	// ボタンのクリック・入力処理を更新
-	void UpdateButtonInput();
-	// シーン遷移のアニメーションを更新
-	void UpdateSceneTransition();
-	// シーン遷移時の白いBOXの透過処理を更新
-	void UpdateWhiteBox();
-	// 音量設定の入力処理を更新
-	void UpdateVolumeSetting();
+	void UpdateButtonAnimation(); // ボタンの移動アニメーションを更新
+	void UpdateLogoAnimation(); // ロゴの上下アニメーションを更新
+	void UpdateButtonInput(); // ボタンのクリック・入力処理を更新
+	void UpdateSceneTransition(); // シーン遷移のアニメーションを更新
+	void UpdateWhiteBox(); // シーン遷移時の白いBOXの透過処理を更新
+	void UpdateVolumeSetting(); // 音量設定の入力処理を更新
 
 private:
 	// スマートポインタ
-	// ボタン
+	// ボタン関係
 	std::unique_ptr<MouseGraph> mpGameStart;
 	std::unique_ptr<MouseGraph> mpExplainGraph;
 	std::unique_ptr<MouseGraph> mpOptionButton;
 	std::unique_ptr<MouseGraph> mpMusicClose;
 
+<<<<<<< HEAD
 	// 音量バー
 	VolumeBar mBgmVolumeBar;
 	VolumeBar mSeVolumeBar;
+=======
+	// 音量バー関係
+	std::unique_ptr<VolumeBar> mpBgmVolumeBar;
+	std::unique_ptr<VolumeBar> mpSeVolumeBar;
+>>>>>>> a7a6c2225ebcc2d3dda517ef2c024800ec568452
 
 	// 音量つまみ
-	VolumeSetting mVolumeSet;
+	VolumeTextSet mVolumeSet;
 
 
 	// 画像ハンドル
