@@ -16,9 +16,6 @@
     <Filter Include="ソース ファイル\Scene関係">
       <UniqueIdentifier>{702025bc-668b-4d79-ba19-963f884ee6d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Scene関係">
-      <UniqueIdentifier>{5bfe8c17-092d-43ae-9f71-19611d798b58}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Player">
       <UniqueIdentifier>{090b92e3-2a6b-4160-9e4d-9e39affb7afa}</UniqueIdentifier>
     </Filter>
@@ -34,12 +31,12 @@
     <Filter Include="ソース ファイル\Anim">
       <UniqueIdentifier>{71b63f6c-b737-4872-b0d0-4c1b0413c213}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Manager系">
+      <UniqueIdentifier>{1d0a6df0-5570-4d6a-9053-e58fe5c01be5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\InputManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp">
@@ -49,15 +46,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object2D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ObjectManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ResourceManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SoundManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Texture.cpp">
@@ -70,9 +58,6 @@
       <Filter>ソース ファイル\Scene関係</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene.cpp">
-      <Filter>ソース ファイル\Scene関係</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SceneManager.cpp">
       <Filter>ソース ファイル\Scene関係</Filter>
     </ClCompile>
     <ClCompile Include="Source\WinResultScene.cpp">
@@ -93,9 +78,6 @@
     <ClCompile Include="Source\Card.cpp">
       <Filter>ソース ファイル\Card</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Mouse.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\EffectManager.cpp">
       <Filter>ソース ファイル\Card</Filter>
     </ClCompile>
@@ -110,9 +92,6 @@
     </ClCompile>
     <ClCompile Include="Source\MouseGraph.cpp">
       <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ExplainScene.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Animator.cpp">
       <Filter>ソース ファイル\Anim</Filter>
@@ -135,11 +114,32 @@
     <ClCompile Include="Source\VolumeBar.cpp">
       <Filter>ソース ファイル\Anim</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\VolumeSetting.cpp">
+    <ClCompile Include="Source\VolumeTextSet.cpp">
       <Filter>ソース ファイル\Anim</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ExplainScene.cpp">
+      <Filter>ソース ファイル\Scene関係</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameManager.cpp">
+      <Filter>ソース ファイル\Manager系</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputManager.cpp">
+      <Filter>ソース ファイル\Manager系</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectManager.cpp">
+      <Filter>ソース ファイル\Manager系</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager.cpp">
+      <Filter>ソース ファイル\Manager系</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SoundManager.cpp">
+      <Filter>ソース ファイル\Manager系</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
+      <Filter>ソース ファイル\Manager系</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mouse.cpp">
+      <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,18 +175,6 @@
     </ClInclude>
     <ClInclude Include="Source\Player.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene.h">
-      <Filter>ヘッダー ファイル\Scene関係</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameScene.h">
-      <Filter>ヘッダー ファイル\Scene関係</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SceneManager.h">
-      <Filter>ヘッダー ファイル\Scene関係</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WinResultScene.h">
-      <Filter>ヘッダー ファイル\Scene関係</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemy.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -236,9 +224,6 @@
     <ClInclude Include="Source\AnimationData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SelectScene.h">
-      <Filter>ヘッダー ファイル\Scene関係</Filter>
-    </ClInclude>
     <ClInclude Include="Source\FontManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -257,7 +242,22 @@
     <ClInclude Include="Source\Item.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\VolumeSetting.h">
+    <ClInclude Include="Source\VolumeTextSet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SelectScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WinResultScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

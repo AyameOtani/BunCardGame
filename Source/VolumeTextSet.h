@@ -6,11 +6,11 @@
 /// ゲームシーンとタイトルシーンで記述していた音量の文字などをまとめた
 /// 両方同じ処理だから引数いれてない
 /// </summary>
-class VolumeSetting
+class VolumeTextSet
 {
 public:
-	VolumeSetting();
-	~VolumeSetting();
+	VolumeTextSet();
+	~VolumeTextSet();
 
 	//BGMとSEのテキストを描画する関数
 	void DrawBgmText(VolumeBar &bgm) const;

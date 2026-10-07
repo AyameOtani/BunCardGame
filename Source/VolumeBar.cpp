@@ -63,6 +63,7 @@ bool VolumeBar::IsMouseOver(int inMouseX, int inMouseY) const
 		inMouseY <= mnY + mnHeight;
 }
 
+//  音量のクランプ
 int VolumeBar::GetVolumeFromMouse(int inMouseX) const
 {
 	// マウスのX座標から、音量バー上の位置を音量値に変換する
@@ -74,7 +75,6 @@ int VolumeBar::GetVolumeFromMouse(int inMouseX) const
 	{
 		volume = 0;
 	}
-
 	// 音量が100を超えないようにする
 	if (volume > MaxVolume)
 	{
