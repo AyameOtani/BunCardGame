@@ -11,7 +11,7 @@ public:  // 公開しているから使える　クラスをまたいで使え�
 
 
 	// ターン数の表示
-	static int mpTurnCount; // ターンのカウント 一戸だからstaticにしたよ　大谷
+	static int mpTurnCount; // ターンのカウント
 
 	// スコア関係
 	static int mpSaveHp; // HPの保存

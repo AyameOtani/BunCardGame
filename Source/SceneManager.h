@@ -54,8 +54,6 @@ public: // メンバ関数の定義
 
 	SCENE_TYPE GetCurrentSceneType() const { return mnSceneType; }
 	
-
-	// ゲームシーン限定で使うレベル設定できるやつ 大谷
 	void SetNextScene(SCENE_TYPE next, GScene scene)
 	{
 		mnNextSceneType = next;

@@ -21,7 +21,7 @@ private:
 
 
 
-//     大谷の引数ガイド
+//     引数ガイド
 //     AddComplexDegreeFrames(
 //        anim,                // [第1引数] 登録先のアニメーションデータ (anim)
 //        Player::PartID::BODY,// [第2引数] 動かしたいパーツのID (BODY, WEAPON, EYE など)

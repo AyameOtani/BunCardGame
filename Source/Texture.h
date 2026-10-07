@@ -52,6 +52,6 @@ private:
 	int mnTransFlag;   // 画像の透過を有効にするか
 	float mfRadius;    // 半径
 
-	float mfScale = 1.0f; // 大きさ　デフォは1.0   記述大谷
+	float mfScale = 1.0f; // 大きさ　デフォは1.0
 
 };

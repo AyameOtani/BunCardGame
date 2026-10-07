@@ -133,7 +133,7 @@ void Card::SetNowPosition(float nx, float ny, float nrot)
 
 void Card::LateUpdate()
 {
-    // 座標の補間  　大谷
+    // 座標の補間
     if (!isDragging)
     {
         // イージング補間 っぽいやつ
@@ -427,7 +427,7 @@ Card::CostType Card::GetCostType() const
     case 3:
         return Card::CostType::COST_3;
 
-    default: // 3以上は全部COST_3にしとく　 全然変更OK 記述大谷
+    default: // 3以上は全部COST_3にしとく
         return Card::CostType::COST_3;
     }
 }
@@ -444,7 +444,7 @@ Card::CardData Card::GetCardDataById(int id)
     bool hasDamage = false;
 
     // これカードの種類分かくでー
-    // 名前　コスト　イラスト画像　効果説明　カード効果とかある  詳しくはヘッダー見てくれ  大谷
+    // 名前　コスト　イラスト画像　効果説明　カード効果とかある  詳しくはヘッダー見てくれ
     switch (id)
     {
     case 1:

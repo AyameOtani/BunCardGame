@@ -9,7 +9,7 @@ class EffectManager
 public:
 
     // 自分と相手を入れられるようにした
-    // Unit継承を追加したから一つの関数でできる  大谷
+    // Unit継承を追加したから一つの関数ででき
     static void ApplyEffect(const Effect& effect, Unit& self, Unit& target);
 
     // バフ用

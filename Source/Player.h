@@ -51,7 +51,7 @@ public:
     ~Player(); // デストラクタ
 
     void Draw();      // プレイヤーの描画
-    void Update(Enemy& enemy); // アイテムの効果のやつやってる　4/21 大谷
+    void Update(Enemy& enemy); // アイテムの効果のやつやってる
 
     void CardUpdate(Enemy& enemy); // オブマネに追加されないから注意するんだ
     void Initialize(); // 初期化

@@ -9,7 +9,7 @@ class Card
 {
 public:
 
-    static const int CARD_COUNT = 17; // カードの枚数  switch増やしたら増やしてくれ　 記述大谷
+    static const int CARD_COUNT = 17; // カードの枚数  switch増やしたら増やして
     bool isKeep; // アイテムの効果で今キープされているかのフラグs
 
 
@@ -158,7 +158,7 @@ private:
     int mBackHandle = -1;
 
     // 描画用
-    // 初期サイズとか位置とかはCPP　演出用にかえてるよ　大谷
+    // 初期サイズとか位置とかはCPP　演出用にかえてる
     float x, y, rot;            // XY回転
     float scale;                // サイズ
     float scaleNormal = 0.93f;  // 基準サイズ
@@ -171,7 +171,7 @@ private:
     bool isDragging = false;    // ドラッグ中か
 
 
-    // カードの演出用　大谷追加
+    // カードの演出用
     float targetX, targetY, targetRot;
     float mfSpeed = 0.07f; // 移動速度
     bool mbDirection = false; // 今カードの演出中か

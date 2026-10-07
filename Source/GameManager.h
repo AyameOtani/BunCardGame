@@ -9,7 +9,7 @@
 #include "FontManager.h"
 
 // ゲームで使用するManagerをまとめて管理するクラス
-// Masterで呼ぶことによって全て使えるようにかつ、コードがすっきりする。 大谷
+// Masterで呼ぶことによって全て使えるようにかつ、コードがすっきりする
 class GameManager
 {
 public:

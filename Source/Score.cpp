@@ -1,9 +1,9 @@
 ﻿#include "Score.h"
 #include "Master.h"
-#include "Utility.h"
+#include "GameConstants.h"
 
 
-// 重力、バネ、減衰を使ってY座標を移動させる関数
+// 重力、バネ、減衰を使ってYを目標位置まで移動させる
 bool Score::MoveScoreY(
 	float& currentY,
 	float targetY,
@@ -15,13 +15,16 @@ bool Score::MoveScoreY(
 
 	velocity += gravity;
 
+	// 目標方向への力を加える
 	float force = (targetY - currentY) * power;
 	velocity += force;
 
 	velocity *= damping;
 
+	// 速度を現在位置に反映
 	currentY += velocity;
 
+	// 目標位置にほぼ到達したら固定する
 	if (fabs(velocity) < ScoreSetting::StopDistance &&
 		fabs(targetY - currentY) < ScoreSetting::StopDistance)
 	{
@@ -31,13 +34,14 @@ bool Score::MoveScoreY(
 		return true;
 	}
 
+	// まだ目標位置に到達していない
 	return false;
 }
 
 
 // コンストラクタ
 Score::Score()
-	: mScoreRank(ScoreRank::RANK_NONOE)
+	: mScoreRank(ScoreRank::RANK_NONE)
 	, mnScoreMax(-1)
 	, mnScoreNormal(-1)
 	, mnScoreLow(-1)
@@ -81,7 +85,6 @@ void Score::LoadScoreImages()
 		printfDx("スコア画像がありません");
 	}
 
-
 	// にじゅうまるの画像
 	mnScoreNormal = LoadGraph(ResourcePath::ScoreNormal);
 
@@ -89,7 +92,6 @@ void Score::LoadScoreImages()
 	{
 		printfDx("スコア画像がありません");
 	}
-
 
 	// ただのまるの画像
 	mnScoreLow = LoadGraph(ResourcePath::ScoreLow);
@@ -111,7 +113,6 @@ void Score::Update()
 
 	mnDrawScoreTime++;
 
-
 	// 後ろの画像を移動させる
 	MoveScoreY(
 		mfTurnBox,
@@ -119,13 +120,11 @@ void Score::Update()
 		mfTurnBoxVelocity
 	);
 
-
 	// HPの文字を動かす
 	if (mnDrawScoreTime >= ScoreSetting::HpScoreStartTime)
 	{
 		DrawHpScoreString();
 	}
-
 
 	// 経過ターン数の文字を動かす
 	if (mnDrawScoreTime >= ScoreSetting::TurnScoreStartTime)
@@ -153,9 +152,7 @@ void Score::Update()
 void Score::Draw()
 {
 	DrawScoreStrings();
-
 	CalculateScoreRank();
-
 	DrawScoreRank();
 }
 
@@ -234,15 +231,15 @@ int Score::CalculateHpScore(int hp)
 {
 	if (hp >= ScoreSetting::HpScoreMax)
 	{
-		return 3;
+		return ScoreSetting::ScorePointMax;
 	}
 
 	if (hp >= ScoreSetting::HpScoreNormal)
 	{
-		return 2;
+		return ScoreSetting::ScorePointNormal;
 	}
 
-	return 1;
+	return ScoreSetting::ScorePointLow;
 }
 
 
@@ -251,15 +248,15 @@ int Score::CalculateTurnScore(int turn)
 {
 	if (turn <= ScoreSetting::TurnScoreMax)
 	{
-		return 3;
+		return ScoreSetting::ScorePointMax;
 	}
 
 	if (turn <= ScoreSetting::TurnScoreNormal)
 	{
-		return 2;
+		return ScoreSetting::ScorePointNormal;
 	}
 
-	return 1;
+	return ScoreSetting::ScorePointLow;
 }
 
 
@@ -269,12 +266,13 @@ void Score::CalculateScoreRank()
 	int hpScore = CalculateHpScore(Master::mpSaveHp);
 	int turnScore = CalculateTurnScore(Master::mpTurnCount);
 
-
-	if (hpScore == 3 && turnScore == 3)
+	if (hpScore == ScoreSetting::ScorePointMax
+		&& turnScore == ScoreSetting::ScorePointMax)
 	{
 		mScoreRank = ScoreRank::RANK_MAX;
 	}
-	else if (hpScore >= 2 && turnScore >= 2)
+	else if (hpScore >= ScoreSetting::ScorePointNormal
+		&& turnScore >= ScoreSetting::ScorePointNormal)
 	{
 		mScoreRank = ScoreRank::RANK_NORMAL;
 	}
@@ -321,7 +319,7 @@ void Score::DrawScoreRank()
 	}
 
 	DrawRotaGraph(
-		Utility::SCREEN_WIDTH / 2,
+		ScreenSize::CenterX,
 		ScoreSetting::RankImageY,
 		ScoreSetting::RankImageScale,
 		0.0f,

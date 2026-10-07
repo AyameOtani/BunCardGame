@@ -2,93 +2,115 @@
 
 #include "DxLib.h"
 
+namespace ScoreSetting
+{
+    constexpr int ScorePointMax = 3;
+    constexpr int ScorePointNormal = 2;
+    constexpr int ScorePointLow = 1;
+}
+
+
 class Score
 {
 public:
-	Score();
-	~Score();
+    Score();
+    ~Score();
 
-	void Update();
-	void Draw();
+    void Update();
+    void Draw();
 
-	void DrawHpScoreString();      // HPの残数の描画
-	void DrawTurnScoreString();    // 経過ターン数の描画
-	void DrawUseCardScoreString(); // 使用カード枚数の描画
-	void DrawUseItemScoreString(); // 使用アイテム数の描画
-
-	enum class ScoreRank
-	{
-		RANK_NONOE,  // ランクなし　初期化
-		RANK_MAX,    // 花丸ランク
-		RANK_NORMAL, // 二重丸ランク
-		RANK_LOW,    // まるランク
-	};
-
-	ScoreRank mScoreRank; // スコアランク
-
-	// テキストのY座標を移動させる
-	float GetMoveY() const { return mfTurnBox;}
+    // スコア表示位置を取得
+    float GetMoveY() const
+    {
+        return mfTurnBox;
+    }
 
 private:
 
-	// Y座標を移動させる
-	bool MoveScoreY(
-		float& currentY,
-		float targetY,
-		float& velocity
-	);
+    enum class ScoreRank
+    {
+        RANK_NONE,   // ランクなし
+        RANK_MAX,    // 花丸ランク
+        RANK_NORMAL, // 二重丸ランク
+        RANK_LOW     // ただのまるランク
+    };
 
-	// スコア画像を読み込む
-	void LoadScoreImages();
+    // Y座標を移動する
+    bool MoveScoreY(
+        float& currentY,
+        float targetY,
+        float& velocity
+    );
 
-	// スコアの文字を描画する
-	void DrawScoreStrings();
+    // スコア画像を読み込む
+    void LoadScoreImages();
 
-	// スコアの文字を1つ描画する
-	void DrawScoreString(
-		const char* text,
-		int value,
-		int y
-	);
+    // スコアの文字を描画する
+    void DrawScoreStrings();
 
-	// HPのスコアを計算する
-	int CalculateHpScore(int hp);
+    // スコアの文字を1つ描画する
+    void DrawScoreString(
+        const char* text,
+        int value,
+        int y
+    );
 
-	// ターン数のスコアを計算する
-	int CalculateTurnScore(int turn);
+    // HPのスコアを計算する
+    int CalculateHpScore(int hp);
 
-	// 総合ランクを計算する
-	void CalculateScoreRank();
+    // ターン数のスコアを計算する
+    int CalculateTurnScore(int turn);
 
-	// ランクに対応した画像ハンドルを取得する
-	int GetScoreRankHandle();
+    // 総合ランクを計算する
+    void CalculateScoreRank();
 
-	// ランク画像を描画する
-	void DrawScoreRank();
+    // ランクに対応した画像ハンドルを取得する
+    int GetScoreRankHandle();
 
+    // ランク画像を描画する
+    void DrawScoreRank();
 
-	// スコア画像
-	int mnScoreMax;
-	int mnScoreNormal;
-	int mnScoreLow;
+    // HPの残数の描画
+    void DrawHpScoreString();
 
-	int mnDrawScoreTime; // スコアを描画する時間
+    // 経過ターン数の描画
+    void DrawTurnScoreString();
 
-	float mfTurnMoveY;    // 経過ターン数のY
-	float mfUseCardMoveY; // 使用カード枚数のY
-	float mfUseItemMoveY; // 使用アイテム数のY
+    // 使用カード枚数の描画
+    void DrawUseCardScoreString();
 
-	bool mbInitialize; // 初期化が終わったか
-	bool mbMove;       // 文字の動きが終わったか
-
-	float mfMoveY;   // HPのY
-	float mfTurnBox; // 勝利の文字のY
+    // 使用アイテム数の描画
+    void DrawUseItemScoreString();
 
 
-	// 文字をバウンドさせる速度
-	float mfHpVelocity;
-	float mfTurnVelocity;
-	float mfUseCardVelocity;
-	float mfUseItemVelocity;
-	float mfTurnBoxVelocity;
+    // 現在のスコアランク
+    ScoreRank mScoreRank;
+
+    // スコア画像
+    int mnScoreMax;
+    int mnScoreNormal;
+    int mnScoreLow;
+
+    // スコアを描画する時間
+    int mnDrawScoreTime;
+
+    // テキストのY座標
+    float mfMoveY;
+    float mfTurnMoveY;
+    float mfUseCardMoveY;
+    float mfUseItemMoveY;
+
+    // 勝利の文字のY座標
+    float mfTurnBox;
+
+    // 初期化・移動状態
+    bool mbInitialize;
+    bool mbMove;
+
+    // 各文字の移動速度
+    float mfHpVelocity;
+    float mfTurnVelocity;
+    float mfUseCardVelocity;
+    float mfUseItemVelocity;
+    float mfTurnBoxVelocity;
 };

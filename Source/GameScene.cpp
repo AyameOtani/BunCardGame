@@ -897,7 +897,7 @@ void GameScene::Update() // 更新
 			if (mpPlayer->GetSpecialGauge() >= mpPlayer->GetMaxSpecialGauge())
 			{
 				mpPlayer->StartSpecialPick();  // 呼ぶ
-				// ゲージをリセットは選択直後に呼ぶように変更した　大谷
+				// ゲージをリセットは選択直後に呼ぶように変更した
 				//mpPlayer->SetSpecialGauge(0);
 			}
 

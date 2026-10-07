@@ -84,12 +84,6 @@ Title::~Title()
 	mpExplainGraph.reset();
 	mpOptionButton.reset();
 	mpMusicClose.reset();
-<<<<<<< HEAD
-=======
-	mpBgmVolumeBar.reset();
-	mpSeVolumeBar.reset();
-
->>>>>>> a7a6c2225ebcc2d3dda517ef2c024800ec568452
 }
 
 

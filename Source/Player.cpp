@@ -169,7 +169,7 @@ void Player::DrawCard(int num)
 
 void Player::Update(Enemy& enemy)
 {
-    //HpGaugeUpdate(); // ゲームシーンに移動してすぐに更新されるようにした　大谷
+    //HpGaugeUpdate(); // ゲームシーンに移動してすぐに更新されるようにした
 
     if (!isPicking) //初めの選択フェーズまたは必殺中じゃないなら
     {

@@ -37,7 +37,7 @@ public:
 	//　半径取得
 	float GetRadius() { return mfRadius; }
 
-	// 一回だけ再生のやつ  大谷
+	// 一回だけ再生のやつ
 	bool IsEnd() {	return (mnCurrentNum >= mnAllNum - 1); }
 
 	//  スケール設定用の関数を追加

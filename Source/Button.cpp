@@ -73,7 +73,7 @@ void Button::Draw()
     }
 
 
-    int centerPos = CenterDivisor;
+    float centerPos = CenterDivisor;
 
     // 拡大縮小の中心を基準にした描画座標を算出するため
     float cx = (x1 + x2) / centerPos;
