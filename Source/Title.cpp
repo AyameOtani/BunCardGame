@@ -250,8 +250,7 @@ void Title::UpdateLogoAnimation()
 void Title::UpdateButtonInput()
 {
 	// マウスボタンを押している最中は操作できない
-	if (!mpGameStart ||
-		!mpExplainGraph ||
+	if (!mpGameStart || !mpExplainGraph ||
 		(mpTitleEffectAnimation && mpTitleEffectAnimation->GetIsMouseButton()))
 	{
 		return;
@@ -316,7 +315,6 @@ void Title::UpdateButtonInput()
 		{
 			mpTitleEffectAnimation->StartTransition();
 		}
-
 		mNextScene = EXPLAIN_SCENE;
 	}
 }
@@ -364,13 +362,13 @@ void Title::Draw()
 		mpOptionButton->Draw();
 	}
 
-	// ゲーム画面に行く時の演出の画像を描画するため
+	// 画面遷移演出を描画するため
 	if (mpTitleEffectAnimation)
 	{
 		mpTitleEffectAnimation->Draw();
 	}
 
-	// 音量設定（オプション）画面を描画するため
+	// 音量設定画面を描画するため
 	if (mpTitleOption)
 	{
 		mpTitleOption->Draw();
