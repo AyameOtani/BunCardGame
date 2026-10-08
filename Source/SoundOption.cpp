@@ -1,9 +1,9 @@
-#include "TitleOption.h"
+#include "SoundOption.h"
 #include "Master.h"
 #include "GameConstants.h"
 #include "DxLib.h"
 
-TitleOption::TitleOption()
+SoundOption::SoundOption()
     : musicCloseButton(nullptr)
     , mBgmVolumeBar(
         TitlePosition::VolumeBarX,
@@ -21,15 +21,14 @@ TitleOption::TitleOption()
     )
     , mbIsOpen(false)
 {
-
 }
 
-TitleOption::~TitleOption()
+SoundOption::~SoundOption()
 {
     musicCloseButton.reset();
 }
 
-void TitleOption::Initialize()
+void SoundOption::Initialize()
 {
     // オプション画面内の閉じるボタンを生成するため
     musicCloseButton = std::make_unique<MouseGraph>(
@@ -44,7 +43,7 @@ void TitleOption::Initialize()
     mbIsOpen = false;
 }
 
-void TitleOption::Update()
+void SoundOption::Update()
 {
     if (!mbIsOpen)
     {
@@ -71,7 +70,7 @@ void TitleOption::Update()
     UpdateVolumeInput();
 }
 
-void TitleOption::Draw() const
+void SoundOption::Draw() const
 {
     if (!mbIsOpen)
     {
@@ -92,8 +91,7 @@ void TitleOption::Draw() const
     }
 }
 
-
-void TitleOption::UpdateVolumeInput()
+void SoundOption::UpdateVolumeInput()
 {
     int mouseX;
     int mouseY;

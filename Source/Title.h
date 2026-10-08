@@ -5,7 +5,7 @@
 #include "MouseGraph.h"
 #include "Utility.h"
 #include "TitleEffectAnimation.h"
-#include "TitleOption.h"
+#include "SoundOption.h"
 
 // タイトル画面のクラス
 // 音量関係や設定関係を別のクラスに移動したのですっきりした
@@ -45,7 +45,7 @@ private:
 	// カード・シーン遷移演出
 	std::unique_ptr<TitleEffectAnimation> mpTitleEffectAnimation;
 	// 音量設定
-	std::unique_ptr<TitleOption> mpTitleOption;
+	std::unique_ptr<SoundOption> mpSoundOption;
 
 
 	// 画像ハンドル

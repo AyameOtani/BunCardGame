@@ -11,7 +11,7 @@ Title::Title()
 	, mpExplainGraph(nullptr)
 	, mpOptionButton(nullptr)
 	, mpTitleEffectAnimation(nullptr)
-	, mpTitleOption(nullptr)
+	, mpSoundOption(nullptr)
 	// 次のシーン
 	, mNextScene(NONE_SCENE)
 	// 画像ハンドル
@@ -40,7 +40,7 @@ Title::~Title()
 	mpExplainGraph.reset();
 	mpOptionButton.reset();
 	mpTitleEffectAnimation.reset();
-	mpTitleOption.reset();
+	mpSoundOption.reset();
 }
 
 void Title::Initialize()
@@ -76,9 +76,9 @@ void Title::Initialize()
 	mpTitleEffectAnimation->Initialize();
 	mpTitleEffectAnimation->SetCardHandle(mnCardHandle);
 
-	// 音量設定（オプション）機能の生成と初期化を行うため
-	mpTitleOption = std::make_unique<TitleOption>();
-	mpTitleOption->Initialize();
+	// 音量設定機能の生成と初期化を行うため
+	mpSoundOption = std::make_unique<SoundOption>();
+	mpSoundOption->Initialize();
 
 	// 設定ボタンの生成
 	mpOptionButton = std::make_unique<MouseGraph>(
@@ -97,7 +97,7 @@ void Title::Initialize()
 void Title::Update()
 {
 	// 音量設定が開いている場合はタイトルの入力を制限するため
-	bool isOptionOpen = mpTitleOption && mpTitleOption->GetIsOpen();
+	bool isOptionOpen = mpSoundOption && mpSoundOption->GetIsOpen();
 
 	if (!isOptionOpen)
 	{
@@ -111,10 +111,10 @@ void Title::Update()
 		UpdateButtonInput();
 	}
 
-	// 音量設定（オプション）の更新処理を行うため
-	if (mpTitleOption)
+	// 音量設定の更新処理を行うため
+	if (mpSoundOption)
 	{
-		mpTitleOption->Update();
+		mpSoundOption->Update();
 	}
 
 	// シーン遷移の演出を更新するため
@@ -265,7 +265,7 @@ void Title::UpdateButtonInput()
 		mpOptionButton->Update();
 
 		// 音量設定が開いていないときのみ設定ボタンの有効状態を切り替えるため
-		bool isOptionOpen = mpTitleOption && mpTitleOption->GetIsOpen();
+		bool isOptionOpen = mpSoundOption && mpSoundOption->GetIsOpen();
 		mpOptionButton->SetActive(!isOptionOpen);
 
 		// 設定ボタンが押されたらオプション画面を開くため
@@ -275,15 +275,15 @@ void Title::UpdateButtonInput()
 				->GetSoundManager()
 				->PlaySE(SoundManager::SE_DECIDE);
 
-			if (mpTitleOption)
+			if (mpSoundOption)
 			{
-				mpTitleOption->SetIsOpen(true);
+				mpSoundOption->SetIsOpen(true);
 			}
 		}
 	}
 
 	// 音量設定が開いていないときのみゲーム開始・説明ボタンの入力を受け付けるため
-	bool isOptionOpen = mpTitleOption && mpTitleOption->GetIsOpen();
+	bool isOptionOpen = mpSoundOption && mpSoundOption->GetIsOpen();
 	if (isOptionOpen)
 	{
 		return;
@@ -369,9 +369,9 @@ void Title::Draw()
 	}
 
 	// 音量設定画面を描画するため
-	if (mpTitleOption)
+	if (mpSoundOption)
 	{
-		mpTitleOption->Draw();
+		mpSoundOption->Draw();
 	}
 
 	Scene::Draw();

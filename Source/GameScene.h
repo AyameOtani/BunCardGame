@@ -201,4 +201,3 @@ private:
 	int mItemMessageTimer = 0;
 
 };
-	

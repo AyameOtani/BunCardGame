@@ -6,12 +6,12 @@
 #include "VolumeTextSet.h"
 
 // 音量設定画面全体を管理するクラス
-// タイトルシーンから音量設定に関する処理を完全に分離して独立させるため
-class TitleOption
+// シーンを問わず共通して音量設定の処理や描画を担当するため
+class SoundOption
 {
 public:
-    TitleOption();
-    ~TitleOption();
+    SoundOption();
+    ~SoundOption();
 
     void Initialize();
     void Update();
