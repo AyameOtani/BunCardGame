@@ -3,8 +3,6 @@
 #include "Title.h"
 #include "Utility.h"
 #include "GameConstants.h"
-#include "VolumeBar.h"
-
 
 Title::Title()
 	: Scene()
@@ -12,37 +10,14 @@ Title::Title()
 	, mpGameStart(nullptr)
 	, mpExplainGraph(nullptr)
 	, mpOptionButton(nullptr)
-	, mpMusicClose(nullptr)
+	, mpTitleEffectAnimation(nullptr)
+	, mpTitleOption(nullptr)
 	// 次のシーン
 	, mNextScene(NONE_SCENE)
 	// 画像ハンドル
 	, mnRogoHandle(-1)
 	, mnBagHandle(-1)
 	, mnCardHandle(-1)
-	// 菊池
-	, mnKorukuitaHandle(-1)
-	, mnBatuHandle(-1)
-	// 音量設定
-	, mbOption(false)
-	// タイトル演出
-	, mbMouseButton(false)
-	, mbWhite(false)
-
-	// --- 小池 --- //
-	// カード演出
-	, mnCardX(TitleAnimation::CardInitialX)
-	, mnCardY(TitleAnimation::CardInitialY)
-	, mnCardAngle(3.0f)
-	, mnCardRota(0.01f)
-	// カードのターゲット位置
-	, targetX(TitlePosition::CardTargetOffsetX)
-	, targetY(TitlePosition::CardTargetOffsetY)
-	, targetAngle(-0.05f)
-	, targetRota(1.0f)
-	, mfWhiteBoxAlpha(0.0f)
-	// ------
-	
-
 	// ボタン演出
 	, mfStartX(TitlePosition::StartInitialX)
 	, mfStartY(static_cast<float>(ScreenSize::Height) + TitlePosition::ButtonInitialYOffset)
@@ -56,37 +31,17 @@ Title::Title()
 	, mfTurnY(TitleAnimation::LogoInitialY)
 	, mbInitialize(false)
 	, mfLogoTime(0.0f)
-
-	// 音量バーの初期化
-	, mBgmVolumeBar(
-		TitlePosition::VolumeBarX,
-		TitlePosition::BgmBarY,
-		TitlePosition::VolumeBarWidth,
-		TitlePosition::VolumeBarHeight,
-		ColorOption::BgmBar
-	)
-	
-	, mSeVolumeBar(
-		TitlePosition::VolumeBarX,
-		TitlePosition::SeBarY,
-		TitlePosition::VolumeBarWidth,
-		TitlePosition::VolumeBarHeight,
-		ColorOption::SeBar
-	)
 {
-
 }
-
 
 Title::~Title()
 {
 	mpGameStart.reset();
 	mpExplainGraph.reset();
 	mpOptionButton.reset();
-	mpMusicClose.reset();
+	mpTitleEffectAnimation.reset();
+	mpTitleOption.reset();
 }
-
-
 
 void Title::Initialize()
 {
@@ -116,8 +71,16 @@ void Title::Initialize()
 	mnCardHandle = LoadGraph(TitleResourcePath::MoveBackGround.c_str());
 	if (mnCardHandle == -1) { printfDx("動く黒板の画像がない"); }
 
+	// カード・シーン遷移演出の生成と初期化を行うため
+	mpTitleEffectAnimation = std::make_unique<TitleEffectAnimation>();
+	mpTitleEffectAnimation->Initialize();
+	mpTitleEffectAnimation->SetCardHandle(mnCardHandle);
 
-	// 中心座標XとY　角度　画像　画像の拡大率　変えるときの拡大率
+	// 音量設定（オプション）機能の生成と初期化を行うため
+	mpTitleOption = std::make_unique<TitleOption>();
+	mpTitleOption->Initialize();
+
+	// 設定ボタンの生成
 	mpOptionButton = std::make_unique<MouseGraph>(
 		TitlePosition::OptionButtonX,
 		TitlePosition::OptionButtonY,
@@ -126,44 +89,66 @@ void Title::Initialize()
 		TitleScale::OptionNormal,
 		TitleScale::OptionHover
 	);
-	mpMusicClose = std::make_unique<MouseGraph>(
-		TitlePosition::MusicCloseX,
-		TitlePosition::MusicCloseY,
-		0.0f,
-		TitleResourcePath::MusicClose.c_str(),
-		TitleScale::MusicCloseNormal,
-		TitleScale::MusicCloseHover
-	);
 
 	Master::mpGameManager->GetSoundManager()->PlayBGM(SoundManager::BgmTitle);
-
 	mbInitialize = true; // 初期化終わりON
 }
 
-
 void Title::Update()
 {
-	// ボタンの飛んでくる演出
-	UpdateButtonAnimation();
+	// 音量設定が開いている場合はタイトルの入力を制限するため
+	bool isOptionOpen = mpTitleOption && mpTitleOption->GetIsOpen();
 
-	// ロゴの演出
-	UpdateLogoAnimation();
+	if (!isOptionOpen)
+	{
+		// ボタンの飛んでくる演出
+		UpdateButtonAnimation();
 
-	// ボタン・設定ボタンの入力
-	UpdateButtonInput();
+		// ロゴの演出
+		UpdateLogoAnimation();
 
-	// シーン遷移の演出
-	UpdateSceneTransition();
+		// ボタン・設定ボタンの入力
+		UpdateButtonInput();
+	}
 
-	// 白いBOXの透過
-	UpdateWhiteBox();
+	// 音量設定（オプション）の更新処理を行うため
+	if (mpTitleOption)
+	{
+		mpTitleOption->Update();
+	}
 
-	// 音量設定
-	UpdateVolumeSetting();
+	// シーン遷移の演出を更新するため
+	if (mpTitleEffectAnimation)
+	{
+		mpTitleEffectAnimation->Update();
+
+		// シーン遷移条件を満たしたかを判定するため
+		if (mpTitleEffectAnimation->GetIsWhite() &&
+			mpTitleEffectAnimation->GetWhiteBoxAlpha() >
+			TitleAnimation::WhiteBoxSceneChangeAlpha)
+		{
+			if (mNextScene == SELECT_SCENE)
+			{
+				Master::Master::mpGameManager
+					->GetSceneManager()
+					->SetNextScene(
+						SceneManager::SELECT_SCENE);
+			}
+
+			if (mNextScene == EXPLAIN_SCENE)
+			{
+				Master::Master::mpGameManager
+					->GetSceneManager()
+					->SetNextScene(
+						SceneManager::EXPAIN_SCENE);
+			}
+
+			return;
+		}
+	}
 
 	Scene::Update();
 }
-
 
 // ボタンの移動アニメーションを更新
 void Title::UpdateButtonAnimation()
@@ -185,7 +170,6 @@ void Title::UpdateButtonAnimation()
 	mfExplainY +=
 		(mfTargetExplainY - mfExplainY) *
 		TitleAnimation::ButtonMoveSpeed;
-
 
 	// スタートボタン
 	if (mpGameStart)
@@ -217,7 +201,6 @@ void Title::UpdateButtonAnimation()
 		mpExplainGraph->SetPosition(mfExplainX, mfExplainY);
 	}
 }
-
 
 // ロゴの上下アニメーションを更新
 void Title::UpdateLogoAnimation()
@@ -263,14 +246,13 @@ void Title::UpdateLogoAnimation()
 	}
 }
 
-
 // ボタンのクリック・入力処理を更新
 void Title::UpdateButtonInput()
 {
 	// マウスボタンを押している最中は操作できない
 	if (!mpGameStart ||
 		!mpExplainGraph ||
-		mbMouseButton)
+		(mpTitleEffectAnimation && mpTitleEffectAnimation->GetIsMouseButton()))
 	{
 		return;
 	}
@@ -278,234 +260,66 @@ void Title::UpdateButtonInput()
 	mpGameStart->Update();
 	mpExplainGraph->Update();
 
-	// 設定ボタン	  x
+	// 設定ボタン
 	if (mpOptionButton)
 	{
 		mpOptionButton->Update();
 
-		// 音量設定中は設定ボタンを押せない
-		if (mbOption)
-		{
-			mpOptionButton->SetActive(false);
-		}
-		else
-		{
-			mpOptionButton->SetActive(true);
-		}
+		// 音量設定が開いていないときのみ設定ボタンの有効状態を切り替えるため
+		bool isOptionOpen = mpTitleOption && mpTitleOption->GetIsOpen();
+		mpOptionButton->SetActive(!isOptionOpen);
 
-
-		// 設定ボタンが押された
-		if (mpOptionButton->IsClicked() &&
-			!mbOption)
+		// 設定ボタンが押されたらオプション画面を開くため
+		if (mpOptionButton->IsClicked() && !isOptionOpen)
 		{
 			Master::mpGameManager
 				->GetSoundManager()
 				->PlaySE(SoundManager::SE_DECIDE);
 
-			mbOption = true;
+			if (mpTitleOption)
+			{
+				mpTitleOption->SetIsOpen(true);
+			}
 		}
 	}
 
+	// 音量設定が開いていないときのみゲーム開始・説明ボタンの入力を受け付けるため
+	bool isOptionOpen = mpTitleOption && mpTitleOption->GetIsOpen();
+	if (isOptionOpen)
+	{
+		return;
+	}
+
 	// ゲーム開始ボタン
-	if (mpGameStart->IsClicked() &&
-		!mbOption)
+	if (mpGameStart->IsClicked())
 	{
 		Master::mpGameManager
 			->GetSoundManager()
 			->PlaySE(SoundManager::SE_DECIDE);
 
-		mbMouseButton = true;
+		if (mpTitleEffectAnimation)
+		{
+			mpTitleEffectAnimation->StartTransition();
+		}
 
 		mNextScene = SELECT_SCENE;
 	}
 
 	// 説明ボタン
-	else if (mpExplainGraph->IsClicked() &&
-		!mbOption)
+	else if (mpExplainGraph->IsClicked())
 	{
 		Master::mpGameManager
 			->GetSoundManager()
 			->PlaySE(SoundManager::SE_DECIDE);
 
-		mbMouseButton = true;
+		if (mpTitleEffectAnimation)
+		{
+			mpTitleEffectAnimation->StartTransition();
+		}
 
 		mNextScene = EXPLAIN_SCENE;
 	}
-
-	// 音量設定の×ボタン
-	if (mpMusicClose)
-	{
-		mpMusicClose->Update();
-
-		if (mpMusicClose->IsClicked())
-		{
-			Master::mpGameManager
-				->GetSoundManager()
-				->PlaySE(SoundManager::SE_DECIDE);
-
-			mbOption = false;
-		}
-	}
 }
-
-// シーン遷移のアニメーションを更新
-void Title::UpdateSceneTransition()
-{
-	if (!mbMouseButton)
-	{
-		return;
-	}
-
-	float diffX =
-		(float)targetX - mnCardX;
-
-	float diffY =
-		(float)targetY - mnCardY;
-
-	float diffAngle =
-		(float)targetAngle - mnCardAngle;
-
-	float diffRota =
-		(float)targetRota - mnCardRota;
-
-
-	// 移動
-	mnCardX +=
-		diffX * TitleAnimation::CardMoveSpeed;
-
-	mnCardY +=
-		diffY * TitleAnimation::CardMoveSpeed;
-
-	mnCardAngle +=
-		diffAngle * TitleAnimation::CardMoveSpeed;
-
-	mnCardRota +=
-		diffRota * TitleAnimation::CardMoveSpeed;
-
-
-	// 角度がマイナスにならないようにする
-	if (mnCardAngle <= 0.0f)
-	{
-		mnCardAngle = 0.0f;
-	}
-
-
-	// ほぼ目的地に到着
-	if (fabsf(diffX) <
-		TitleAnimation::CardStopDistanceX &&
-		fabsf(diffY) <
-		TitleAnimation::CardStopDistanceY &&
-		fabsf(diffRota) <
-		TitleAnimation::CardStopDistanceRota)
-	{
-		targetRota +=
-			TitleAnimation::CardRotaIncrease;
-
-
-		if (targetRota >=
-			TitleAnimation::CardRotaMax)
-		{
-			targetRota =
-				TitleAnimation::CardRotaMax;
-
-			mbWhite = true;
-		}
-	}
-
-
-	// シーン変更
-	if (mbWhite &&
-		mfWhiteBoxAlpha >
-		TitleAnimation::WhiteBoxSceneChangeAlpha)
-	{
-		if (mNextScene == SELECT_SCENE)
-		{
-			Master::Master::mpGameManager
-				->GetSceneManager()
-				->SetNextScene(
-					SceneManager::SELECT_SCENE);
-		}
-
-		if (mNextScene == EXPLAIN_SCENE)
-		{
-			Master::Master::mpGameManager
-				->GetSceneManager()
-				->SetNextScene(
-					SceneManager::EXPAIN_SCENE);
-		}
-
-		return;
-	}
-}
-
-
-// 音量設定の入力処理を更新
-void Title::UpdateVolumeSetting()
-{
-	if (mbMouseButton || !mbOption)
-	{
-		return;
-	}
-
-	int mouseX;
-	int mouseY;
-	GetMousePoint(&mouseX, &mouseY);
-
-	if (!(GetMouseInput() & MOUSE_INPUT_LEFT))
-	{
-		return;
-	}
-
-	// BGMバー
-	if (mBgmVolumeBar.IsMouseOver(mouseX, mouseY))
-	{
-		int bgmVolume =
-			mBgmVolumeBar.GetVolumeFromMouse(mouseX);
-
-		Master::mpGameManager
-			->GetSoundManager()
-			->SetBGMVolume(bgmVolume);
-
-		Master::mpGameManager
-			->GetSoundManager()
-			->SaveVolume();
-	}
-
-	// SEバー
-	if (mSeVolumeBar.IsMouseOver(mouseX, mouseY))
-	{
-		int seVolume =
-			mSeVolumeBar.GetVolumeFromMouse(mouseX);
-
-		Master::mpGameManager
-			->GetSoundManager()
-			->SetSEVolume(seVolume);
-
-		Master::mpGameManager
-			->GetSoundManager()
-			->SaveVolume();
-	}
-}
-
-
-// シーン遷移時の白いBOXの透過処理を更新
-void Title::UpdateWhiteBox()
-{
-	if (!mbWhite)
-	{
-		return;
-	}
-	mfWhiteBoxAlpha +=
-		TitleAnimation::WhiteBoxAlphaIncrease;
-
-	if (mfWhiteBoxAlpha >
-		TitleAnimation::WhiteBoxMaxAlpha)
-	{
-		mfWhiteBoxAlpha =
-			TitleAnimation::WhiteBoxMaxAlpha;
-	}
-}
-
 
 void Title::Draw()
 {
@@ -514,7 +328,6 @@ void Title::Draw()
 	// ロゴの位置
 	int x = Utility::SCREEN_WIDTH / 2;
 	int y = Utility::SCREEN_HEIGHT / 2;
-	int color = ColorOption::White;
 
 	// 2D用に設定
 	SetUseZBufferFlag(FALSE);
@@ -551,69 +364,25 @@ void Title::Draw()
 		mpOptionButton->Draw();
 	}
 
-	// ゲーム画面に行く時の演出の画像
-	if (mbMouseButton)
+	// ゲーム画面に行く時の演出の画像を描画するため
+	if (mpTitleEffectAnimation)
 	{
-		RenderGameScene();
+		mpTitleEffectAnimation->Draw();
 	}
 
-	DrawVolumeSettings();
-	DrawVolumeTexts();
+	// 音量設定（オプション）画面を描画するため
+	if (mpTitleOption)
+	{
+		mpTitleOption->Draw();
+	}
+
 	Scene::Draw();
-}
-
-
-// ゲーム画面にいくための描画
-void Title::RenderGameScene()
-{
-	// 黒板イラストの描画
-	DrawRotaGraph(
-		(int)mnCardX,
-		(int)mnCardY,
-		mnCardRota,
-		mnCardAngle,
-		mnCardHandle,
-		TRUE
-	);
-
-	// 白いBOXがONなら描画
-	if (mbWhite)
-	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)mfWhiteBoxAlpha); // 半透明にするため
-		DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, ColorOption::White, TRUE);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	}
-}
-
-// 音量設定中フラグがONなら描画される
-void Title::DrawVolumeSettings()
-{
-	if (mbOption)
-	{
-		mVolumeSet.DrawVolumeSettingPanel();
-
-		// 黒板の上の×ボタンの描画
-		if (mpMusicClose)
-		{
-			mpMusicClose->Draw();
-		}
-	}
-}
-
-void Title::DrawVolumeTexts()
-{
-	if (mbOption)
-	{
-		mVolumeSet.DrawBgmText(mBgmVolumeBar);
-		mVolumeSet.DrawSeText(mSeVolumeBar);
-	}
 }
 
 void Title::Finalize()
 {
-
 	// 画像ハンドルの削除
 	if (mnRogoHandle != -1) { DeleteGraph(mnRogoHandle); mnRogoHandle = -1; }
-	if (mnBagHandle != -1) { DeleteGraph(mnBagHandle);  mnBagHandle = -1; }
+	if (mnBagHandle != -1) { DeleteGraph(mnBagHandle); mnBagHandle = -1; }
 	if (mnCardHandle != -1) { DeleteGraph(mnCardHandle); mnCardHandle = -1; }
 }

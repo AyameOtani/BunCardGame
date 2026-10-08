@@ -141,6 +141,12 @@
     <ClCompile Include="Source\Mouse.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Source\TitleEffectAnimation.cpp">
+      <Filter>ソース ファイル\Scene関係</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TitleOption.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Collision.h">
@@ -259,6 +265,12 @@
     </ClInclude>
     <ClInclude Include="Source\WinResultScene.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TitleEffectAnimation.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TitleOption.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

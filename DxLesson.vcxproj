@@ -50,6 +50,8 @@
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TextureAnimation.cpp" />
     <ClCompile Include="Source\Title.cpp" />
+    <ClCompile Include="Source\TitleEffectAnimation.cpp" />
+    <ClCompile Include="Source\TitleOption.cpp" />
     <ClCompile Include="Source\Unit.cpp" />
     <ClCompile Include="Source\VolumeBar.cpp" />
     <ClCompile Include="Source\VolumeTextSet.cpp" />
@@ -90,6 +92,8 @@
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\TextureAnimation.h" />
     <ClInclude Include="Source\Title.h" />
+    <ClInclude Include="Source\TitleEffectAnimation.h" />
+    <ClInclude Include="Source\TitleOption.h" />
     <ClInclude Include="Source\Unit.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\VolumeBar.h" />

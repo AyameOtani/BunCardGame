@@ -1,13 +1,14 @@
 ﻿#pragma once
-
 #include "Scene.h"
 #include "DxLib.h"
 #include "Button.h"
 #include "MouseGraph.h"
 #include "Utility.h"
-#include "VolumeBar.h"
-#include "VolumeTextSet.h"
+#include "TitleEffectAnimation.h"
+#include "TitleOption.h"
 
+// タイトル画面のクラス
+// 音量関係や設定関係を別のクラスに移動したのですっきりした
 class Title : public Scene
 {
 public:
@@ -19,12 +20,6 @@ public:
 	void Draw() override;
 	void Finalize() override;
 
-	void DrawVolumeSettings(); // 音量設定の描画
-	void DrawVolumeTexts(); // 音量設定のテキストを描画
-	void RenderGameScene(); // ゲーム画面に行くまでの描画
-
-
-
 	// 次のシーンを取得する関数
 	enum NextScene
 	{
@@ -32,7 +27,6 @@ public:
 		SELECT_SCENE,
 		EXPLAIN_SCENE,
 	};
-
 	NextScene mNextScene;
 
 private:
@@ -40,9 +34,6 @@ private:
 	void UpdateButtonAnimation(); // ボタンの移動アニメーションを更新
 	void UpdateLogoAnimation(); // ロゴの上下アニメーションを更新
 	void UpdateButtonInput(); // ボタンのクリック・入力処理を更新
-	void UpdateSceneTransition(); // シーン遷移のアニメーションを更新
-	void UpdateWhiteBox(); // シーン遷移時の白いBOXの透過処理を更新
-	void UpdateVolumeSetting(); // 音量設定の入力処理を更新
 
 private:
 	// スマートポインタ
@@ -50,46 +41,17 @@ private:
 	std::unique_ptr<MouseGraph> mpGameStart;
 	std::unique_ptr<MouseGraph> mpExplainGraph;
 	std::unique_ptr<MouseGraph> mpOptionButton;
-	std::unique_ptr<MouseGraph> mpMusicClose;
 
-	// 音量バー
-	VolumeBar mBgmVolumeBar;
-	VolumeBar mSeVolumeBar;
-
-	// 音量つまみ
-	VolumeTextSet mVolumeSet;
+	// カード・シーン遷移演出
+	std::unique_ptr<TitleEffectAnimation> mpTitleEffectAnimation;
+	// 音量設定
+	std::unique_ptr<TitleOption> mpTitleOption;
 
 
 	// 画像ハンドル
 	int mnRogoHandle;
 	int mnBagHandle;
 	int mnCardHandle;
-
-	// 菊池
-	int mnKorukuitaHandle;
-	int mnBatuHandle;
-
-	// 音量設定を開いているか
-	bool mbOption;
-
-	// タイトル演出
-	bool mbMouseButton;
-	bool mbWhite;
-
-	// カード演出
-	float mnCardX;
-	float mnCardY;
-	float mnCardAngle;
-	float mnCardRota;
-
-	// カードのターゲット位置 小池
-	float targetX;
-	float targetY;
-	float targetAngle;
-	float targetRota;
-
-	// 白いBOXの透明度
-	float mfWhiteBoxAlpha;
 
 	// ボタン演出
 	float mfStartX;

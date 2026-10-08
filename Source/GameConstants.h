@@ -157,17 +157,25 @@ namespace TitleAnimation
 	static constexpr float VelocityStop = 0.3f;
 	static constexpr float TargetStopDistance = 0.3f;
 
-	// カード演出
-	static constexpr float CardMoveSpeed = 0.09f;
-	static constexpr float CardInitialX = -200.0f;
-	static constexpr float CardInitialY = -200.0f;
 
-	static constexpr float CardStopDistanceX = 14.0f;
-	static constexpr float CardStopDistanceY = 14.0f;
-	static constexpr float CardStopDistanceRota = 6.0f;
+	// 黒板演出
+	static constexpr float BlackboardMoveSpeed = 0.09f;
+	static constexpr float BlackboardInitialX = -200.0f;
+	static constexpr float BlackboardInitialY = -200.0f;
 
-	static constexpr float CardRotaIncrease = 0.1f;
-	static constexpr float CardRotaMax = 2.0f;
+	// 黒板演出の目標角度と回転率
+	constexpr float BlackboardInitialAngle = 3.0f;
+	constexpr float BlackboardInitialRotation = 0.01f;
+	constexpr float BlackboardTargetAngle = -0.05f;
+	constexpr float BlackboardTargetRotation = 1.0f;
+
+	static constexpr float BlackboardStopDistanceX = 14.0f;
+	static constexpr float BlackboardStopDistanceY = 14.0f;
+	static constexpr float BlackboardStopDistanceRota = 6.0f;
+
+	static constexpr float BlackboardRotaIncrease = 0.1f;
+	static constexpr float BlackboardRotaMax = 2.0f;
+
 
 	// 白いBOX
 	static constexpr float WhiteBoxAlphaIncrease = 4.0f;
